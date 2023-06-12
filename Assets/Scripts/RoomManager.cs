@@ -10,55 +10,27 @@ public class RoomManager : MonoBehaviour
     [SerializeField] GameObject building;
     [SerializeField] GameObject buildings;
     public roomTypes currentRoom;
+
     public bool checkAdjacent(Vector2 mouseCoordinate)
     {
         if(mouseCoordinate.x < 0 || mouseCoordinate.y < 0)
         {
             return false;
         }
-        try
+        Vector2[] Adj = { Vector2.left, Vector2.down, Vector2.right, Vector2.up };
+        foreach(Vector2 v in Adj)
         {
-            if (roomDictionary[mouseCoordinate + Vector2.up] != null)
+            try
             {
-                return true;
+                if (roomDictionary[mouseCoordinate + v] != null)
+                {
+                    return true;
+                }
             }
-        }
-        catch
-        {
-
-        }
-        try
-        {
-            if (roomDictionary[mouseCoordinate + Vector2.down] != null)
+            catch
             {
-                return true;
-            }
-        }
-        catch
-        {
 
-        }
-        try
-        {
-            if (roomDictionary[mouseCoordinate + Vector2.left] != null)
-            {
-                return true;
             }
-        }
-        catch
-        {
-
-        }
-        try
-        {
-            if (roomDictionary[mouseCoordinate + Vector2.right] != null)
-            {
-                return true;
-            }
-        }
-        catch
-        {
-
         }
         return false;
 
@@ -76,6 +48,7 @@ public class RoomManager : MonoBehaviour
     {
        public roomTypes type; 
     }
+
     Dictionary<Vector2, GameObject> roomDictionary = new Dictionary<Vector2, GameObject>();
 
 
@@ -114,5 +87,31 @@ public class RoomManager : MonoBehaviour
             }
             
         }
+
+        // Controls
+
+
+
+
+
+        /// Phone
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

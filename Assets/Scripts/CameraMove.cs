@@ -18,9 +18,38 @@ public class CameraMove : MonoBehaviour
         cam = Camera.main;
         scrollAmount = 0.1f;
     }
+
+
+
+    public Vector3 mouseDown;
+    public Vector3 mouseCamPos;
+    public Vector3 diff;
+
     void Update()
     {
-         if (Input.GetKey(KeyCode.UpArrow) == true || Input.GetKey(KeyCode.W) == true) { basePosition += Vector3.up * moveSpeed * Time.deltaTime; }
+
+/*
+        //Movement
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            mouseDown = Input.mousePosition;
+            mouseCamPos = transform.position;
+        }
+        else if(Input.GetKey(KeyCode.Mouse1))
+        {
+            diff = mouseDown - Input.mousePosition;
+            transform.position = diff - cam.ScreenToWorldPoint(mouseDown);
+        }*/
+        
+
+
+
+
+
+
+
+
+        if (Input.GetKey(KeyCode.UpArrow) == true || Input.GetKey(KeyCode.W) == true) { basePosition += Vector3.up * moveSpeed * Time.deltaTime; }
          if (Input.GetKey(KeyCode.DownArrow) == true || Input.GetKey(KeyCode.S) == true) { basePosition -= Vector3.up * moveSpeed * Time.deltaTime; }
 
 
