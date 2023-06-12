@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum roomTypes { Entrance, StartRoom, Clothes, Groceries, Tech, Toys, Shoes};
+public enum businessTypes { Entrance, StartRoom, Clothes, Groceries, Tech, Toys, Shoes};
+public enum constructionType { Path, Business, Parking};
 public class RoomManager : MonoBehaviour
 {
-    [SerializeField] public Sprite clothes;
     [SerializeField] public Sprite[] roomSprites = new Sprite[5];
     [SerializeField] GameObject building;
-    [SerializeField] GameObject buildings;
-    public roomTypes currentRoom;
+    public businessTypes currentRoom;
+
+    public void pathAdd(GameObject path, Vector2 CO)
+    {
+        pathDictionary.Add(CO, path);
+    }
 
     public bool checkAdjacent(Vector2 mouseCoordinate)
     {
@@ -22,7 +26,7 @@ public class RoomManager : MonoBehaviour
         {
             try
             {
-                if (roomDictionary[mouseCoordinate + v] != null)
+                if (pathDictionary[mouseCoordinate + v] != null)
                 {
                     return true;
                 }
@@ -37,27 +41,29 @@ public class RoomManager : MonoBehaviour
     }
 
     private Camera cam;
-    public void newRoom(roomTypes RT, Vector2 CO)
+    public void newRoom(Vector2 CO)
     {
-        GameObject bongo = Instantiate(building, CO * new Vector2(2, 1), Quaternion.identity, buildings.transform);
-        bongo.GetComponent<SpriteRenderer>().sprite = roomSprites[(int)RT];
-        bongo.name = $"{RT} {CO}";
-        roomDictionary.Add(CO, bongo);
+        GameObject bongo = Instantiate(building, CO * new Vector2(2, 1), Quaternion.identity, transform);
+        //bongo.GetComponent<SpriteRenderer>().sprite = roomSprites[(int)RT];
+        bongo.name = $" construction happneing at {CO}";
+        bongo.GetComponent<OccupiedSpace>().coord = CO;
+        occupiedDictionary.Add(CO, bongo);
     }
     struct Room
     {
-       public roomTypes type; 
+       public businessTypes type; 
     }
 
-    Dictionary<Vector2, GameObject> roomDictionary = new Dictionary<Vector2, GameObject>();
+    Dictionary<Vector2, GameObject> occupiedDictionary = new Dictionary<Vector2, GameObject>();
+    Dictionary<Vector2, GameObject> pathDictionary = new Dictionary<Vector2, GameObject>();
 
 
     void Start()
     {
         cam = Camera.main;
-        newRoom(roomTypes.Entrance,new Vector2(0,0));
-        newRoom(roomTypes.StartRoom, new Vector2(1, 0));
-        newRoom(roomTypes.StartRoom, new Vector2(2, 0));
+        newRoom(new Vector2(0,0));
+        newRoom( new Vector2(1, 0));
+        newRoom(new Vector2(2, 0));
 
     }
 
@@ -70,11 +76,11 @@ public class RoomManager : MonoBehaviour
             Vector2 mouseCoordinate = new Vector2(Mathf.Floor(mouseReal.x/2),Mathf.Floor(mouseReal.y));
             try
             {
-                if (roomDictionary[mouseCoordinate] == null)
+                if (occupiedDictionary[mouseCoordinate] == null)
                 {
                     if(checkAdjacent(mouseCoordinate) == true)
                     {
-                        newRoom(currentRoom, mouseCoordinate);
+                        newRoom(mouseCoordinate);
                     }
                 }
             }
@@ -82,7 +88,7 @@ public class RoomManager : MonoBehaviour
             {
                 if (checkAdjacent(mouseCoordinate) == true)
                 {
-                    newRoom(currentRoom, mouseCoordinate);
+                    newRoom( mouseCoordinate);
                 }
             }
             

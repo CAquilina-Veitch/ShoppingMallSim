@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class RoomButton : MonoBehaviour
 {
-    public roomTypes rt;
+    public businessTypes bt;
     public void roomChoice()
     {
-        GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().currentRoom = rt;
+        GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().currentRoom = bt;
     }
     
 }

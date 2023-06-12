@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1076155411481379451}
   - component: {fileID: 3165290970548592249}
+  - component: {fileID: 9035055617465473592}
   m_Layer: 0
-  m_Name: Building
+  m_Name: Occupied
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,3 +85,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &9035055617465473592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6022802779349012557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f80180805604fe44d988d61592c2c791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

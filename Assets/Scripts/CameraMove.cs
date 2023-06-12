@@ -49,22 +49,22 @@ public class CameraMove : MonoBehaviour
 
 
 
-        if (Input.GetKey(KeyCode.UpArrow) == true || Input.GetKey(KeyCode.W) == true) { basePosition += Vector3.up * moveSpeed * Time.deltaTime; }
-         if (Input.GetKey(KeyCode.DownArrow) == true || Input.GetKey(KeyCode.S) == true) { basePosition -= Vector3.up * moveSpeed * Time.deltaTime; }
+        if (Input.GetKey(KeyCode.UpArrow) == true || Input.GetKey(KeyCode.W) == true) { basePosition += transform.up * moveSpeed * Time.deltaTime; }
+         if (Input.GetKey(KeyCode.DownArrow) == true || Input.GetKey(KeyCode.S) == true) { basePosition -= transform.up * moveSpeed * Time.deltaTime; }
 
 
-         if (Input.GetKey(KeyCode.RightArrow) == true || Input.GetKey(KeyCode.D) == true) { basePosition += Vector3.right * moveSpeed * Time.deltaTime; }
-         if (Input.GetKey(KeyCode.LeftArrow) == true || Input.GetKey(KeyCode.A) == true) { basePosition -= Vector3.right * moveSpeed * Time.deltaTime; }
+         if (Input.GetKey(KeyCode.RightArrow) == true || Input.GetKey(KeyCode.D) == true) { basePosition += transform.right * moveSpeed * Time.deltaTime; }
+         if (Input.GetKey(KeyCode.LeftArrow) == true || Input.GetKey(KeyCode.A) == true) { basePosition -= transform.right * moveSpeed * Time.deltaTime; }
 
         if (Input.mouseScrollDelta.y != 0)
         {
             scrollAmount = Mathf.Clamp(scrollAmount - Input.mouseScrollDelta.y * scrollSpeed, 0.1f, 1);
             
-        }
+        }/*
         scale = Mathf.Lerp(0, boundsMax.x + 1 *ratio, scrollAmount);
         cam.orthographicSize = scale;
-        basePosition = new Vector3(Mathf.Clamp(basePosition.x, 0, 2*boundsMax.x * (1 - scrollAmount)), Mathf.Clamp(basePosition.y, 0, 2*boundsMax.y * (1 - scrollAmount)), -10);
-        transform.position = basePosition;
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, 0, boundsMax.x*2), Mathf.Clamp(transform.position.y, 0, boundsMax.y), transform.position.z);
+        *//*basePosition = new Vector3(Mathf.Clamp(basePosition.x, 0, 2*boundsMax.x * (1 - scrollAmount)), Mathf.Clamp(basePosition.y, 0, 2*boundsMax.y * (1 - scrollAmount)), -10);
+        */transform.position = basePosition + Vector3.forward*-10;/*
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, 0, boundsMax.x*2), Mathf.Clamp(transform.position.y, 0, boundsMax.y), transform.position.z);*/
     }
 }
