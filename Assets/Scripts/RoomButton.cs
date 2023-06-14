@@ -9,5 +9,4 @@ public class RoomButton : MonoBehaviour
     {
         GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().currentRoom = bt;
     }
-    
 }

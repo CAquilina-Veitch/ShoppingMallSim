@@ -41,13 +41,13 @@ public class RoomManager : MonoBehaviour
     }
 
     private Camera cam;
-    public void newRoom(Vector2 CO)
+    public void newRoom(Vector2 coord)
     {
-        GameObject bongo = Instantiate(building, CO * new Vector2(2, 1), Quaternion.identity, transform);
+        GameObject bongo = Instantiate(building, coord.coordToIsoPosition(), Quaternion.identity, transform);
         //bongo.GetComponent<SpriteRenderer>().sprite = roomSprites[(int)RT];
-        bongo.name = $" construction happneing at {CO}";
-        bongo.GetComponent<OccupiedSpace>().coord = CO;
-        occupiedDictionary.Add(CO, bongo);
+        bongo.name = $" construction happneing at {coord}";
+        bongo.GetComponent<OccupiedSpace>().coord = coord;
+        occupiedDictionary.Add(coord, bongo);
     }
     struct Room
     {
@@ -64,6 +64,7 @@ public class RoomManager : MonoBehaviour
         newRoom(new Vector2(0,0));
         newRoom( new Vector2(1, 0));
         newRoom(new Vector2(2, 0));
+        newRoom(new Vector2(0, 1));
 
     }
 
@@ -116,6 +117,25 @@ public class RoomManager : MonoBehaviour
 
 
 
+
+
+
+    }
+
+    
+
+
+
+}
+
+public static class GlobalFunctions
+{
+    public static Vector3 coordToIsoPosition(this Vector2 coord)
+    {
+        Vector3 xComponent = new Vector3(1, 0.5f) * coord.x;
+        Vector3 yComponent = new Vector3(-1, 0.5f) * coord.y;
+
+        return xComponent + yComponent;
 
 
 
