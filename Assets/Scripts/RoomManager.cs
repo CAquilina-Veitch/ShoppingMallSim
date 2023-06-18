@@ -43,7 +43,7 @@ public class RoomManager : MonoBehaviour
     private Camera cam;
     public void newRoom(Vector2 coord)
     {
-        GameObject bongo = Instantiate(building, coord.coordToIsoPosition(), Quaternion.identity, transform);
+        GameObject bongo = Instantiate(building, coord.isoCoordToWorldPosition(), Quaternion.identity, transform);
         //bongo.GetComponent<SpriteRenderer>().sprite = roomSprites[(int)RT];
         bongo.name = $" construction happneing at {coord}";
         bongo.GetComponent<OccupiedSpace>().coord = coord;
@@ -65,7 +65,11 @@ public class RoomManager : MonoBehaviour
         newRoom( new Vector2(1, 0));
         newRoom(new Vector2(2, 0));
         newRoom(new Vector2(0, 1));
-
+        newRoom(new Vector2(1, 1));
+        newRoom(new Vector2(2, 1));
+        newRoom(new Vector2(1, 2));
+        newRoom(new Vector2(0, 2));
+        newRoom(new Vector2(2, 2));
     }
 
     // Update is called once per frame
@@ -73,6 +77,9 @@ public class RoomManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            coordToTileCenter(Input.mousePosition);
+
+
             Vector2 mouseReal = cam.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mouseCoordinate = new Vector2(Mathf.Floor(mouseReal.x/2),Mathf.Floor(mouseReal.y));
             try
@@ -104,25 +111,46 @@ public class RoomManager : MonoBehaviour
         /// Phone
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     
+
+    public Vector2 coordToTileCenter(Vector2 tapPos)
+    {
+        Vector2 sol = Vector2.zero;
+        Vector2 tapWorld = cam.ScreenToWorldPoint(tapPos);
+        //Input.GetTouch(0).position
+
+        Vector2 temp = tapWorld;
+
+
+        Vector2 r = tapWorld;
+
+        r.x = Mathf.Round(tapWorld.x);
+        r.y = Mathf.Round(tapWorld.y*2)/2;
+
+        if ((r.x % 2 == 0 && r.y % 1 == 0) || (Mathf.Abs(r.x) % 2 == 1 && Mathf.Abs(r.y) % 1 == 0.5))
+        {
+            sol = r;
+        }
+        else
+        {
+            //it is not a centre point
+            Vector2 d = tapWorld - r;
+
+            Vector2 nm = Mathf.Abs(d.x)/2 >= Mathf.Abs(d.y) ? Vector2.right : Vector2.up*0.5f;
+            d *= nm;
+            //nd /= 2;
+
+            sol = tapWorld + d.normalized * new Vector2(1, 0.5f);
+            sol.x = Mathf.Round(sol.x);
+            sol.y = Mathf.Round(sol.y * 2) / 2;
+        }
+        return sol;
+    }
+
+
+
 
 
 
@@ -130,14 +158,12 @@ public class RoomManager : MonoBehaviour
 
 public static class GlobalFunctions
 {
-    public static Vector3 coordToIsoPosition(this Vector2 coord)
+    public static Vector3 isoCoordToWorldPosition(this Vector2 coord)
     {
-        Vector3 xComponent = new Vector3(1, 0.5f) * coord.x;
-        Vector3 yComponent = new Vector3(-1, 0.5f) * coord.y;
-
-        return xComponent + yComponent;
-
-
-
+        return new Vector3(coord.x-coord.y,0.5f*(coord.x+coord.y));
+    }
+    public static Vector3 worldToIsoCoord(this Vector2 pos)
+    {
+        return new Vector3(pos.x/2+pos.y,pos.y-pos.x/2);
     }
 }

@@ -13,7 +13,7 @@ public class OccupiedSpace : MonoBehaviour
 
     private void OnEnable()
     {
-        sR = GetComponent<SpriteRenderer>();
+        sR = GetComponentInChildren<SpriteRenderer>();
         sR.sprite = workSprites[0];
 
 
