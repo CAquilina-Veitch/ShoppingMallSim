@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public enum businessTypes { Entrance, StartRoom, Clothes, Groceries, Tech, Toys, Shoes};
+public enum businessTypes {Construction, Clothes, Groceries, Videogames, Books, Shoes};
 public enum constructionType { Path, Business, Parking};
 public class RoomManager : MonoBehaviour
 {
     [SerializeField] GameObject building;
     [SerializeField] Wallet wallet;
+    public int[] roomCost = {5, 25 , 15, 20, 10, 15};
     public DraftTile draft;
     public void pathAdd(GameObject path, Vector2 CO)
     {
@@ -151,8 +152,15 @@ public class RoomManager : MonoBehaviour
         {
             if (checkAdjacentHasPath(clickedTile) == true)
             {
-                newRoom(clickedTile);
-                draft.draftVisibility(false);
+                if(wallet.trySpend(false, roomCost[0]) == true)
+                {
+                    newRoom(clickedTile);
+                    draft.draftVisibility(false);
+                }
+                else
+                {
+                    draft.flashRed();
+                }
             }
             else
             {
@@ -165,6 +173,11 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    public void increaseCost(businessTypes bT)
+    {
+        roomCost[(int)bT] = (int)(roomCost[(int)bT] * 1.2f);
+        
+    }
 
     public void updatePaths(Vector2 coord)
     {

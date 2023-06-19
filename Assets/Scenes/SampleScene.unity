@@ -364,6 +364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: {fileID: 6022802779349012557, guid: 64fe861cc78e47149905d01a8b51fa2f, type: 3}
   wallet: {fileID: 1253083565}
+  roomCost: 05000000190000000f000000140000000a0000000f000000
   draft: {fileID: 1660452709}
 --- !u!4 &1849401927
 Transform:
