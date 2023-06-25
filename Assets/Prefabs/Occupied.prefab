@@ -124,8 +124,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9035055617465473592}
         m_TargetAssemblyTypeName: OccupiedSpace, Assembly-CSharp
-        m_MethodName: chooseConstructionInt
-        m_Mode: 3
+        m_MethodName: confirmHoveredBusiness
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1043,7 +1043,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &980662944913998348
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1429,8 +1429,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 980662944913998348}
-  - {fileID: 4709247852630352071}
   - {fileID: 6344167918299909603}
+  - {fileID: 4709247852630352071}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1454,12 +1454,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 065366e85cf95fe45bd9e253fc6b65e0, type: 3}
   - {fileID: 21300000, guid: f8f532048c7796040a07d185f79e9aa3, type: 3}
   roomSprites:
-  - {fileID: 21300000, guid: 55824ef070d75b34a8a9364179118d7e, type: 3}
-  - {fileID: 21300000, guid: 55824ef070d75b34a8a9364179118d7e, type: 3}
-  - {fileID: 21300000, guid: 55824ef070d75b34a8a9364179118d7e, type: 3}
-  - {fileID: 21300000, guid: 55824ef070d75b34a8a9364179118d7e, type: 3}
-  - {fileID: 21300000, guid: 55824ef070d75b34a8a9364179118d7e, type: 3}
-  - {fileID: 21300000, guid: 55824ef070d75b34a8a9364179118d7e, type: 3}
+  - {fileID: 21300000, guid: 9515b1f9efa95e34fb4d4fef3de3d2a8, type: 3}
+  - {fileID: 21300000, guid: 71a822dffdd21bc4cafe9bcd22a75701, type: 3}
+  - {fileID: 21300000, guid: c586b4dcc04b5e3498d0f516fbdc6de1, type: 3}
+  - {fileID: 21300000, guid: 17fee93e16bba6e4eae3d76ef508a591, type: 3}
+  - {fileID: 21300000, guid: e05bf91d68f384145a79105e74faf3b2, type: 3}
+  - {fileID: 21300000, guid: 6d25a734d514967468e6b55e9f5a4db8, type: 3}
   rM: {fileID: 0}
   currentRoomHighlight: 0
 --- !u!1 &6435959017644811952
@@ -1475,12 +1475,12 @@ GameObject:
   - component: {fileID: 1174740687369621137}
   - component: {fileID: 7803631176048267647}
   m_Layer: 5
-  m_Name: ChooseBuilding
+  m_Name: ChooseBuildingCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6344167918299909603
 RectTransform:
   m_ObjectHideFlags: 0

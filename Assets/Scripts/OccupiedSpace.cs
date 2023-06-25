@@ -6,6 +6,8 @@ using UnityEngine;
 public class OccupiedSpace : MonoBehaviour
 {
     public Vector2 coord;
+    public constructionType constructionType;
+    public constructionType type;
 
     [SerializeField] Sprite[] workSprites; //no final ones, contains paths, empty rooms and the constructed but not chosen type.
     [SerializeField] Sprite[] roomSprites; 
@@ -13,6 +15,25 @@ public class OccupiedSpace : MonoBehaviour
     SpriteRenderer sR;
     public RoomManager rM;
     public int currentRoomHighlight;
+
+
+    public Vector2[] pathFrom;
+
+
+
+    //business stuff
+    public Business business;
+
+
+    //Pathstuff
+    public Node node;
+    public Path path;
+
+
+    public nodeData nodeInfo;
+
+
+
 
     private void OnEnable()
     {
@@ -22,16 +43,12 @@ public class OccupiedSpace : MonoBehaviour
         rM.updatePaths(coord);
 
 
-
-
-
     }
-
-    public void switchPathIsEntrance(bool to)
+    public void pathEntranceSprite(bool to)
     {
         sR.sprite = to ? workSprites[4] : workSprites[1];
-        rM.changeEntrance(coord,to);
     }
+
 
     public void changeCurrentRoomHighlight(bool increase)
     {
@@ -63,21 +80,40 @@ public class OccupiedSpace : MonoBehaviour
 
         if (cT == constructionType.Path)
         {
-            GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().pathAdd(gameObject, coord);
-            switchPathIsEntrance(rM.checkAdjacentIsEmpty(coord));
+            PathChosen();
             
         }
         else if(cT == constructionType.Business)
         {
             transform.GetChild(1).gameObject.SetActive(true);
+            sR.sprite = roomSprites[currentRoomHighlight];
         }
         else
         {
 
         }
     }
-    public void chooseBusiness(businessTypes bT)
-    {
 
+    public void PathChosen()
+    {
+        path = gameObject.AddComponent(typeof(Path)) as Path;
+        path.oS = this;
+        GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().pathAdd(path, coord);
+        path.init();
+        
+
+
+
+    }
+
+
+
+
+
+    public void confirmHoveredBusiness()
+    {
+        sR.sprite = roomSprites[currentRoomHighlight];
+        Debug.Log(1);
+        Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
     }
 }

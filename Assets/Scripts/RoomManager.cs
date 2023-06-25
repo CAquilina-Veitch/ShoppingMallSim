@@ -11,7 +11,7 @@ public class RoomManager : MonoBehaviour
     [SerializeField] Wallet wallet;
     public int[] roomCost = {5, 25 , 15, 20, 10, 15};
     public DraftTile draft;
-    public void pathAdd(GameObject path, Vector2 CO)
+    public void pathAdd(Path path, Vector2 CO)
     {
         Debug.Log("Added path at " + CO);
         pathDictionary.Add(CO, path);
@@ -38,6 +38,27 @@ public class RoomManager : MonoBehaviour
         return false;
 
     }
+    public Vector2[] AdjacentPaths(Vector2 coordinate)
+    {
+        if (coordinate.x < 0 || coordinate.y < 0)
+        {
+            return new Vector2[0];
+        }
+        Vector2[] Adj = { Vector2.left, Vector2.down, Vector2.right, Vector2.up };
+        List<Vector2> temp = new List<Vector2>();
+        foreach (Vector2 v in Adj)
+        {
+            if (pathDictionary.ContainsKey(coordinate + v))
+            {
+                temp.Add(coordinate + v);
+            }
+        }
+        return temp.ToArray();
+
+    }
+
+
+
     public bool checkAdjacentIsEmpty(Vector2 coordinate)
     {
         if (coordinate.x < 0 || coordinate.y < 0)
@@ -59,20 +80,22 @@ public class RoomManager : MonoBehaviour
     private Camera cam;
     public void newRoom(Vector2 coord)
     {
-        GameObject bongo = Instantiate(building, coord.isoCoordToWorldPosition(), Quaternion.identity, transform);
+        GameObject tileObj = Instantiate(building, coord.isoCoordToWorldPosition(), Quaternion.identity, transform);
         //bongo.GetComponent<SpriteRenderer>().sprite = roomSprites[(int)RT];
-        bongo.name = $" construction happneing at {coord}";
-        bongo.GetComponent<OccupiedSpace>().coord = coord;
-        bongo.GetComponent<OccupiedSpace>().rM = this;
-        occupiedDictionary.Add(coord, bongo);
+        tileObj.name = $"{coord} construction";
+        OccupiedSpace temp = tileObj.GetComponent<OccupiedSpace>();
+        temp.coord = coord;
+        temp.rM = this;
+        temp.pathFrom = AdjacentPaths(coord);
+        occupiedDictionary.Add(coord, temp);
     }
     struct Room
     {
        public businessTypes type; 
     }
 
-    Dictionary<Vector2, GameObject> occupiedDictionary = new Dictionary<Vector2, GameObject>();
-    Dictionary<Vector2, GameObject> pathDictionary = new Dictionary<Vector2, GameObject>();
+    public Dictionary<Vector2, OccupiedSpace> occupiedDictionary = new Dictionary<Vector2, OccupiedSpace>();
+    public Dictionary<Vector2, Path> pathDictionary = new Dictionary<Vector2, Path>();
     List<Vector2> entrances = new List<Vector2>();
 
     public void changeEntrance(Vector2 coord, bool isEntrance)
@@ -90,15 +113,8 @@ public class RoomManager : MonoBehaviour
     void Start()
     {
         cam = Camera.main;
-        newRoom(new Vector2(0,0));
-        newRoom(new Vector2(1, 0));
-        newRoom(new Vector2(2, 0));
-        newRoom(new Vector2(0, 1));
-        newRoom(new Vector2(1, 1));
-        newRoom(new Vector2(2, 1));
-        newRoom(new Vector2(1, 2));
-        newRoom(new Vector2(0, 2));
-        newRoom(new Vector2(2, 2));
+        newRoom(new Vector2(0, 0));
+
     }
 
     // Update is called once per frame
@@ -183,7 +199,7 @@ public class RoomManager : MonoBehaviour
     {
         foreach(Vector2 c in allAdjPaths(coord))
         {
-            occupiedDictionary[c].GetComponent<OccupiedSpace>().switchPathIsEntrance(checkAdjacentIsEmpty(c));
+            pathDictionary[c].switchPathIsEntrance(checkAdjacentIsEmpty(c));
         }
     }
     
@@ -237,14 +253,4 @@ public class RoomManager : MonoBehaviour
 
 }
 
-public static class GlobalFunctions
-{
-    public static Vector3 isoCoordToWorldPosition(this Vector2 coord)
-    {
-        return new Vector3(coord.x-coord.y,0.5f*(coord.x+coord.y));
-    }
-    public static Vector3 worldToIsoCoord(this Vector2 pos)
-    {
-        return new Vector3(pos.x/2+pos.y,pos.y-pos.x/2);
-    }
-}
+

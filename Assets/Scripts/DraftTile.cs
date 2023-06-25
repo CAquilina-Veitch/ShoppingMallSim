@@ -16,6 +16,7 @@ public class DraftTile : MonoBehaviour
         sR.enabled = false;
         currentColour = Color.white;
         sR.color = Color.white;
+        coord = Vector2.positiveInfinity;
     }
     private void FixedUpdate()
     {

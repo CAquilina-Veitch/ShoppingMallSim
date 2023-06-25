@@ -59,4 +59,14 @@ public class Wallet : MonoBehaviour
         }
     }
 
+
+    //dev
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Currency += 10000;
+        }
+    }
+
 }
