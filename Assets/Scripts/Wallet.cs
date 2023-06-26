@@ -2,9 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
+using TMPro;
 
 public class Wallet : MonoBehaviour
 {
+    public TextMeshProUGUI uiCurrency, uiPremium;
+
+
+
     private int standardCurrency, premiumCurrency;
     public int Currency
     {
@@ -57,6 +62,11 @@ public class Wallet : MonoBehaviour
             }
             return true;
         }
+    }
+    private void FixedUpdate()
+    {
+        uiCurrency.text = $"{Currency}";
+        uiPremium.text = $"{premiumCurrency}";
     }
 
 
