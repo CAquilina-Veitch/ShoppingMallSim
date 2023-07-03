@@ -15,9 +15,8 @@ public class Path : MonoBehaviour
 
     private void OnEnable()
     {
-        rM = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>();
-        oS = GetComponent<OccupiedSpace>();
-        coord = oS.coord;
+        
+        init();
     }
 
     public void switchPathIsEntrance(bool to)
@@ -28,7 +27,15 @@ public class Path : MonoBehaviour
 
     public void init()
     {
+        rM = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>();
+        oS = GetComponent<OccupiedSpace>();
+        coord = oS.coord;
         Debug.Log(1);
+
+
+
+
+
         pathFrom = oS.pathFrom;
         bool isEntrance = rM.checkAdjacentIsEmpty(coord);
         switchPathIsEntrance(isEntrance);
