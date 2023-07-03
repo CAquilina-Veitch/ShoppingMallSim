@@ -43,6 +43,7 @@ public class OccupiedSpace : MonoBehaviour
         rM.updatePaths(coord);
 
 
+
     }
     public void pathEntranceSprite(bool to)
     {
