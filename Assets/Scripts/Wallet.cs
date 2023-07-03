@@ -11,6 +11,13 @@ public class Wallet : MonoBehaviour
 
 
     private int standardCurrency, premiumCurrency;
+
+    public int visualCurrency, visualPremium;
+
+    private float textTransitionTime = 0.2f;
+    float s,p;
+
+
     public int Currency
     {
         get
@@ -65,8 +72,18 @@ public class Wallet : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        uiCurrency.text = $"{Currency}";
-        uiPremium.text = $"{premiumCurrency}";
+        s = Mathf.Lerp(s, standardCurrency != visualCurrency ? 1 : 0, 0.1f);
+        p = Mathf.Lerp(p, standardCurrency != visualCurrency ? 1 : 0, 0.1f);
+
+        if (standardCurrency != visualCurrency)
+        {
+            visualCurrency = Mathf.RoundToInt(Mathf.Lerp(visualCurrency, standardCurrency, 0.5f));
+            uiCurrency.text = ""+visualCurrency;
+        }
+        if (premiumCurrency != visualCurrency)
+        {
+
+        }
     }
 
 
@@ -76,6 +93,10 @@ public class Wallet : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             Currency += 10000;
+        }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            Currency += 3;
         }
     }
 
