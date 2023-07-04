@@ -28,11 +28,26 @@ public class DijkstraPathManager : MonoBehaviour
 
     Vector2[] FindShortestPath(Vector2 toFrom)
     {
-        List<List<Vector2>> e;
+        List<Vector2> unvisitedNodes = nodePoints;
+        List<Vector2> visitedNodes = new List<Vector2>();
+
+        List<List<Vector2>> routes = new List<List<Vector2>>();
+
+        
+
+
+
+
+        //List<List<Vector2>> ;
 
 
 
         return new Vector2[1];
+    }
+
+    Vector2[] ConnectionsToPoint(int i)
+    {
+
     }
 
 
