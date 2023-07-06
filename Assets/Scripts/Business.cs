@@ -1,20 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public enum stockType
 {
     groceries, two,three,four,five
 }
+[Serializable]
+public struct WorkerInfo
+{
+    public string name;
+    public int level;
+    public species specie;
+
+
+}
 
 public class Business : MonoBehaviour
 {
+
 
     public stockType stock;
     public int maxStock;
     public int currentStock;
 
     public Worker worker;
+
+    public List<WorkerInfo> hiredWorkers;
+
 
     public bool businessActive;
 
@@ -75,5 +89,16 @@ public class Business : MonoBehaviour
         pM.ChangeBusinessActivity(this, businessActive);
 
     }
+
+    public void Interact()
+    {
+
+    }
+    public void Interact(bool to)
+    {
+
+    }
+
+
 
 }
