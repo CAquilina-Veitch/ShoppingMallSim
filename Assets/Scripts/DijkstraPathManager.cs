@@ -10,6 +10,19 @@ public class DijkstraPathManager : MonoBehaviour
     /// Dictionary<Vector2, Node> nodes = new Dictionary<Vector2, Node>();
     /// </summary>
 
+    public List<Business> activeBusinesses = new List<Business>();
+
+    public void ChangeBusinessActivity(Business b, bool to)
+    {
+        if (to)
+        {
+            activeBusinesses.Add(b);
+        }
+        else
+        {
+            activeBusinesses.Remove(b);
+        }
+    }
 
 
     public List<Vector2> nodePoints = new List<Vector2>();
@@ -47,7 +60,7 @@ public class DijkstraPathManager : MonoBehaviour
 
     Vector2[] ConnectionsToPoint(int i)
     {
-
+        return new Vector2[1];
     }
 
 
