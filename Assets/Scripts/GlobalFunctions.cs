@@ -52,4 +52,21 @@ public static class GlobalFunctions
         temp[temp.Length - 1] = added;
         return temp;
     }
+
+    public static int LastInt(this int[] array)
+    {
+        int temp;
+        try
+        {
+            temp = array[array.Length - 1];
+        }
+        catch
+        {
+            Debug.Log("AAA" + array);
+            temp = -123;
+        }
+        return temp;
+    }
+
+
 }
