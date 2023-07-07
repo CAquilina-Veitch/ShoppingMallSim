@@ -10,6 +10,19 @@ public class DijkstraPathManager : MonoBehaviour
     /// Dictionary<Vector2, Node> nodes = new Dictionary<Vector2, Node>();
     /// </summary>
 
+    public List<Business> activeBusinesses = new List<Business>();
+
+    public void ChangeBusinessActivity(Business b, bool to)
+    {
+        if (to)
+        {
+            activeBusinesses.Add(b);
+        }
+        else
+        {
+            activeBusinesses.Remove(b);
+        }
+    }
 
 
     public List<Vector2> nodePoints = new List<Vector2>();
@@ -37,28 +50,28 @@ public class DijkstraPathManager : MonoBehaviour
         List<int> unvisitedNodes = Enumerable.Range(0, nodePoints.Count).ToList();
         List<int> visitedNodes = new List<int>();
 
-        void finishedNode(int node)
-        {
-            unvisitedNodes.Remove(node);
-            visitedNodes.Add(node);
+        void finishedNode(int node)
+        {
+            unvisitedNodes.Remove(node);
+            visitedNodes.Add(node);
         }
 
 
 
         List<List<int>> routes = new List<List<int>>();
         List<float> routeDistance = new List<float>();
-        Dictionary<int, float> distances = new Dictionary<int, float>();
-
-
+        Dictionary<int, float> distances = new Dictionary<int, float>();
+
+
         List<int> temp = new List<int>();
         temp.Add(fromTo.x);
         routes.Add(temp);
         finishedNode(fromTo.x);
 
         distances.Add(fromTo.x, 0);
-        foreach (int node in unvisitedNodes)
-        {
-            distances.Add(node, Mathf.Infinity);
+        foreach (int node in unvisitedNodes)
+        {
+            distances.Add(node, Mathf.Infinity);
         }
 
 
@@ -70,50 +83,50 @@ public class DijkstraPathManager : MonoBehaviour
 
         int currentRoute = fromTo.x;
 
-        while (solved == false)
-        {
-            int[] conn = ConnectedNodeIDs(currentRoute);
-
-            for (int i = 0; i < conn.Length; i++)
-            {
-                Debug.Log(distances[routes[currentRoute].ToArray().LastInt()]);
-                Debug.Log(Vector2.Distance(nodePoints[routes[currentRoute].ToArray().LastInt()], nodePoints[conn[i]]));
-                float dist = distances[routes[currentRoute].ToArray().LastInt()] + Vector2.Distance(nodePoints[routes[currentRoute].ToArray().LastInt()], nodePoints[conn[i]]);
-
-
-                if (unvisitedNodes.Contains(conn[i]))
-                {
-                    distances.Add(conn[i], dist);
-                    finishedNode(conn[i]);
-                }
-                else
-                {
-                    if (distances.ContainsKey(conn[i]))
-                    {
-                        if (distances[conn[i]] < dist)
-                        {
-                            distances[conn[i]] = dist;
-                            //delete all paths that contain conn[i]
-                        }
-                    }
-
-                }
-
-
-
-
-                if(i == 0)
-                {
-                    routes[currentRoute].Add(conn[i]);
-                }
-                else
-                {
-                    routes.Add(routes[currentRoute]);
-                    routes[routes.Count()].Add(conn[i]);
-                }
-            }
-
-            solved = true;
+        while (solved == false)
+        {
+            int[] conn = ConnectedNodeIDs(currentRoute);
+
+            for (int i = 0; i < conn.Length; i++)
+            {
+                Debug.Log(distances[routes[currentRoute].ToArray().LastInt()]);
+                Debug.Log(Vector2.Distance(nodePoints[routes[currentRoute].ToArray().LastInt()], nodePoints[conn[i]]));
+                float dist = distances[routes[currentRoute].ToArray().LastInt()] + Vector2.Distance(nodePoints[routes[currentRoute].ToArray().LastInt()], nodePoints[conn[i]]);
+
+
+                if (unvisitedNodes.Contains(conn[i]))
+                {
+                    distances.Add(conn[i], dist);
+                    finishedNode(conn[i]);
+                }
+                else
+                {
+                    if (distances.ContainsKey(conn[i]))
+                    {
+                        if (distances[conn[i]] < dist)
+                        {
+                            distances[conn[i]] = dist;
+                            //delete all paths that contain conn[i]
+                        }
+                    }
+
+                }
+
+
+
+
+                if(i == 0)
+                {
+                    routes[currentRoute].Add(conn[i]);
+                }
+                else
+                {
+                    routes.Add(routes[currentRoute]);
+                    routes[routes.Count()].Add(conn[i]);
+                }
+            }
+
+            solved = true;
         }
 
 
@@ -128,32 +141,32 @@ public class DijkstraPathManager : MonoBehaviour
 
     //StepPathForward(int)
 
-    int[] ConnectedNodeIDs(int nodeID)
-    {
-        List<int> connected = new List<int>();
-
-        List<Vector2> from = new List<Vector2>();
-        from.AddRange(connections.FindAll(s => s.x == nodeID).ToArray());
-        foreach(Vector2 v in from)
-        {
-            connected.Add((int)v.y);
-        }
-        from = new List<Vector2>();
-        from.AddRange(connections.FindAll(s => s.y == nodeID).ToArray());
-        foreach (Vector2 v in from)
-        {
-            connected.Add((int)v.x);
-        }
-        return connected.ToArray();
+    int[] ConnectedNodeIDs(int nodeID)
+    {
+        List<int> connected = new List<int>();
+
+        List<Vector2> from = new List<Vector2>();
+        from.AddRange(connections.FindAll(s => s.x == nodeID).ToArray());
+        foreach(Vector2 v in from)
+        {
+            connected.Add((int)v.y);
+        }
+        from = new List<Vector2>();
+        from.AddRange(connections.FindAll(s => s.y == nodeID).ToArray());
+        foreach (Vector2 v in from)
+        {
+            connected.Add((int)v.x);
+        }
+        return connected.ToArray();
     }
 
 
 
 
 
-    /*Vector2[] ConnectionsToPoint(int i)
-    {
-
+    /*Vector2[] ConnectionsToPoint(int i)
+    {
+
     }*/
 
 
