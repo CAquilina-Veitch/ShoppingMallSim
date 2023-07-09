@@ -20,14 +20,12 @@ public struct WorkerInfo
 public class Business : MonoBehaviour
 {
 
-
     public stockType stock;
     public int maxStock;
     public int currentStock;
 
-    public Worker worker;
-
-    public List<WorkerInfo> hiredWorkers;
+    public List<WorkerInfo> hiredWorkers = new List<WorkerInfo>();
+    public List<WorkerInfo> activeWorkers = new List<WorkerInfo>();
 
 
     public bool businessActive;
@@ -37,32 +35,22 @@ public class Business : MonoBehaviour
     private void OnEnable()
     {
         pM = GameObject.FindGameObjectWithTag("PathManager").GetComponent<DijkstraPathManager>();
+        pM.allBusinesses.Add(this);
 
-        if (worker == null)
-        {
-            if(TryGetComponent(out Worker w))
-            {
-                worker = w;
-            }
-            else
-            {
-                worker = gameObject.AddComponent<Worker>();
-            }
-        }
     }
 
     private void FixedUpdate()
     {
         if (!businessActive)
         {
-            if (worker != null && currentStock > 0)
+            if (activeWorkers.Count  > 0 && currentStock > 0)
             {
                 ToggleActivity(true);
             }
         }
         else
         {
-            if (worker == null || currentStock <= 0)
+            if (activeWorkers.Count == 0 || currentStock <= 0)
             {
                 ToggleActivity(false);
             }

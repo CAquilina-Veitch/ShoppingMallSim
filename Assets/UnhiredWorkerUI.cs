@@ -51,6 +51,7 @@ public class UnhiredWorkerUI : MonoBehaviour
                 scroller.velocity = Vector2.right * 100* scroller.horizontalNormalizedPosition;
                 //scroller.horizontalNormalizedPosition = Mathf.Lerp(scroller.horizontalNormalizedPosition, 0, 0.5f);
                 overlay.SetActive(false);
+                Debug.LogWarning("BB" + scroller.horizontalNormalizedPosition);
                 selected = false;
             }
         }
@@ -59,7 +60,13 @@ public class UnhiredWorkerUI : MonoBehaviour
             if (scroller.horizontalNormalizedPosition >= 0.95f)
             {
                 overlay.SetActive(true);
+                Debug.LogWarning("CC" + scroller.horizontalNormalizedPosition);
                 selected = true;
+            }
+            else
+            {
+                overlay.SetActive(false);
+                selected = false;
             }
         }
 

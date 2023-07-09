@@ -11,6 +11,7 @@ public class DijkstraPathManager : MonoBehaviour
     /// </summary>
 
     public List<Business> activeBusinesses = new List<Business>();
+    public List<Business> allBusinesses = new List<Business>();
 
     public void ChangeBusinessActivity(Business b, bool to)
     {

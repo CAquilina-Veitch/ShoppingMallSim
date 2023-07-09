@@ -11,6 +11,7 @@ public class RoomManager : MonoBehaviour
     [SerializeField] Wallet wallet;
     public int[] roomCost = {5, 25 , 15, 20, 10, 15};
     public DraftTile draft;
+    [SerializeField] UnhiredWorkers UHWM;
     public void pathAdd(Path path, Vector2 CO)
     {
         Debug.Log("Added path at " + CO);
@@ -97,6 +98,7 @@ public class RoomManager : MonoBehaviour
     public Dictionary<Vector2, OccupiedSpace> occupiedDictionary = new Dictionary<Vector2, OccupiedSpace>();
     public Dictionary<Vector2, Path> pathDictionary = new Dictionary<Vector2, Path>();
     List<Vector2> entrances = new List<Vector2>();
+    public Dictionary<Vector2, Business> businesses = new Dictionary<Vector2, Business>();
 
     public void changeEntrance(Vector2 coord, bool isEntrance)
     {
@@ -120,25 +122,44 @@ public class RoomManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0)||Input.touchCount==1)
         {
-            Vector2 clickedTile = coordToTileCenterPos(cam.ScreenToWorldPoint(Input.mousePosition)).worldToIsoCoord();
-
-            if (draft.coord == clickedTile)
+            Vector2 clickedTile;
+            if (Input.touchCount == 1)   //// mouse controls
             {
-                TryBuild(clickedTile);
+                clickedTile = coordToTileCenterPos(cam.ScreenToWorldPoint(Input.GetTouch(1).position)).worldToIsoCoord();
             }
             else
             {
-                if (checkEmpty(clickedTile))
+                clickedTile = coordToTileCenterPos(cam.ScreenToWorldPoint(Input.mousePosition)).worldToIsoCoord();
+            }
+
+            if (checkEmpty(clickedTile))
+            {
+                if (draft.coord == clickedTile)
                 {
-                    draft.moveDraft(clickedTile);
+                    TryBuild(clickedTile);
                 }
                 else
                 {
-                    draft.draftVisibility(false);
+                    draft.moveDraft(clickedTile);
                 }
             }
+            else
+            {
+                draft.draftVisibility(false);
+                if (UHWM.selected.Count > 0)
+                {
+
+                }
+
+
+
+
+
+            }
+
+            
 
             
 

@@ -48,6 +48,8 @@ public class Path : MonoBehaviour
             foreach (Vector2 p in pathFrom)
             {
                 Debug.Log(rM.pathDictionary.ContainsKey(p));
+                Debug.Log(p);
+                Debug.Log(rM.pathDictionary[p]);
                 Debug.Log(rM.pathDictionary[p].nodeInfo);
                 Debug.Log(rM.pathDictionary[p].nodeInfo.path);
                 Debug.Log(rM.pathDictionary[p].nodeInfo.path.Length);

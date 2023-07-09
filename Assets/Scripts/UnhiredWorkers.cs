@@ -9,6 +9,7 @@ public class UnhiredWorkers : MonoBehaviour
     public List<WorkerInfo> unhiredWorkers = new List<WorkerInfo>();
 
     public List<UnhiredWorkerUI> unhiredWUI = new List<UnhiredWorkerUI>();
+    public List<UnhiredWorkerUI> selected = new List<UnhiredWorkerUI>();
 
     public RectTransform scrollParent;
 
@@ -30,7 +31,7 @@ public class UnhiredWorkers : MonoBehaviour
         unhiredWorkers.Sort((x, y) => y.level.CompareTo(x.level));
 
         listShowing = to;
-        listBG.gameObject.SetActive(listShowing);
+        
 
         if (listShowing)
         {
@@ -56,9 +57,22 @@ public class UnhiredWorkers : MonoBehaviour
         }
         else
         {
-
+            if (selected.Count > 0)
+            {
+                listShowing = true;
+            }
+            
         }
+
+        listBG.gameObject.SetActive(listShowing);
     }
+
+    public void ClearSelected()
+    {
+        selected = new List<UnhiredWorkerUI>();
+    }
+
+
     public void showList()
     {
         showList(!listShowing);
@@ -106,7 +120,7 @@ public class UnhiredWorkers : MonoBehaviour
             Debug.LogError("Too many workers");
         }
     }
-    public void collectWorker(Worker worker)
+    public void collectWorker(CollectableWorker worker)
     {
         if (unhiredWorkers.Count < maxWorkers)
         {
@@ -129,9 +143,9 @@ public class UnhiredWorkers : MonoBehaviour
     }
 
 
-    public void selectedUHW(bool)
+    public void selectedUHW(UnhiredWorkerUI ui)
     {
-
+        selected.Add(ui);
     }
 
 

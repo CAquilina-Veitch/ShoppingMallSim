@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public enum species
 {
@@ -18,8 +19,6 @@ public struct animalType
 public class Animal : MonoBehaviour
 {
     public List<animalType> animalTypes = new List<animalType>();
-
-
 
 
 
