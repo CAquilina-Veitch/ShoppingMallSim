@@ -23,7 +23,7 @@ public class OccupiedSpace : MonoBehaviour
 
     //business stuff
     public Business business;
-
+    [SerializeField] RectTransform bGList;
 
     //Pathstuff
     public Node node;
@@ -81,13 +81,17 @@ public class OccupiedSpace : MonoBehaviour
 
         if (cT == constructionType.Path)
         {
-            PathChosen();
+            path = gameObject.AddComponent(typeof(Path)) as Path;
+            path.oS = this;
+            GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().pathAdd(path, coord);
+            path.init();
             
         }
         else if(cT == constructionType.Business)
         {
             transform.GetChild(1).gameObject.SetActive(true);
             sR.sprite = roomSprites[currentRoomHighlight];
+
         }
         else
         {
@@ -95,26 +99,19 @@ public class OccupiedSpace : MonoBehaviour
         }
     }
 
-    public void PathChosen()
-    {
-        path = gameObject.AddComponent(typeof(Path)) as Path;
-        path.oS = this;
-        GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().pathAdd(path, coord);
-        path.init();
-        
-
-
-
-    }
-
-
-
-
 
     public void confirmHoveredBusiness()
     {
         sR.sprite = roomSprites[currentRoomHighlight];
         Debug.Log(1);
         Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
+
+        business = gameObject.AddComponent(typeof(Business)) as Business;
+        rM.AddBusiness(business, coord);
+        business.listBG = bGList;
+        business.init();
+
+
+
     }
 }

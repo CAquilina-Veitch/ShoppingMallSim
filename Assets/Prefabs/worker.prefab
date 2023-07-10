@@ -213,17 +213,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78be9335151c5c3439a5daa7b559455a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  specieSprites:
-  - {fileID: -1756190730, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
-  - {fileID: -356161183, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
-  - {fileID: -273975835, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
-  - {fileID: -863600503, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
-  - {fileID: 291717218, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
-  - {fileID: -1061579569, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
-  name: {fileID: 1327019136798860678}
+  workerName: {fileID: 1327019136798860678}
   level: {fileID: 377420300605300336}
   icon: {fileID: 3525228798409898945}
   overlay: {fileID: 6070525055872763092}
+  selected: 0
+  UHWM: {fileID: 0}
 --- !u!114 &2325311420136687042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,8 +251,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6423470630534426152}
         m_TargetAssemblyTypeName: UnhiredWorkerUI, Assembly-CSharp
-        m_MethodName: swipeAmount
-        m_Mode: 4
+        m_MethodName: swiped
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

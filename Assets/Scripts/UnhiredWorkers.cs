@@ -11,11 +11,12 @@ public class UnhiredWorkers : MonoBehaviour
     public List<UnhiredWorkerUI> unhiredWUI = new List<UnhiredWorkerUI>();
     public List<UnhiredWorkerUI> selected = new List<UnhiredWorkerUI>();
 
-    public RectTransform scrollParent;
+    //public RectTransform scrollParent;
 
     float scrollAmnt;
 
     int maxWorkers = 6;
+    int maxWorkersBusiness = 3;
 
 
     public string[] names = { "robby", "gobby", "jobby", "yobby", "hobby", "fobby", "cobbie" };
@@ -35,7 +36,7 @@ public class UnhiredWorkers : MonoBehaviour
 
         if (listShowing)
         {
-            scrollParent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, unhiredWorkers.Count * 50);
+            //scrollParent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, unhiredWorkers.Count * 50); ////////////////////////////////////////////////// if scroll
             listBG.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, unhiredWorkers.Count * 50);
 
 
@@ -43,9 +44,9 @@ public class UnhiredWorkers : MonoBehaviour
             {
                 if (unhiredWUI.Count <= i)
                 {
-                    var temp = Instantiate(workerUIPrefab, scrollParent);
+                    var temp = Instantiate(workerUIPrefab, /*scrollParent*/ listBG);
                     unhiredWUI.Add(temp.GetComponent<UnhiredWorkerUI>());
-                    temp.GetComponent<UnhiredWorkerUI>().UHWM = this;
+                    temp.GetComponent<UnhiredWorkerUI>().init(this);
                 }
                 unhiredWUI[i].info = unhiredWorkers[i];
                 unhiredWUI[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, i * -50);
@@ -96,17 +97,49 @@ public class UnhiredWorkers : MonoBehaviour
         {
             name = names[Random.Range(0, names.Length)],
             level = randomAvgLevel(),
-            specie = (species)Random.Range(0, System.Enum.GetValues(typeof(species)).Length)
+            specie = (species)Random.Range(0, System.Enum.GetValues(typeof(species)).Length),
+            energy = 1f
         };
     }
 
-    public void designateWorker(Business where, WorkerInfo who)
+    public void TryDesignateSelectedWorkers(Business b)
+    {
+        List<UnhiredWorkerUI> toRemove = new List<UnhiredWorkerUI>();
+        foreach( UnhiredWorkerUI uhw in selected)
+        {
+            if (b.hiredWorkers.Count < 3)
+            {
+                b.hiredWorkers.Add(uhw.info);
+                toRemove.Add(uhw);
+            }
+            else
+            {
+                Debug.LogError("FULL BUSINESS");
+            }
+        }
+        foreach(UnhiredWorkerUI uhw in toRemove)
+        {
+            unhiredWorkers.Remove(uhw.info);
+            selected.Remove(uhw);
+            unhiredWUI.Remove(uhw);
+            Destroy(uhw.gameObject);
+        }
+        StartCoroutine(updateLength());
+
+    }
+
+    public void designateWorker(Business where, UnhiredWorkerUI who)
     {
         if (where.hiredWorkers.Count < 3)
         {
-            where.hiredWorkers.Add(who);
-            unhiredWorkers.Remove(who);
+            where.hiredWorkers.Add(who.info);
+            unhiredWorkers.Remove(who.info);
+            selected.Remove(who);
+            unhiredWUI.Remove(who);
+            Destroy(who.gameObject);
+
         }
+        
     }
 
     public void collectWorker(WorkerInfo worker)
@@ -147,7 +180,50 @@ public class UnhiredWorkers : MonoBehaviour
     {
         selected.Add(ui);
     }
+    
+    IEnumerator updateLength()
+    {
 
+        float target = unhiredWorkers.Count * 50;
+        float was = listBG.sizeDelta.y;
+        if (was!=target)
+        {
+            float[] wases = new float[unhiredWorkers.Count];
+            for(int j = 0; j < unhiredWorkers.Count; j++)
+            {
+                unhiredWUI[j].info = unhiredWorkers[j]; // idk if this is needed;
+                wases[j] = unhiredWUI[j].GetComponent<RectTransform>().sizeDelta.y;
+            }
+            float timeDelay = 0.1f;
+            for (float i = 0; i < timeDelay; i += 0.02f)
+            {
+                float b = i / timeDelay;
+                float c = Mathf.Lerp(was, target, b);
+                listBG.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, c);
+
+                for (int j = 0; j < unhiredWorkers.Count; j++)
+                {
+                    float d = Mathf.Lerp(wases[j], j * -50, b);
+                    unhiredWUI[j].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, d);
+                }
+
+
+
+                yield return new WaitForSeconds(0.02f);
+                if (!listShowing)
+                {
+                    break;
+                }
+            }
+        }
+        else
+        {
+            yield return null;
+        }
+
+        
+
+    }
 
 
 }

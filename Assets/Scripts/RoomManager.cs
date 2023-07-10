@@ -12,6 +12,12 @@ public class RoomManager : MonoBehaviour
     public int[] roomCost = {5, 25 , 15, 20, 10, 15};
     public DraftTile draft;
     [SerializeField] UnhiredWorkers UHWM;
+
+    [SerializeField] DijkstraPathManager dPM;
+
+    public GameObject businessWorkerUIPrefab;
+
+
     public void pathAdd(Path path, Vector2 CO)
     {
         Debug.Log("Added path at " + CO);
@@ -82,7 +88,6 @@ public class RoomManager : MonoBehaviour
     public void newRoom(Vector2 coord)
     {
         GameObject tileObj = Instantiate(building, coord.isoCoordToWorldPosition(), Quaternion.identity, transform);
-        //bongo.GetComponent<SpriteRenderer>().sprite = roomSprites[(int)RT];
         tileObj.name = $"{coord} construction";
         OccupiedSpace temp = tileObj.GetComponent<OccupiedSpace>();
         temp.coord = coord;
@@ -125,12 +130,13 @@ public class RoomManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0)||Input.touchCount==1)
         {
             Vector2 clickedTile;
-            if (Input.touchCount == 1)   //// mouse controls
+            if (Input.touchCount == 1) 
             {
                 clickedTile = coordToTileCenterPos(cam.ScreenToWorldPoint(Input.GetTouch(1).position)).worldToIsoCoord();
             }
             else
-            {
+            {   
+                //// mouse controls
                 clickedTile = coordToTileCenterPos(cam.ScreenToWorldPoint(Input.mousePosition)).worldToIsoCoord();
             }
 
@@ -148,10 +154,25 @@ public class RoomManager : MonoBehaviour
             else
             {
                 draft.draftVisibility(false);
-                if (UHWM.selected.Count > 0)
+                
+                if (businesses.ContainsKey(clickedTile))
                 {
+                    Debug.Log(5);
 
+                    if (UHWM.selected.Count > 0)
+                    {
+                        Debug.Log(6);
+
+                        //try to move the workers to here
+                        UHWM.TryDesignateSelectedWorkers(businesses[clickedTile]);
+                    }
                 }
+                else
+                {
+                    Debug.Log(4);
+                }
+                
+                
 
 
 
@@ -268,7 +289,21 @@ public class RoomManager : MonoBehaviour
         return temp.ToArray();
     }
 
-
+    public void FixedUpdate()
+    {
+        
+    }
+    public void AddBusiness(Business b, Vector2 coord)
+    {
+        if (!businesses.ContainsKey(coord))
+        {
+            businesses.Add(coord, b);
+        }
+        if (!dPM.allBusinesses.Contains(b))
+        {
+            dPM.allBusinesses.Add(b);
+        }
+    }
 
 
 

@@ -135,7 +135,6 @@ GameObject:
   - component: {fileID: 62716097}
   - component: {fileID: 62716096}
   - component: {fileID: 62716098}
-  - component: {fileID: 62716099}
   m_Layer: 5
   m_Name: List
   m_TagString: Untagged
@@ -215,36 +214,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
---- !u!114 &62716099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 62716094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Content: {fileID: 1128257878}
-  m_Horizontal: 0
-  m_Vertical: 1
-  m_MovementType: 1
-  m_Elasticity: 0.1
-  m_Inertia: 1
-  m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
-  m_Viewport: {fileID: 0}
-  m_HorizontalScrollbar: {fileID: 0}
-  m_VerticalScrollbar: {fileID: 0}
-  m_HorizontalScrollbarVisibility: 0
-  m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: 0
-  m_VerticalScrollbarSpacing: 0
-  m_OnValueChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &68669854
 GameObject:
   m_ObjectHideFlags: 0
@@ -930,7 +899,7 @@ GameObject:
   - component: {fileID: 1573120408}
   m_Layer: 0
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: PathManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1287,6 +1256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1849401927}
   - component: {fileID: 1849401926}
+  - component: {fileID: 1849401928}
   m_Layer: 0
   m_Name: Buildings
   m_TagString: BuildingManager
@@ -1311,6 +1281,8 @@ MonoBehaviour:
   roomCost: 05000000190000000f000000140000000a0000000f000000
   draft: {fileID: 1660452709}
   UHWM: {fileID: 2115004571}
+  dPM: {fileID: 1573120408}
+  businessWorkerUIPrefab: {fileID: 3692229785340097197, guid: 64137b9e9daec974ba2c7d071a9ceb9b, type: 3}
 --- !u!4 &1849401927
 Transform:
   m_ObjectHideFlags: 0
@@ -1326,6 +1298,44 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1849401928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849401925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc2b2aef3a9a10b4eb863feb0e5bbb5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animalTypes:
+  - specie: 0
+    walkCycle: []
+    working: []
+    face:
+    - {fileID: -1015389182, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
+  - specie: 1
+    walkCycle: []
+    working: []
+    face:
+    - {fileID: -1959360459, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
+  - specie: 2
+    walkCycle: []
+    working: []
+    face:
+    - {fileID: -742838810, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
+  - specie: 3
+    walkCycle: []
+    working: []
+    face:
+    - {fileID: 526513674, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
+  - specie: 4
+    walkCycle: []
+    working: []
+    face:
+    - {fileID: 1362249164, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
 --- !u!1 &1927300035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1721,7 +1731,6 @@ MonoBehaviour:
   unhiredWorkers: []
   unhiredWUI: []
   selected: []
-  scrollParent: {fileID: 1128257878}
   names:
   - robby
   - gobby

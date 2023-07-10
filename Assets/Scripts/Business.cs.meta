@@ -3,7 +3,9 @@ guid: 01a6209f4250d1f47bbd27181cf0ff46
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - listBG: {instanceID: 0}
+  - businessWorkerUIPrefab: {fileID: 3692229785340097197, guid: 64137b9e9daec974ba2c7d071a9ceb9b, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
