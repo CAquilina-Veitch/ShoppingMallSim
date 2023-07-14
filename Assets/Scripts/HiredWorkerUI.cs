@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class HiredWorkerUI : MonoBehaviour
 {
-    WorkerInfo w;
+    [SerializeField] WorkerInfo w;
 
     Sprite[] workerSpecieSprites;
     [SerializeField] TextMeshProUGUI workerName;
@@ -33,15 +33,29 @@ public class HiredWorkerUI : MonoBehaviour
     {
         set
         {
-            w = value;
-            updateFace();
+            if(value.name != "null")
+            {
+                w = value;
+                updateFace();
+            }
+            else
+            {
+                BlankFace();
+            }
+
         }
         get
         {
             return w;
         }
     }
-
+    public void BlankFace()
+    {
+        //int tiredness = Mathf.RoundToInt((workerSpecieSprites.Length - 1 < 0 ? 0 : workerSpecieSprites.Length - 1) * w.energy);
+        icon.sprite = null;
+        workerName.text = "Empty";
+        level.text = null;
+    }
     public void updateFace()
     {
         int tiredness = Mathf.RoundToInt((workerSpecieSprites.Length - 1 < 0 ? 0 : workerSpecieSprites.Length - 1) * w.energy);
@@ -65,21 +79,22 @@ public class HiredWorkerUI : MonoBehaviour
                 scroller.velocity = Vector2.right * 100 * scroller.horizontalNormalizedPosition;
                 //scroller.horizontalNormalizedPosition = Mathf.Lerp(scroller.horizontalNormalizedPosition, 0, 0.5f);
                 overlay.SetActive(false);
-                //Debug.LogWarning("BB" + scroller.horizontalNormalizedPosition);
+                Debug.LogWarning("BB" + scroller.horizontalNormalizedPosition);
                 selected = false;
 
             }
         }
         else
         {
-            if (scroller.horizontalNormalizedPosition >= 0.95f)
+            if (scroller.horizontalNormalizedPosition <= 0.05f)
             {
                 overlay.SetActive(true);
-                //Debug.LogWarning("CC" + scroller.horizontalNormalizedPosition);
+                Debug.LogWarning("CC" + scroller.horizontalNormalizedPosition);
                 selected = true;
             }
             else
             {
+                Debug.LogWarning("BB" + scroller.horizontalNormalizedPosition);
                 overlay.SetActive(false);
                 selected = false;
             }

@@ -755,10 +755,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c8a38cf171fb6f4d966fa978bac74f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  w:
+    name: 
+    level: 0
+    specie: 0
+    energy: 0
   workerName: {fileID: 7688519299774567093}
   level: {fileID: 9071730197906024771}
-  icon: {fileID: 0}
-  overlay: {fileID: 6313240357773218752}
+  icon: {fileID: 5203275658376252658}
+  overlay: {fileID: 3235635321884472295}
   selected: 0
   bsns: {fileID: 0}
 --- !u!1 &4913400665208481587

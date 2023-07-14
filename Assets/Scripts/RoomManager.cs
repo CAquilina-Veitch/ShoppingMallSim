@@ -142,6 +142,7 @@ public class RoomManager : MonoBehaviour
 
             if (checkEmpty(clickedTile))
             {
+                //empty
                 if (draft.coord == clickedTile)
                 {
                     TryBuild(clickedTile);
@@ -152,20 +153,32 @@ public class RoomManager : MonoBehaviour
                 }
             }
             else
-            {
+            {   
+                //not empty
                 draft.draftVisibility(false);
+
                 
                 if (businesses.ContainsKey(clickedTile))
                 {
+                    
                     Debug.Log(5);
 
-                    if (UHWM.selected.Count > 0)
+                    if (occupiedDictionary[clickedTile].uiOpen)
                     {
-                        Debug.Log(6);
+                        if (UHWM.selected.Count > 0)
+                        {
+                            Debug.Log(6);
 
-                        //try to move the workers to here
-                        UHWM.TryDesignateSelectedWorkers(businesses[clickedTile]);
+                            //try to move the workers to here
+                            UHWM.TryDesignateSelectedWorkers(businesses[clickedTile]);
+                            businesses[clickedTile].UpdateWorkerUI();
+                        }
                     }
+                    else
+                    {
+                        occupiedDictionary[clickedTile].ShowBusinessUI(true);
+                    }
+                    
                 }
                 else
                 {

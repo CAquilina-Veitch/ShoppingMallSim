@@ -32,8 +32,8 @@ public class OccupiedSpace : MonoBehaviour
 
     public nodeData nodeInfo;
 
-
-
+    public bool uiOpen;
+    [SerializeField] GameObject BusinessCanvasOwner;
 
     private void OnEnable()
     {
@@ -114,4 +114,17 @@ public class OccupiedSpace : MonoBehaviour
 
 
     }
+
+    public void ShowBusinessUI(bool to)
+    {
+        uiOpen = to;
+        BusinessCanvasOwner.SetActive(uiOpen);
+
+
+    }
+    public void ShowBusinessUI()
+    {
+        ShowBusinessUI(!uiOpen);
+    }
+
 }

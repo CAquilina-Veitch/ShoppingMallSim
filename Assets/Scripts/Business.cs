@@ -49,8 +49,23 @@ public class Business : MonoBehaviour
             temp.GetComponent<HiredWorkerUI>().init(this);
 
             Debug.Log(i);
-            hiredWUI[i].info = hiredWorkers[i];
+            
             hiredWUI[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, i * -20);
+
+            if (hiredWorkers.Count>i)
+            {
+                hiredWUI[i].info = hiredWorkers[i];
+            }
+            else
+            {
+                hiredWUI[i].info = new WorkerInfo
+                {
+                    name = "null"
+                };
+            }
+
+
+
         }
         
     }
@@ -128,6 +143,29 @@ public class Business : MonoBehaviour
         listBG.gameObject.SetActive(interactionOpen);
     }
     
+    public void UpdateWorkerUI()
+    {
+        hiredWorkers.Sort((x, y) => y.level.CompareTo(x.level));
 
+        for (int i = 0; i < 3; i++)
+        {
+            Debug.Log(i);
+
+            if (hiredWorkers.Count > i)
+            {
+                hiredWUI[i].info = hiredWorkers[i];
+            }
+            else
+            {
+                hiredWUI[i].info = new WorkerInfo
+                {
+                    name = "null"
+                };
+            }
+
+
+
+        }
+    }
 
 }

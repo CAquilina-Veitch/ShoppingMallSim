@@ -37,7 +37,17 @@ public class UnhiredWorkers : MonoBehaviour
         if (listShowing)
         {
             //scrollParent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, unhiredWorkers.Count * 50); ////////////////////////////////////////////////// if scroll
-            listBG.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, unhiredWorkers.Count * 50);
+
+            float length = unhiredWorkers.Count * 50;
+            if (length > 0)
+            {
+                listBG.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, length);
+            }
+            else
+            {
+                listBG.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 20);
+            }
+            
 
 
             for(int i = 0; i < unhiredWorkers.Count; i++)
@@ -139,6 +149,7 @@ public class UnhiredWorkers : MonoBehaviour
             Destroy(who.gameObject);
 
         }
+        where.UpdateWorkerUI();
         
     }
 
@@ -198,7 +209,7 @@ public class UnhiredWorkers : MonoBehaviour
             for (float i = 0; i < timeDelay; i += 0.02f)
             {
                 float b = i / timeDelay;
-                float c = Mathf.Lerp(was, target, b);
+                float c = Mathf.Lerp(was, Mathf.Clamp(target, 20, Mathf.Infinity), b);
                 listBG.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, c);
 
                 for (int j = 0; j < unhiredWorkers.Count; j++)
