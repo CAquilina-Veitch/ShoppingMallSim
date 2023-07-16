@@ -92,7 +92,7 @@ public class RoomManager : MonoBehaviour
         OccupiedSpace temp = tileObj.GetComponent<OccupiedSpace>();
         temp.coord = coord;
         temp.rM = this;
-        temp.pathFrom = AdjacentPaths(coord);
+        temp.preExistingAdjPaths = AdjacentPaths(coord);
         occupiedDictionary.Add(coord, temp);
     }
     struct Room

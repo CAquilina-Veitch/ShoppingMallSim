@@ -17,7 +17,7 @@ public class OccupiedSpace : MonoBehaviour
     public int currentRoomHighlight;
 
 
-    public Vector2[] pathFrom;
+    public Vector2[] preExistingAdjPaths;
 
 
 
@@ -83,6 +83,8 @@ public class OccupiedSpace : MonoBehaviour
         {
             path = gameObject.AddComponent(typeof(Path)) as Path;
             path.oS = this;
+            //nodeinfo                             ----------------------------------------------------()
+            path.nodeInfo = new nodeData { };
             GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().pathAdd(path, coord);
             path.init();
             

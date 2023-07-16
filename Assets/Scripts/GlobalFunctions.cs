@@ -48,8 +48,20 @@ public static class GlobalFunctions
     }
     public static Vector2[] addToArrayEnd(this Vector2[] array, Vector2 added)
     {
-        Vector2[] temp = new Vector2[array.Length+1];
-        temp[temp.Length - 1] = added;
+        Vector2[] temp;
+        if (array == null)
+        {
+            temp = new Vector2[1] { added };
+        }
+        else
+        {
+            temp = new Vector2[array.Length + 1];
+            for (int i = 0; i < array.Length; i++)
+            {
+                temp[i] = array[i];
+            }
+            temp[temp.Length - 1] = added;
+        }
         return temp;
     }
 

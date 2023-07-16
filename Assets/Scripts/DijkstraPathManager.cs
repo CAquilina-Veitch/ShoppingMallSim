@@ -95,7 +95,7 @@ public class DijkstraPathManager : MonoBehaviour
                 float dist = distances[routes[currentRoute].ToArray().LastInt()] + Vector2.Distance(nodePoints[routes[currentRoute].ToArray().LastInt()], nodePoints[conn[i]]);
 
 
-                if (unvisitedNodes.Contains(conn[i]))
+                if (unvisitedNodes.Contains(conn[i]))
                 {
                     distances.Add(conn[i], dist);
                     finishedNode(conn[i]);
