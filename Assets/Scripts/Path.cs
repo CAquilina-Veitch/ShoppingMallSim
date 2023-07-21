@@ -48,14 +48,73 @@ public class Path : MonoBehaviour
         willBeNode = isEntrance ? true : willBeNode;
 
 
-        if()
 
 
         //check if its a junction of 2+ already existing paths;
+        if (prexisting.Length > 1)
+        {
+            willBeNode = true;
+        }
 
         //if it is, make it a node - add connections;
+        if (willBeNode)
+        {
+            //make it a node
 
-        // if it isnt, just add it to the path;
+            makeNode(isEntrance);
+            rM.NodePointID(coord);
+
+            if (isEntrance)//add connections
+            {
+                
+                //entrance
+                rM.changeEntrance(coord,isEntrance);
+
+                if (prexisting.Length == 0)
+                {
+                    nodeInfo = new nodeData { node = this.node, nodeCoord = coord, path = new Vector2[1] { coord } };
+                    oS.nodeInfo = nodeInfo;
+                    return;//first ever path
+                }
+/*                nodeInfo = rM.pathDictionary[prexisting[0]].nodeInfo;//gets the old path
+                nodeInfo.path = nodeInfo.path.addToArrayEnd(coord);//adds to end
+*/
+                rM.addConnection(nodeInfo.nodeCoord,coord);
+                node.addConnection(nodeInfo);
+
+            }
+            else
+            {
+                //junction
+                foreach(Vector2 touchingPath in prexisting)
+                {
+                    nodeInfo = rM.pathDictionary[touchingPath].nodeInfo;
+                    nodeInfo.path = nodeInfo.path.addToArrayEnd(coord);
+                    rM.addConnection(nodeInfo.nodeCoord, coord);
+                    node.addConnection(nodeInfo);
+                }
+
+
+            }
+            nodeInfo = new nodeData { node = this.node, nodeCoord = coord, path = new Vector2[1] { coord } };
+            oS.nodeInfo = nodeInfo;
+        }
+        else
+        {
+            // if it isnt, just add it to the path;
+            nodeInfo = rM.pathDictionary[prexisting[0]].nodeInfo;//gets the old path
+            nodeInfo.path = nodeInfo.path.addToArrayEnd(coord);//adds to end
+
+            //add to node
+            if (prexisting.Length > 1)
+            {
+                Debug.LogError("THIS SHOULDNT HAPPEN");
+            }
+
+            
+            node = rM.pathDictionary[prexisting[0]].node; 
+            node.addTile(oS);
+        }
 
 
 
@@ -111,13 +170,6 @@ public class Path : MonoBehaviour
 
                 }*/
 
-
-        if (willBeNode || isEntrance)
-        {
-            Debug.Log(1);
-            makeNode(true);
-        }
-
     }
 
 
@@ -135,10 +187,11 @@ public class Path : MonoBehaviour
             {
                 node.isEntrance = entrance;
             }
+            node.id=rM.NodePointID(coord);
         }
         else
         {
-            Debug.LogError("isnode");
+            Debug.LogError("isalrdynode");
         }
     }
 

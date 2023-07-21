@@ -13,6 +13,7 @@ public class DijkstraPathManager : MonoBehaviour
     public List<Business> activeBusinesses = new List<Business>();
     public List<Business> allBusinesses = new List<Business>();
 
+    [SerializeField] RoomManager rM;
     public void ChangeBusinessActivity(Business b, bool to)
     {
         if (to)
@@ -36,12 +37,25 @@ public class DijkstraPathManager : MonoBehaviour
 
     public int[] connectedNodes;
 
-
     private void Start()
     {
         shortestPath = FindShortestPath(new Vector2Int(0,2)).ToList();
 
         //connectedNodes = ConnectedNodeIDs(2);
+    }
+
+    Vector2[] pathToBusiness(Vector2 to, Vector2 from)
+    {
+        Business b = rM.occupiedDictionary[to].business;
+        nodeData toNodeInfo = rM.occupiedDictionary[to].nodeInfo;
+        nodeData fromNodeInfo = rM.occupiedDictionary[from].nodeInfo;
+        int toNodeID = NodePointID(to);
+        int fromNodeID = NodePointID(from);
+
+        Vector2Int fromto = new Vector2Int(fromNodeID,toNodeID);
+        int[] nodesInOrder = FindShortestPath(fromto);
+        ////////////////////////////////make this turn set of nodes into path of vectors
+        return new Vector2[1];
     }
 
     int[] FindShortestPath(Vector2Int fromTo)
@@ -90,9 +104,9 @@ public class DijkstraPathManager : MonoBehaviour
 
             for (int i = 0; i < conn.Length; i++)
             {
-                Debug.Log(distances[routes[currentRoute].ToArray().LastInt()]);
-                Debug.Log(Vector2.Distance(nodePoints[routes[currentRoute].ToArray().LastInt()], nodePoints[conn[i]]));
-                float dist = distances[routes[currentRoute].ToArray().LastInt()] + Vector2.Distance(nodePoints[routes[currentRoute].ToArray().LastInt()], nodePoints[conn[i]]);
+                Debug.Log(distances[routes[currentRoute].ToArray().Last()]);
+                Debug.Log(Vector2.Distance(nodePoints[routes[currentRoute].ToArray().Last()], nodePoints[conn[i]]));
+                float dist = distances[routes[currentRoute].ToArray().Last()] + Vector2.Distance(nodePoints[routes[currentRoute].ToArray().Last()], nodePoints[conn[i]]);
 
 
                 if (unvisitedNodes.Contains(conn[i]))
@@ -169,6 +183,20 @@ public class DijkstraPathManager : MonoBehaviour
     {
 
     }*/
+
+    public int NodePointID(Vector2 coord)
+    {
+        if (nodePoints.Contains(coord))
+        {
+            return nodePoints.IndexOf(coord);
+        }
+        else
+        {
+            nodePoints.Add(coord);
+            return nodePoints.IndexOf(coord);
+
+        }
+    }
 
 
 }

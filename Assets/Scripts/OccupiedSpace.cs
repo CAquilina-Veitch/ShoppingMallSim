@@ -78,13 +78,18 @@ public class OccupiedSpace : MonoBehaviour
         Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
 
         sR.sprite = workSprites[(int)cT + 1];
+        if (preExistingAdjPaths.Length != 0)
+        {
+            nodeInfo = rM.pathDictionary[preExistingAdjPaths[0]].nodeInfo;
+            nodeInfo.path = nodeInfo.path.addToArrayEnd(coord);
+        }
 
         if (cT == constructionType.Path)
         {
             path = gameObject.AddComponent(typeof(Path)) as Path;
             path.oS = this;
             //nodeinfo                             ----------------------------------------------------()
-            path.nodeInfo = new nodeData { };
+            path.nodeInfo = nodeInfo;
             GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().pathAdd(path, coord);
             path.init();
             
@@ -93,7 +98,9 @@ public class OccupiedSpace : MonoBehaviour
         {
             transform.GetChild(1).gameObject.SetActive(true);
             sR.sprite = roomSprites[currentRoomHighlight];
-
+            nodeInfo.node.addTile(this);
+            business.oS = this;
+            
         }
         else
         {

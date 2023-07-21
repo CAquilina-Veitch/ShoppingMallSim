@@ -65,7 +65,7 @@ public static class GlobalFunctions
         return temp;
     }
 
-    public static int LastInt(this int[] array)
+    public static int Last(this int[] array)
     {
         int temp;
         try
@@ -79,6 +79,62 @@ public static class GlobalFunctions
         }
         return temp;
     }
-
+    public static Vector2 Last(this Vector2[] array)
+    {
+        Vector2 temp;
+        try
+        {
+            temp = array[array.Length - 1];
+        }
+        catch
+        {
+            Debug.Log("AAA" + array);
+            temp = Vector2.negativeInfinity;
+        }
+        return temp;
+    }
+    public static Vector2 First(this Vector2[] array)
+    {
+        Vector2 temp;
+        try
+        {
+            temp = array[0];
+        }
+        catch
+        {
+            Debug.Log("AAA" + array);
+            temp = Vector2.negativeInfinity;
+        }
+        return temp;
+    }
+    public static Vector2 Flip(this Vector2 v)
+    {
+        return new Vector2(v.y, v.x);
+    }
+    public static bool ConnectionStartsHere(this nodeData to,Vector2 thisCoord)
+    {
+        return to.path.First() == thisCoord;
+    }
+    public static bool ConnectionEndsHere(this nodeData to,Vector2 thisCoord)
+    {
+        return to.path.Last() == thisCoord;
+    }
+    public static nodeData MakeConnectionStartHere(this nodeData was, Vector2 thisCoord)
+    {
+        nodeData temp = was;
+        if (ConnectionStartsHere(temp, thisCoord))
+        {
+            return temp;
+        }
+        else 
+        {
+            if (!ConnectionEndsHere(temp, thisCoord))
+            {
+                temp.path = temp.path.addToArrayEnd(thisCoord);
+            }
+            temp.path = orderArrayToCoord(temp.path, temp.nodeCoord);
+        }
+        return temp;
+    }
 
 }

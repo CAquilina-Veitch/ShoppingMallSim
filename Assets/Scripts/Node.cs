@@ -9,6 +9,7 @@ public struct nodeData
 }
 public class Node : MonoBehaviour
 {
+    public int id;
 
     public Vector2 coord;
     public OccupiedSpace tile;
@@ -16,10 +17,14 @@ public class Node : MonoBehaviour
 
     public List<OccupiedSpace> ownedTiles = new List<OccupiedSpace>();
 
-    public List<Node> nodes;
+    public List<Node> nodes = new List<Node>();
     public Dictionary<Node,Vector2[]> nodePaths = new Dictionary<Node, Vector2[]>();
+    public Dictionary<Node, nodeData> connectedNodes = new Dictionary<Node, nodeData>();
+    public List<nodeData> nodeConnections = new List<nodeData>();
 
     public Path path;
+
+    public RoomManager rM;
 
     private void OnEnable()
     {
@@ -37,11 +42,24 @@ public class Node : MonoBehaviour
         ownedTiles.Add(tile);
     }
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void addConnection(nodeData to)
     {
-        
+        if (rM == null)
+        {
+            rM = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>();
+        }
+
+        if (!nodes.Contains(to.node))
+        {
+            nodes.Add(to.node);
+        }
+        if (!connectedNodes.ContainsKey(to.node))
+        {
+            to = to.MakeConnectionStartHere(coord);
+            connectedNodes.Add(to.node, to);
+        }
+
+
     }
 
     // Update is called once per frame

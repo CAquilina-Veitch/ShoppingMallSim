@@ -102,8 +102,9 @@ public class RoomManager : MonoBehaviour
 
     public Dictionary<Vector2, OccupiedSpace> occupiedDictionary = new Dictionary<Vector2, OccupiedSpace>();
     public Dictionary<Vector2, Path> pathDictionary = new Dictionary<Vector2, Path>();
-    List<Vector2> entrances = new List<Vector2>();
+    public List<Vector2> entrances = new List<Vector2>();
     public Dictionary<Vector2, Business> businesses = new Dictionary<Vector2, Business>();
+
 
     public void changeEntrance(Vector2 coord, bool isEntrance)
     {
@@ -318,6 +319,26 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    public void addConnection(int to, int from)
+    {
+        Vector2 t = to < from ? new Vector2(to, from) : new Vector2(from, to);
+        if (!dPM.connections.Contains(t))
+        {
+            if (!dPM.connections.Contains(t.Flip()))
+            {
+                dPM.connections.Add(t);
+            }
+        }
+    }
+    public void addConnection(Vector2 toCoord, Vector2 fromCoord)
+    {
+        addConnection(NodePointID(toCoord), NodePointID(fromCoord));
+    }
+
+    public int NodePointID(Vector2 coord)
+    {
+        return dPM.NodePointID(coord);
+    }
 
 
 }

@@ -19,6 +19,7 @@ public struct WorkerInfo
 
 public class Business : MonoBehaviour
 {
+    public OccupiedSpace oS;
 
     public stockType stock;
     public int maxStock;
@@ -35,7 +36,6 @@ public class Business : MonoBehaviour
 
     bool interactionOpen = false;
     public RectTransform listBG;
-
     public void init()
     {
         GameObject businessWorkerUIPrefab = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().businessWorkerUIPrefab;
