@@ -31,16 +31,13 @@ public class Business : MonoBehaviour
 
     public bool businessActive;
 
-    DijkstraPathManager pM;
-
+    Customers c;
 
     bool interactionOpen = false;
     public RectTransform listBG;
     public void init()
     {
         GameObject businessWorkerUIPrefab = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().businessWorkerUIPrefab;
-        pM = GameObject.FindGameObjectWithTag("PathManager").GetComponent<DijkstraPathManager>();
-        pM.allBusinesses.Add(this);
         for (int i = 0; i < 3; i++)
         {
             Debug.LogWarning(listBG);
@@ -92,20 +89,20 @@ public class Business : MonoBehaviour
     public void ToggleActivity()
     {
         businessActive = !businessActive;
-        if (pM == null)
+        if (c == null)
         {
-            pM = GameObject.FindGameObjectWithTag("PathManager").GetComponent<DijkstraPathManager>();
+            c = GameObject.FindGameObjectWithTag("Customers").GetComponent<Customers>();
         }
-        pM.ChangeBusinessActivity(this, businessActive);
+        c.ChangeBusinessActivity(this, businessActive);
     }
     public void ToggleActivity(bool to)
     {
         businessActive = to;
-        if (pM == null)
+        if (c == null)
         {
-            pM = GameObject.FindGameObjectWithTag("PathManager").GetComponent<DijkstraPathManager>();
+            c = GameObject.FindGameObjectWithTag("Customers").GetComponent<Customers>();
         }
-        pM.ChangeBusinessActivity(this, businessActive);
+        c.ChangeBusinessActivity(this, businessActive);
 
     }
 

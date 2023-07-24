@@ -111,31 +111,7 @@ public static class GlobalFunctions
     {
         return new Vector2(v.y, v.x);
     }
-    public static bool ConnectionStartsHere(this nodeData to,Vector2 thisCoord)
-    {
-        return to.path.First() == thisCoord;
-    }
-    public static bool ConnectionEndsHere(this nodeData to,Vector2 thisCoord)
-    {
-        return to.path.Last() == thisCoord;
-    }
-    public static nodeData MakeConnectionStartHere(this nodeData was, Vector2 thisCoord)
-    {
-        nodeData temp = was;
-        if (ConnectionStartsHere(temp, thisCoord))
-        {
-            return temp;
-        }
-        else 
-        {
-            if (!ConnectionEndsHere(temp, thisCoord))
-            {
-                temp.path = temp.path.addToArrayEnd(thisCoord);
-            }
-            temp.path = orderArrayToCoord(temp.path, temp.nodeCoord);
-        }
-        return temp;
-    }
+
     
     public static Vector2[] AddArrayToArrayEnd(this Vector2[] array, Vector2[] arrayToAdd)
     {

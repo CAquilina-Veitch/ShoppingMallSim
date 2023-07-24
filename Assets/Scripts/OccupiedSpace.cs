@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class OccupiedSpace : MonoBehaviour
@@ -26,11 +27,7 @@ public class OccupiedSpace : MonoBehaviour
     [SerializeField] RectTransform bGList;
 
     //Pathstuff
-    public Node node;
     public Path path;
-
-
-    public nodeData nodeInfo;
 
 
 
@@ -84,23 +81,45 @@ public class OccupiedSpace : MonoBehaviour
     }
     public void chooseConstruction(constructionType cT)
     {
-        p.Add(coord);
         //hide canvas
         Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
 
         sR.sprite = workSprites[(int)cT + 1];
         if (preExistingAdjPaths.Length != 0)
         {
-            nodeInfo = rM.pathDictionary[preExistingAdjPaths[0]].nodeInfo;
-            nodeInfo.path = nodeInfo.path.addToArrayEnd(coord);
+            if (preExistingAdjPaths.Length > 1)
+            {
+                //junciton, choose shorter, then update them untill all are shorter
+
+                List<Vector2Int> pathAndLength = new List<Vector2Int>();
+                for(int i = 0; i < preExistingAdjPaths.Length; i++)
+                {
+                    Vector2Int temp = new Vector2Int(i, rM.occupiedDictionary[preExistingAdjPaths[i]].p.Count);
+                    pathAndLength.Add(temp);
+                }
+
+
+
+
+                p.Add(coord);
+
+            }
+            else
+            {
+                //not junction
+                p = rM.occupiedDictionary[preExistingAdjPaths[0]].p;
+                p.Add(coord);
+            }
+
+
+
         }
 
         if (cT == constructionType.Path)
         {
             path = gameObject.AddComponent(typeof(Path)) as Path;
             path.oS = this;
-            //nodeinfo                             ----------------------------------------------------()
-            path.nodeInfo = nodeInfo;
+
             GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().pathAdd(path, coord);
             path.init();
             
@@ -109,7 +128,7 @@ public class OccupiedSpace : MonoBehaviour
         {
             transform.GetChild(1).gameObject.SetActive(true);
             sR.sprite = roomSprites[currentRoomHighlight];
-            nodeInfo.node.addTile(this);
+
             business.oS = this;
             
         }

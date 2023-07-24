@@ -13,8 +13,6 @@ public class RoomManager : MonoBehaviour
     public DraftTile draft;
     [SerializeField] UnhiredWorkers UHWM;
 
-    [SerializeField] DijkstraPathManager dPM;
-
     public GameObject businessWorkerUIPrefab;
 
     public Dictionary<Vector2, OccupiedSpace> occupiedDictionary = new Dictionary<Vector2, OccupiedSpace>();
@@ -299,32 +297,8 @@ public class RoomManager : MonoBehaviour
         {
             businesses.Add(coord, b);
         }
-        if (!dPM.allBusinesses.Contains(b))
-        {
-            dPM.allBusinesses.Add(b);
-        }
     }
 
-    public void addConnection(int to, int from)
-    {
-        Vector2 t = to < from ? new Vector2(to, from) : new Vector2(from, to);
-        if (!dPM.connections.Contains(t))
-        {
-            if (!dPM.connections.Contains(t.Flip()))
-            {
-                dPM.connections.Add(t);
-            }
-        }
-    }
-    public void addConnection(Vector2 toCoord, Vector2 fromCoord)
-    {
-        addConnection(NodePointID(toCoord), NodePointID(fromCoord));
-    }
-
-    public int NodePointID(Vector2 coord)
-    {
-        return dPM.NodePointID(coord);
-    }
 
 
 }
