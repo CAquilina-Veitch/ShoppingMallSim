@@ -9,13 +9,7 @@ public class Path : MonoBehaviour
     public Vector2 coord;
     public Node node;
     public nodeData nodeInfo;
-    
-
-    public void switchPathIsEntrance(bool to)
-    {
-        oS.pathEntranceSprite(to);
-        rM.changeEntrance(coord, to);
-    }
+   
     public void created()
     {
 
@@ -40,136 +34,64 @@ public class Path : MonoBehaviour
         
 
 
-        bool willBeNode = prexisting.Length == 0; // first path, nothing is connected, make it node;
-
-        //if its an entrance make a node;
-        bool isEntrance = rM.checkAdjacentIsEmpty(coord);
-        switchPathIsEntrance(isEntrance);
-        willBeNode = isEntrance ? true : willBeNode;
-
-
-
-
-        //check if its a junction of 2+ already existing paths;
         if (prexisting.Length > 1)
         {
-            willBeNode = true;
-        }
-
-        //if it is, make it a node - add connections;
-        if (willBeNode)
-        {
-            //make it a node
-
-            makeNode(isEntrance);
             rM.NodePointID(coord);
+            makeNode();
+            //its a junction of 2+ already existing paths;
 
-            if (isEntrance)//add connections
+            // junction
+            foreach (Vector2 touchingPath in prexisting)
             {
-                
-                //entrance
-                rM.changeEntrance(coord,isEntrance);
-
-                if (prexisting.Length == 0)
-                {
-                    nodeInfo = new nodeData { node = this.node, nodeCoord = coord, path = new Vector2[1] { coord } };
-                    oS.nodeInfo = nodeInfo;
-                    return;//first ever path
-                }
-/*                nodeInfo = rM.pathDictionary[prexisting[0]].nodeInfo;//gets the old path
-                nodeInfo.path = nodeInfo.path.addToArrayEnd(coord);//adds to end
-*/
-                rM.addConnection(nodeInfo.nodeCoord,coord);
+                nodeInfo = rM.pathDictionary[touchingPath].nodeInfo;
+                nodeInfo.path = nodeInfo.path.addToArrayEnd(coord);
+                rM.addConnection(nodeInfo.nodeCoord, coord);
                 node.addConnection(nodeInfo);
-
             }
-            else
-            {
-                //junction
-                foreach(Vector2 touchingPath in prexisting)
-                {
-                    nodeInfo = rM.pathDictionary[touchingPath].nodeInfo;
-                    nodeInfo.path = nodeInfo.path.addToArrayEnd(coord);
-                    rM.addConnection(nodeInfo.nodeCoord, coord);
-                    node.addConnection(nodeInfo);
-                }
 
 
-            }
+        
             nodeInfo = new nodeData { node = this.node, nodeCoord = coord, path = new Vector2[1] { coord } };
             oS.nodeInfo = nodeInfo;
         }
-        else
+        else if(prexisting.Length == 0)
+        {
+            rM.NodePointID(coord);
+            makeNode();
+            // first path, nothing is connected, make it node, make it entrance;
+            //entrance
+            rM.SetEntrancePosition(coord);
+
+            if (prexisting.Length == 0)
+            {
+                nodeInfo = new nodeData { node = this.node, nodeCoord = coord, path = new Vector2[1] { coord } };
+                oS.nodeInfo = nodeInfo;
+                return;//first ever path
+            }
+            /*                nodeInfo = rM.pathDictionary[prexisting[0]].nodeInfo;//gets the old path
+                            nodeInfo.path = nodeInfo.path.addToArrayEnd(coord);//adds to end
+            */
+            rM.addConnection(nodeInfo.nodeCoord, coord);
+            node.addConnection(nodeInfo);
+
+
+            nodeInfo = new nodeData { node = this.node, nodeCoord = coord, path = new Vector2[1] { coord } };
+            oS.nodeInfo = nodeInfo;
+        }
+        else 
         {
             // if it isnt, just add it to the path;
             nodeInfo = rM.pathDictionary[prexisting[0]].nodeInfo;//gets the old path
             nodeInfo.path = nodeInfo.path.addToArrayEnd(coord);//adds to end
 
             //add to node
-            if (prexisting.Length > 1)
-            {
-                Debug.LogError("THIS SHOULDNT HAPPEN");
-            }
 
             
-            node = rM.pathDictionary[prexisting[0]].node; 
+            node = rM.pathDictionary[prexisting[0]].node;
+            Debug.Log(node);
+            Debug.Log(oS);
             node.addTile(oS);
         }
-
-
-
-
-
-
-
-
-
-
-        /*
-
-
-                if (nodeInfo.path.Length > 0)
-                {
-                    //this connects two existing paths;
-                    foreach (Vector2 p in nodeInfo.path)
-                    {
-                        //check each of the paths
-                        Debug.Log(rM.pathDictionary.ContainsKey(p));
-                        Debug.Log(this.gameObject + "checking out "+p);
-                        Debug.Log(rM.pathDictionary[p]);
-                        Debug.Log(rM.pathDictionary[p].nodeInfo);
-                        Debug.Log(rM.pathDictionary[p].nodeInfo.path);
-                        Debug.Log(rM.pathDictionary[p].nodeInfo.path.Length);
-                        if ()
-                        {
-
-                        }
-                        else
-                        {
-                            if (nodeInfo.path == null)
-                            {
-                                nodeInfo = rM.pathDictionary[p].nodeInfo;
-                                nodeInfo.path = nodeInfo.path.addToArrayEnd(coord);
-                            }
-                            else
-                            {
-                                if (nodeInfo.path.Length> rM.pathDictionary[p].nodeInfo.path.Length)
-                                {
-                                    nodeInfo = rM.pathDictionary[p].nodeInfo;
-                                    nodeInfo.path = nodeInfo.path.addToArrayEnd(coord);
-                                }
-                                else
-                                {
-                                    Debug.Log(123);
-                                }
-                            }
-                            nodeInfo = rM.pathDictionary[p].nodeInfo;
-                        }
-                    }
-
-
-                }*/
-
     }
 
 
@@ -177,16 +99,13 @@ public class Path : MonoBehaviour
     {
         return node != null;
     }
-    public void makeNode(bool entrance)
+    public void makeNode()
     {
+        Debug.LogWarning("NEW NODE");
         if (!IsNode())
         {
             node = gameObject.AddComponent(typeof(Node)) as Node;
             oS.node = node;
-            if (entrance)
-            {
-                node.isEntrance = entrance;
-            }
             node.id=rM.NodePointID(coord);
         }
         else

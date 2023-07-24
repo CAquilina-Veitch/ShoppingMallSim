@@ -40,14 +40,13 @@ public class OccupiedSpace : MonoBehaviour
         sR = GetComponentInChildren<SpriteRenderer>();
         sR.sprite = workSprites[0];
         rM = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>();
-        rM.updatePaths(coord);
 
 
 
     }
     public void pathEntranceSprite(bool to)
     {
-        sR.sprite = to ? workSprites[4] : workSprites[1];
+        sR.sprite = workSprites[4];
     }
 
 
@@ -73,7 +72,6 @@ public class OccupiedSpace : MonoBehaviour
     }
     public void chooseConstruction(constructionType cT)
     {
-        rM.updatePaths(coord);
         //hide canvas
         Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
 

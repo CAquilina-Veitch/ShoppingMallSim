@@ -39,25 +39,52 @@ public class DijkstraPathManager : MonoBehaviour
 
     private void Start()
     {
-        shortestPath = FindShortestPath(new Vector2Int(0,2)).ToList();
+        //shortestPath = FindShortestPath(new Vector2Int(0,2)).ToList();
 
         //connectedNodes = ConnectedNodeIDs(2);
     }
 
-    Vector2[] pathToBusiness(Vector2 to, Vector2 from)
+    public Vector2[] pathToBusiness(Vector2 to, Vector2 from)
     {
-        Business b = rM.occupiedDictionary[to].business;
+        Debug.Log("aaaaa");
+        /*Business b = rM.occupiedDictionary[to].business;
         nodeData toNodeInfo = rM.occupiedDictionary[to].nodeInfo;
-        nodeData fromNodeInfo = rM.occupiedDictionary[from].nodeInfo;
+        nodeData fromNodeInfo = rM.occupiedDictionary[from].nodeInfo;*/
         int toNodeID = NodePointID(to);
         int fromNodeID = NodePointID(from);
 
         Vector2Int fromto = new Vector2Int(fromNodeID,toNodeID);
         int[] nodesInOrder = FindShortestPath(fromto);
         ////////////////////////////////make this turn set of nodes into path of vectors
+        List<Vector2> positionPath = new List<Vector2>();
+        Vector2[] posPath = new Vector2[0];
+        foreach (int node in nodesInOrder)
+        {
+            //Vector2[] array = positionPath.ToArray();
+
+            posPath = posPath.AddArrayToArrayEnd(rM.occupiedDictionary[nodePoints[node]].nodeInfo.path);
+        }
+        string a = "";
+        foreach(Vector2 v in positionPath)
+        {
+            a += $"{v}";
+        }
+        Debug.Log(a);
+
+
+
+
+
         return new Vector2[1];
     }
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log("AAAAAAAAAA");
+            pathToBusiness(Vector2.right * 3, Vector2.zero);
+        }
+    }
     int[] FindShortestPath(Vector2Int fromTo)
     {
         

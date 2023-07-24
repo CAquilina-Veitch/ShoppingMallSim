@@ -102,22 +102,14 @@ public class RoomManager : MonoBehaviour
 
     public Dictionary<Vector2, OccupiedSpace> occupiedDictionary = new Dictionary<Vector2, OccupiedSpace>();
     public Dictionary<Vector2, Path> pathDictionary = new Dictionary<Vector2, Path>();
-    public List<Vector2> entrances = new List<Vector2>();
+    Vector2 entrancePosition = Vector2.zero;
     public Dictionary<Vector2, Business> businesses = new Dictionary<Vector2, Business>();
 
-
-    public void changeEntrance(Vector2 coord, bool isEntrance)
+    public void SetEntrancePosition(Vector2 coord)
     {
-        if (isEntrance)
-        {
-            entrances.Add(coord);
-        }
-        else
-        {
-            entrances.Remove(coord);
-        }
+        Debug.LogError($"CHANGING FROM {entrancePosition} to {coord}");
+        entrancePosition = coord;
     }
-
     void Start()
     {
         cam = Camera.main;
@@ -250,15 +242,7 @@ public class RoomManager : MonoBehaviour
         roomCost[(int)bT] = (int)(roomCost[(int)bT] * 1.2f);
         
     }
-
-    public void updatePaths(Vector2 coord)
-    {
-        foreach(Vector2 c in allAdjPaths(coord))
-        {
-            pathDictionary[c].switchPathIsEntrance(checkAdjacentIsEmpty(c));
-        }
-    }
-    
+       
 
     public Vector2 coordToTileCenterPos(Vector2 tapWorld)
     {

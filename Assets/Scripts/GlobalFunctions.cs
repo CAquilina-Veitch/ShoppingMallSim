@@ -136,5 +136,23 @@ public static class GlobalFunctions
         }
         return temp;
     }
+    
+    public static Vector2[] AddArrayToArrayEnd(this Vector2[] array, Vector2[] arrayToAdd)
+    {
+        List<Vector2> list = new List<Vector2>(array);
+
+        if (array.Length > 0 && arrayToAdd.Length > 0)
+        {
+            if (list[list.Count - 1] == arrayToAdd[0])
+            {
+                list.RemoveAt(list.Count - 1);
+            }
+        }
+
+        
+
+        list.AddRange(arrayToAdd);
+        return list.ToArray();
+    }
 
 }
