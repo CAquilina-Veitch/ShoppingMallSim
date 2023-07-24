@@ -50,24 +50,36 @@ public class DijkstraPathManager : MonoBehaviour
         /*Business b = rM.occupiedDictionary[to].business;
         nodeData toNodeInfo = rM.occupiedDictionary[to].nodeInfo;
         nodeData fromNodeInfo = rM.occupiedDictionary[from].nodeInfo;*/
-        int toNodeID = NodePointID(to);
-        int fromNodeID = NodePointID(from);
+
+
+
+
+        int toNodeID = NodePointID(rM.occupiedDictionary[to].nodeInfo.nodeCoord);
+        int fromNodeID = NodePointID(rM.occupiedDictionary[from].nodeInfo.nodeCoord);
 
         Vector2Int fromto = new Vector2Int(fromNodeID,toNodeID);
         int[] nodesInOrder = FindShortestPath(fromto);
         ////////////////////////////////make this turn set of nodes into path of vectors
         List<Vector2> positionPath = new List<Vector2>();
         Vector2[] posPath = new Vector2[0];
+
+        string d = "";
+
         foreach (int node in nodesInOrder)
         {
             //Vector2[] array = positionPath.ToArray();
+
+            foreach (Vector2 v in positionPath)
+            {
+                d = $"{d}:{v}";
+            }
 
             posPath = posPath.AddArrayToArrayEnd(rM.occupiedDictionary[nodePoints[node]].nodeInfo.path);
         }
         string a = "";
         foreach(Vector2 v in positionPath)
         {
-            a += $"{v}";
+            a = $"{a}:{v}";
         }
         Debug.Log(a);
 
@@ -137,7 +149,8 @@ public class DijkstraPathManager : MonoBehaviour
 
 
                 if (unvisitedNodes.Contains(conn[i]))
-                {
+                {                    Debug.Log($"Added distance from {conn[i]} to {dist} ");
+                    Debug.Log(distances.Keys.Count);
                     distances.Add(conn[i], dist);
                     finishedNode(conn[i]);
                 }

@@ -32,8 +32,20 @@ public class OccupiedSpace : MonoBehaviour
 
     public nodeData nodeInfo;
 
+
+
     public bool uiOpen;
     [SerializeField] GameObject BusinessCanvasOwner;
+
+    //Second node thing
+    public List<Vector2> p = new List<Vector2>();
+
+
+
+
+
+
+
 
     private void OnEnable()
     {
@@ -72,6 +84,7 @@ public class OccupiedSpace : MonoBehaviour
     }
     public void chooseConstruction(constructionType cT)
     {
+        p.Add(coord);
         //hide canvas
         Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
 

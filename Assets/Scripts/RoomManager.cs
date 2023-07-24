@@ -17,6 +17,10 @@ public class RoomManager : MonoBehaviour
 
     public GameObject businessWorkerUIPrefab;
 
+    public Dictionary<Vector2, OccupiedSpace> occupiedDictionary = new Dictionary<Vector2, OccupiedSpace>();
+    public Dictionary<Vector2, Path> pathDictionary = new Dictionary<Vector2, Path>();
+    Vector2 entrancePosition = Vector2.zero;
+    public Dictionary<Vector2, Business> businesses = new Dictionary<Vector2, Business>();
 
     public void pathAdd(Path path, Vector2 CO)
     {
@@ -93,6 +97,7 @@ public class RoomManager : MonoBehaviour
         temp.coord = coord;
         temp.rM = this;
         temp.preExistingAdjPaths = AdjacentPaths(coord);
+        Debug.LogWarning(coord + "ADDED");
         occupiedDictionary.Add(coord, temp);
     }
     struct Room
@@ -100,10 +105,7 @@ public class RoomManager : MonoBehaviour
        public businessTypes type; 
     }
 
-    public Dictionary<Vector2, OccupiedSpace> occupiedDictionary = new Dictionary<Vector2, OccupiedSpace>();
-    public Dictionary<Vector2, Path> pathDictionary = new Dictionary<Vector2, Path>();
-    Vector2 entrancePosition = Vector2.zero;
-    public Dictionary<Vector2, Business> businesses = new Dictionary<Vector2, Business>();
+
 
     public void SetEntrancePosition(Vector2 coord)
     {
