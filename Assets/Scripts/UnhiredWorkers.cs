@@ -18,9 +18,6 @@ public class UnhiredWorkers : MonoBehaviour
     int maxWorkers = 6;
     int maxWorkersBusiness = 3;
 
-
-    public string[] names = { "robby", "gobby", "jobby", "yobby", "hobby", "fobby", "cobbie" };
-
     public int currentAvgLevel;
 
     [SerializeField] RectTransform listBG;
@@ -101,16 +98,7 @@ public class UnhiredWorkers : MonoBehaviour
         return currentAvgLevel + Random.Range(-2, 3);
     }
 
-    public WorkerInfo RandomNewWorker()
-    {
-        return new WorkerInfo
-        {
-            name = names[Random.Range(0, names.Length)],
-            level = randomAvgLevel(),
-            specie = (species)Random.Range(0, System.Enum.GetValues(typeof(species)).Length),
-            energy = 1f
-        };
-    }
+
 
     public void TryDesignateSelectedWorkers(Business b)
     {
@@ -181,9 +169,9 @@ public class UnhiredWorkers : MonoBehaviour
 
     private void Start()
     {
-        collectWorker(RandomNewWorker());
-        collectWorker(RandomNewWorker());
-        collectWorker(RandomNewWorker());
+        collectWorker(GlobalFunctions.RandomNewWorker(0));
+        collectWorker(GlobalFunctions.RandomNewWorker(0));
+        collectWorker(GlobalFunctions.RandomNewWorker(0));
     }
 
 

@@ -4,19 +4,35 @@ using UnityEngine;
 
 public class Customers : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    List<Business> activeBusinesses;
+    List<CustomerNPC> walkers;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] GameObject customerPrefab;
+
     public void ChangeBusinessActivity(Business b, bool to)
     {
-
+        if (!activeBusinesses.Contains(b) && to)
+        {
+            activeBusinesses.Add(b);
+        }
+        else if (activeBusinesses.Contains(b)&&!to)
+        {
+            activeBusinesses.Remove(b);
+        }
+        else
+        {
+            Debug.LogError($"!!!!!! {b} ,{activeBusinesses.Contains(b)} - exists , {to}");
+        }
     }
+
+    public void StartCustomer()
+    {
+        Business target = activeBusinesses[Random.Range(0, activeBusinesses.Count)];
+        GameObject temp = Instantiate(customerPrefab, transform);
+        walkers.Add(temp.GetComponent<CustomerNPC>());
+    }
+
+
+
+
 }

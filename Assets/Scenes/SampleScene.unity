@@ -898,8 +898,8 @@ GameObject:
   - component: {fileID: 1573120407}
   - component: {fileID: 1573120408}
   m_Layer: 0
-  m_Name: Pathing algorithm
-  m_TagString: PathManager
+  m_Name: PeopleSpawner
+  m_TagString: Customers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -928,16 +928,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1573120405}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fedf543a9f4af84597c625565be7f0c, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fd55ca4642d4344da6191275bbee00a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeBusinesses: []
-  allBusinesses: []
-  rM: {fileID: 1849401926}
-  nodePoints: []
-  connections: []
-  shortestPath: 
-  connectedNodes: 
+  customerPrefab: {fileID: 0}
 --- !u!1 &1660452706
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,7 +1268,6 @@ MonoBehaviour:
   roomCost: 05000000190000000f000000140000000a0000000f000000
   draft: {fileID: 1660452709}
   UHWM: {fileID: 2115004571}
-  dPM: {fileID: 1573120408}
   businessWorkerUIPrefab: {fileID: 3692229785340097197, guid: 64137b9e9daec974ba2c7d071a9ceb9b, type: 3}
 --- !u!4 &1849401927
 Transform:
@@ -1329,6 +1322,103 @@ MonoBehaviour:
     working: []
     face:
     - {fileID: 1362249164, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
+--- !u!1 &1916700607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1916700610}
+  - component: {fileID: 1916700609}
+  - component: {fileID: 1916700608}
+  m_Layer: 0
+  m_Name: CustomerNPC
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1916700608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916700607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a95d3ad8a6719244b9232108e0c9da0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!212 &1916700609
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916700607}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 526513674, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.92, y: 1.8}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1916700610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916700607}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.054902475, y: -1.2735811, z: 0.03476473}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1927300035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1724,14 +1814,6 @@ MonoBehaviour:
   unhiredWorkers: []
   unhiredWUI: []
   selected: []
-  names:
-  - robby
-  - gobby
-  - jobby
-  - yobby
-  - hobby
-  - fobby
-  - cobbie
   currentAvgLevel: 0
   listBG: {fileID: 62716095}
   workerUIPrefab: {fileID: 5468759884886885790, guid: 72ae2ccbe36fc814eb55499de7544e94, type: 3}

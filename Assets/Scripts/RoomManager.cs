@@ -17,7 +17,7 @@ public class RoomManager : MonoBehaviour
 
     public Dictionary<Vector2, OccupiedSpace> occupiedDictionary = new Dictionary<Vector2, OccupiedSpace>();
     public Dictionary<Vector2, Path> pathDictionary = new Dictionary<Vector2, Path>();
-    Vector2 entrancePosition = Vector2.zero;
+
     public Dictionary<Vector2, Business> businesses = new Dictionary<Vector2, Business>();
 
     public void pathAdd(Path path, Vector2 CO)
@@ -49,17 +49,28 @@ public class RoomManager : MonoBehaviour
     }
     public Vector2[] AdjacentPaths(Vector2 coordinate)
     {
+        Debug.Log(1);
         if (coordinate.x < 0 || coordinate.y < 0)
         {
             return new Vector2[0];
         }
+        Debug.Log(2);
+
         Vector2[] Adj = { Vector2.left, Vector2.down, Vector2.right, Vector2.up };
         List<Vector2> temp = new List<Vector2>();
         foreach (Vector2 v in Adj)
         {
+            Debug.Log(v);
+
             if (pathDictionary.ContainsKey(coordinate + v))
             {
+                Debug.Log($"{coordinate+v}fouund");
+
                 temp.Add(coordinate + v);
+            }
+            else
+            {
+                Debug.Log($"{coordinate+v} not found");
             }
         }
         return temp.ToArray();
@@ -103,13 +114,6 @@ public class RoomManager : MonoBehaviour
        public businessTypes type; 
     }
 
-
-
-    public void SetEntrancePosition(Vector2 coord)
-    {
-        Debug.LogError($"CHANGING FROM {entrancePosition} to {coord}");
-        entrancePosition = coord;
-    }
     void Start()
     {
         cam = Camera.main;

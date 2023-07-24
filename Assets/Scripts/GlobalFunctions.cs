@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class GlobalFunctions
@@ -130,5 +131,39 @@ public static class GlobalFunctions
         list.AddRange(arrayToAdd);
         return list.ToArray();
     }
+    static string[][] nameSegments =
+    {
+        new string[]
+        {
+            "c","b","r","g","j","l","w","sh","bl","n","fr","f","k","s","p"
+        },
+        new string[]
+        {
+            "o","i","u","e"
+        },
+        new string[]
+        {
+            "bb","dd","ff","ch","pp","rt","sh","ll","l","d"
+        },new string[]
+        {
+            "y","s","ie","er","olas","opher"
+        }
 
+    };
+    public static WorkerInfo RandomNewWorker(int lvl)
+    {
+        string _name = "";
+        for(int i = 0; i < nameSegments.Count(); i++)
+        {
+            Debug.Log(i);
+            _name = $"{_name}{nameSegments[i][Random.Range(0, nameSegments[i].Count())]}";
+        }
+        return new WorkerInfo
+        {
+            name = _name,
+            level = lvl+Random.Range(-2,2),
+            specie = (species)Random.Range(0, System.Enum.GetValues(typeof(species)).Length),
+            energy = 1f
+        };
+    }
 }

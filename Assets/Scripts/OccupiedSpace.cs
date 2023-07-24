@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
@@ -36,7 +37,6 @@ public class OccupiedSpace : MonoBehaviour
 
     //Second node thing
     public List<Vector2> p = new List<Vector2>();
-
 
 
 
@@ -85,35 +85,6 @@ public class OccupiedSpace : MonoBehaviour
         Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
 
         sR.sprite = workSprites[(int)cT + 1];
-        if (preExistingAdjPaths.Length != 0)
-        {
-            if (preExistingAdjPaths.Length > 1)
-            {
-                //junciton, choose shorter, then update them untill all are shorter
-
-                List<Vector2Int> pathAndLength = new List<Vector2Int>();
-                for(int i = 0; i < preExistingAdjPaths.Length; i++)
-                {
-                    Vector2Int temp = new Vector2Int(i, rM.occupiedDictionary[preExistingAdjPaths[i]].p.Count);
-                    pathAndLength.Add(temp);
-                }
-
-
-
-
-                p.Add(coord);
-
-            }
-            else
-            {
-                //not junction
-                p = rM.occupiedDictionary[preExistingAdjPaths[0]].p;
-                p.Add(coord);
-            }
-
-
-
-        }
 
         if (cT == constructionType.Path)
         {
@@ -121,20 +92,116 @@ public class OccupiedSpace : MonoBehaviour
             path.oS = this;
 
             GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().pathAdd(path, coord);
+            if (preExistingAdjPaths.Length != 0)
+            {
+                if (preExistingAdjPaths.Length > 1)
+                {
+                    //junciton, choose shorter, then update them until all are shorter
+
+                    List<Vector2Int> pathAndLength = new List<Vector2Int>();
+                    for (int i = 0; i < preExistingAdjPaths.Length; i++)
+                    {
+                        Vector2Int temp = new Vector2Int(i, rM.occupiedDictionary[preExistingAdjPaths[i]].p.Count);
+                        pathAndLength.Add(temp);
+                    }
+
+
+
+                    pathAndLength.Sort((a, b) => a.y.CompareTo(b.y));
+
+                    Debug.Log($"{pathAndLength[0]} first, last {pathAndLength[pathAndLength.Count - 1]}");
+
+                        p = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[0].x]].p)
+                        {
+                            coord//adds coord on end
+                        };
+
+                    //update others
+                    for (int i = 1; i < pathAndLength.Count; i++)
+                    {
+                        if (p.Count + 1 < pathAndLength[i].y)
+                        {
+                            rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[i].x]].UpdateLength(coord);
+                        }
+                    }
+
+                }
+                else
+                {
+                    //not junction
+                    p = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[0]].p)
+                    {
+                        coord//adds coord on end
+                    };
+                }
+
+
+
+            }
+            else
+            {
+                p = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[0]].p) { coord };
+            }
             path.init();
-            
         }
         else if(cT == constructionType.Business)
         {
             transform.GetChild(1).gameObject.SetActive(true);
             sR.sprite = roomSprites[currentRoomHighlight];
-
+            p.Add(coord);
+            business = gameObject.AddComponent(typeof(Business)) as Business;
             business.oS = this;
             
         }
         else
         {
 
+        }
+    }
+    public void UpdateLength(Vector2 coordReqFrom)
+    {
+        Debug.LogError($"{coord} 1");
+        preExistingAdjPaths = rM.AdjacentPaths(coord);
+        
+        Debug.LogError(preExistingAdjPaths.Count());
+
+
+        List<Vector2Int> pathAndLength = new List<Vector2Int>();
+        for (int i = 0; i < preExistingAdjPaths.Length; i++)
+        {
+            Vector2Int temp = new Vector2Int(i, rM.occupiedDictionary[preExistingAdjPaths[i]].p.Count);
+            Debug.Log(temp);
+            pathAndLength.Add(temp);
+        }
+
+
+
+        pathAndLength.Sort((a, b) => a.y.CompareTo(b.y));
+
+        Debug.LogWarning($"{pathAndLength[0]} first, last {pathAndLength[pathAndLength.Count - 1]}, length of {pathAndLength.Count}");
+
+        p = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[0].x]].p)
+        {
+            coord//adds coord on end
+        };
+        Debug.LogWarning($"{coord} 2");
+        //update others
+        for (int i = 1; i < pathAndLength.Count; i++)
+        {
+            Debug.LogWarning($"{coord} 3");
+
+            if (p.Count + 1 < pathAndLength[i].y)
+            {
+                Debug.LogWarning($"{coord} 4");
+
+                if (coord != coordReqFrom)
+                {
+                    Debug.LogWarning($"{coord} 5");
+
+                    rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[i].x]].UpdateLength(coord);
+                }
+               
+            }
         }
     }
 
@@ -145,7 +212,7 @@ public class OccupiedSpace : MonoBehaviour
         Debug.Log(1);
         Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
 
-        business = gameObject.AddComponent(typeof(Business)) as Business;
+
         rM.AddBusiness(business, coord);
         business.listBG = bGList;
         business.init();
@@ -165,5 +232,8 @@ public class OccupiedSpace : MonoBehaviour
     {
         ShowBusinessUI(!uiOpen);
     }
+
+
+
 
 }
