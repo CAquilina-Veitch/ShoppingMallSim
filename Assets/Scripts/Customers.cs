@@ -25,14 +25,21 @@ public class Customers : MonoBehaviour
         }
     }
 
-    public void StartCustomer()
+    public void StartNewCustomer()
     {
         Business target = activeBusinesses[Random.Range(0, activeBusinesses.Count)];
         GameObject temp = Instantiate(customerPrefab, transform);
         walkers.Add(temp.GetComponent<CustomerNPC>());
+        temp.GetComponent<CustomerNPC>().init(target);
     }
 
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            StartNewCustomer();
+        }
+    }
 
 
 }

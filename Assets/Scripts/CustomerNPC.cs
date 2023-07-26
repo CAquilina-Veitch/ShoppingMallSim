@@ -24,9 +24,13 @@ public class CustomerNPC : MonoBehaviour
         toCoord = Vector2.zero;
         t = 0;
         sR.enabled = true;
-        foreach(Vector2 v in path)
+        for(int i = 0;i<path.Length;i++)
         {
+            transform.position = toCoord;
+            fromCoord = path[i];
+            toCoord = path[i];
             t = 0;
+            yield return new WaitForSeconds(timePerTile);
         }
     }
     public void FixedUpdate()
@@ -36,9 +40,13 @@ public class CustomerNPC : MonoBehaviour
             t += timePerTile / 0.02f;
             if (t > 1)
             {
-                t = 1;
+                t = 3;
+                transform.position = Vector2.Lerp(fromCoord, toCoord, 1);
             }
-            transform.position = Vector2.Lerp(fromCoord, toCoord, t);
+            else
+            {
+                transform.position = Vector2.Lerp(fromCoord, toCoord, t);
+            }
         }
     }
 
