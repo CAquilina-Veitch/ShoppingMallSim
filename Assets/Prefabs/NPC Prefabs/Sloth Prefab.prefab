@@ -116,7 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5785844174345247491}
   m_Layer: 0
-  m_Name: Chicken Prefab
+  m_Name: Sloth Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
