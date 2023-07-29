@@ -13,7 +13,7 @@ public class CustomerNPC : MonoBehaviour
     public void init(Business goal)
     {
         business = goal;
-        path = business.oS.p.ToArray();
+        path = business.oS.pathFromEntrance.ToArray();
         StartCoroutine(walkPath());
     }
 

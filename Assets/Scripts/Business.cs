@@ -21,9 +21,9 @@ public class Business : MonoBehaviour
 {
     public OccupiedSpace oS;
 
-    public stockType stock;
-    public int maxStock;
-    public int currentStock;
+
+    public stockInfo stockDetails;
+
 
     public List<WorkerInfo> hiredWorkers = new List<WorkerInfo>();
     public List<WorkerInfo> activeWorkers = new List<WorkerInfo>();
@@ -35,8 +35,12 @@ public class Business : MonoBehaviour
 
     bool interactionOpen = false;
     public RectTransform listBG;
+    Transform canvasesOwner;
+
+    public shopUI shopGUI;
     public void init()
     {
+        canvasesOwner = listBG.parent;
         GameObject businessWorkerUIPrefab = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().businessWorkerUIPrefab;
         for (int i = 0; i < 3; i++)
         {
@@ -45,7 +49,7 @@ public class Business : MonoBehaviour
             hiredWUI.Add(temp.GetComponent<HiredWorkerUI>());
             temp.GetComponent<HiredWorkerUI>().init(this);
 
-            Debug.Log(i);
+            Debug.Log($"business init new worker{i}");
             
             hiredWUI[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, i * -20);
 
@@ -71,14 +75,14 @@ public class Business : MonoBehaviour
     {
         if (!businessActive)
         {
-            if (activeWorkers.Count  > 0 && currentStock > 0)
+            if (activeWorkers.Count > 0 && stockDetails.amount > 0)
             {
                 ToggleActivity(true);
             }
         }
         else
         {
-            if (activeWorkers.Count == 0 || currentStock <= 0)
+            if (activeWorkers.Count == 0 || stockDetails.amount <= 0)
             {
                 ToggleActivity(false);
             }
@@ -123,10 +127,11 @@ public class Business : MonoBehaviour
         {
             for (int i = 0; i < 3; i++)
             {
+                Debug.Log($"setting hired worker {i} of {hiredWUI.Count} to {i} of {hiredWorkers.Count}");
                 hiredWUI[i].info = hiredWorkers[i];
                 hiredWUI[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, i * -50);
             }
-            if (hiredWUI.Count > hiredWUI.Count)
+            if (hiredWUI.Count > hiredWUI.Count) //                                                            <<<<<<<<<        ??????????????????????????????????????????????????????????????????????????????????????
             {
                 hiredWUI.RemoveRange(hiredWUI.Count - 1, hiredWUI.Count - hiredWUI.Count);
             }
@@ -137,7 +142,7 @@ public class Business : MonoBehaviour
 
         }
 
-        listBG.gameObject.SetActive(interactionOpen);
+         listBG.gameObject.SetActive(interactionOpen);
     }
     
     public void UpdateWorkerUI()

@@ -158,7 +158,7 @@ public class RoomManager : MonoBehaviour
                 if (businesses.ContainsKey(clickedTile))
                 {
                     
-                    Debug.Log(5);
+                    Debug.Log("there is abusiness now");
 
                     if (occupiedDictionary[clickedTile].uiOpen)
                     {
@@ -173,13 +173,14 @@ public class RoomManager : MonoBehaviour
                     }
                     else
                     {
-                        occupiedDictionary[clickedTile].ShowBusinessUI(true);
+                        businesses[clickedTile].Interact(true);
                     }
                     
                 }
                 else
                 {
-                    Debug.Log(4);
+                    Debug.Log("businesses doesnt contain def for this coord");
+
                 }
                 
                 

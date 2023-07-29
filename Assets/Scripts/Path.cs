@@ -23,7 +23,7 @@ public class Path : MonoBehaviour
         rM = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>();
         oS = GetComponent<OccupiedSpace>();
         coord = oS.coord;
-        Debug.Log(1);
+        Debug.Log("path inited");
 
     }
 

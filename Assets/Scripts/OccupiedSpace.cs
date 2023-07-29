@@ -33,11 +33,11 @@ public class OccupiedSpace : MonoBehaviour
 
 
     public bool uiOpen;
-    [SerializeField] GameObject BusinessCanvasOwner;
+    [SerializeField] GameObject businessCanvasOwner;
+    [SerializeField] shopUI shop;
 
     //Second node thing
-    public List<Vector2> p = new List<Vector2>();
-
+    public List<Vector2> pathFromEntrance = new List<Vector2>();
 
 
 
@@ -101,7 +101,7 @@ public class OccupiedSpace : MonoBehaviour
                     List<Vector2Int> pathAndLength = new List<Vector2Int>();
                     for (int i = 0; i < preExistingAdjPaths.Length; i++)
                     {
-                        Vector2Int temp = new Vector2Int(i, rM.occupiedDictionary[preExistingAdjPaths[i]].p.Count);
+                        Vector2Int temp = new Vector2Int(i, rM.occupiedDictionary[preExistingAdjPaths[i]].pathFromEntrance.Count);
                         pathAndLength.Add(temp);
                     }
 
@@ -111,7 +111,7 @@ public class OccupiedSpace : MonoBehaviour
 
                     Debug.Log($"{pathAndLength[0]} first, last {pathAndLength[pathAndLength.Count - 1]}");
 
-                        p = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[0].x]].p)
+                    pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[0].x]].pathFromEntrance)
                         {
                             coord//adds coord on end
                         };
@@ -119,7 +119,7 @@ public class OccupiedSpace : MonoBehaviour
                     //update others
                     for (int i = 1; i < pathAndLength.Count; i++)
                     {
-                        if (p.Count + 1 < pathAndLength[i].y)
+                        if (pathFromEntrance.Count + 1 < pathAndLength[i].y)
                         {
                             rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[i].x]].UpdateLength(coord);
                         }
@@ -129,7 +129,7 @@ public class OccupiedSpace : MonoBehaviour
                 else
                 {
                     //not junction
-                    p = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[0]].p)
+                    pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[0]].pathFromEntrance)
                     {
                         coord//adds coord on end
                     };
@@ -140,7 +140,7 @@ public class OccupiedSpace : MonoBehaviour
             }
             else
             {
-                p = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[0]].p) { coord };
+                pathFromEntrance = new List<Vector2>() { coord };
             }
             path.init();
         }
@@ -148,10 +148,10 @@ public class OccupiedSpace : MonoBehaviour
         {
             transform.GetChild(1).gameObject.SetActive(true);
             sR.sprite = roomSprites[currentRoomHighlight];
-            p.Add(coord);
+            pathFromEntrance.Add(coord);
             business = gameObject.AddComponent(typeof(Business)) as Business;
             business.oS = this;
-            
+            business.shopGUI = shop;
         }
         else
         {
@@ -169,7 +169,7 @@ public class OccupiedSpace : MonoBehaviour
         List<Vector2Int> pathAndLength = new List<Vector2Int>();
         for (int i = 0; i < preExistingAdjPaths.Length; i++)
         {
-            Vector2Int temp = new Vector2Int(i, rM.occupiedDictionary[preExistingAdjPaths[i]].p.Count);
+            Vector2Int temp = new Vector2Int(i, rM.occupiedDictionary[preExistingAdjPaths[i]].pathFromEntrance.Count);
             Debug.Log(temp);
             pathAndLength.Add(temp);
         }
@@ -180,7 +180,7 @@ public class OccupiedSpace : MonoBehaviour
 
         Debug.LogWarning($"{pathAndLength[0]} first, last {pathAndLength[pathAndLength.Count - 1]}, length of {pathAndLength.Count}");
 
-        p = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[0].x]].p)
+        pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[0].x]].pathFromEntrance)
         {
             coord//adds coord on end
         };
@@ -190,7 +190,7 @@ public class OccupiedSpace : MonoBehaviour
         {
             Debug.LogWarning($"{coord} 3");
 
-            if (p.Count + 1 < pathAndLength[i].y)
+            if (pathFromEntrance.Count + 1 < pathAndLength[i].y)
             {
                 Debug.LogWarning($"{coord} 4");
 
@@ -224,7 +224,7 @@ public class OccupiedSpace : MonoBehaviour
     public void ShowBusinessUI(bool to)
     {
         uiOpen = to;
-        BusinessCanvasOwner.SetActive(uiOpen);
+        businessCanvasOwner.SetActive(uiOpen);
 
 
     }

@@ -27,6 +27,10 @@ public class Customers : MonoBehaviour
 
     public void StartNewCustomer()
     {
+        if (activeBusinesses.Count == 0)
+        {
+            return;
+        }
         Business target = activeBusinesses[Random.Range(0, activeBusinesses.Count)];
         GameObject temp = Instantiate(customerPrefab, transform);
         walkers.Add(temp.GetComponent<CustomerNPC>());
