@@ -5,7 +5,7 @@ using System;
 
 public enum species
 {
-    cat, dog, frog, bear, panda
+    bee, bunny, cat, chicken, creature, deer, monkey, shark, sloth
 }
 [Serializable]
 public struct animalType
@@ -13,7 +13,8 @@ public struct animalType
     public species specie;
     public Sprite[] walkCycleBack;
     public Sprite[] walkCycleForward;
-    public Sprite[] working;
+    public Sprite[] workingForward;
+    public Sprite[] workingBackward;
     public Sprite[] face;
 }
 
