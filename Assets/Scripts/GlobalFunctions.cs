@@ -152,6 +152,7 @@ public static class GlobalFunctions
     };
     public static WorkerInfo RandomNewWorker(int lvl)
     {
+        //Debug.Log("worker" + ((species)Random.Range(0, System.Enum.GetValues(typeof(species)).Length)));
         string _name = "";
         for(int i = 0; i < nameSegments.Count(); i++)
         {
@@ -164,6 +165,6 @@ public static class GlobalFunctions
             level = lvl+Random.Range(-2,2),
             specie = (species)Random.Range(0, System.Enum.GetValues(typeof(species)).Length),
             energy = 1f
-        };
+    };
     }
 }
