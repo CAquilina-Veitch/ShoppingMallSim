@@ -17,6 +17,10 @@ public class Wallet : MonoBehaviour
     private float textTransitionTime = 0.2f;
     float s,p;
 
+    public void Start()
+    {
+        Currency += 100;
+    }
 
     public int Currency
     {
