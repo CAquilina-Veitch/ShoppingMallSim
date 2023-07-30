@@ -11,13 +11,13 @@ public class DailySpin : MonoBehaviour
     {
         prespin, spinning,finished
     };
-    [SerializeField] stage currentStage;
-    [SerializeField] float rotation;
-    [SerializeField] float speed = 5;
+    stage currentStage;
+    float rotation;
+    float speed = 5;
     float startSpeed;
     float result;
 
-    [SerializeField] float timeRemaining = 0;
+    float timeRemaining = 0;
     float maxTime;
     private void FixedUpdate()
     {
@@ -33,8 +33,7 @@ public class DailySpin : MonoBehaviour
                 timeRemaining -= Time.deltaTime*speed;
                 timeRemaining = timeRemaining < 0 ? 0 : timeRemaining;
                 float t = timeRemaining / maxTime;
-                Debug.Log(t);
-                rotation = Mathf.Lerp(wheel.rotation.z, result, t);
+                rotation = Mathf.Lerp(result,wheel.rotation.z * Mathf.Rad2Deg, t);
                 wheel.rotation = Quaternion.Euler(0, 0, -rotation);
 
                 speed = Mathf.Lerp(0.1f,startSpeed,t);
@@ -65,22 +64,6 @@ public class DailySpin : MonoBehaviour
     void reward()
     {
         float val = (wheel.rotation.z + 24.35f) % 360;
-        int prizeNumber = (int)val % 90;
-        Debug.Log(prizeNumber);
-        switch (prizeNumber)
-        {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            default:
-                Debug.LogError(prizeNumber);
-                break;
-        }
         if (val <90)
         {
             wallet.Premium += 10;
@@ -97,5 +80,9 @@ public class DailySpin : MonoBehaviour
         {
             wallet.Currency += 40;
         }
+    }
+    private void OnEnable()
+    {
+        currentStage = stage.prespin;
     }
 }
