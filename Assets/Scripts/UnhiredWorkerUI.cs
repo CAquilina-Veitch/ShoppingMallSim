@@ -48,13 +48,13 @@ public class UnhiredWorkerUI : MonoBehaviour
     }
 
     public void updateFace()
-    {
+    {/*
         Debug.Log(gameObject);
         Debug.Log(w);
         Debug.Log(w.energy);
         Debug.Log(workerSpecieSprites);
-        Debug.Log(workerSpecieSprites.Length);
-
+        Debug.Log(workerSpecieSprites.Length);*/
+        Debug.Log($"updating face of {w.name}");
         int tiredness = Mathf.RoundToInt((workerSpecieSprites.Length - 1 < 0 ? 0 : workerSpecieSprites.Length - 1) * w.energy);
         icon.sprite = workerSpecieSprites[tiredness];
         workerName.text = w.name;

@@ -73,7 +73,7 @@ public class HiredWorkerUI : MonoBehaviour
     {
         if (!Input.GetKey(KeyCode.Mouse0) && Input.touchCount == 0)
         {
-            Debug.Log(scroller.horizontalNormalizedPosition);
+            //Debug.Log(scroller.horizontalNormalizedPosition);
             if (scroller.horizontalNormalizedPosition > 0.05 && scroller.horizontalNormalizedPosition < 0.95f)
             {
                 scroller.velocity = Vector2.right * 100 * scroller.horizontalNormalizedPosition;
@@ -89,12 +89,12 @@ public class HiredWorkerUI : MonoBehaviour
             if (scroller.horizontalNormalizedPosition <= 0.05f)
             {
                 overlay.SetActive(true);
-                Debug.LogWarning("CC" + scroller.horizontalNormalizedPosition);
+                //Debug.LogWarning("CC" + scroller.horizontalNormalizedPosition);
                 selected = true;
             }
             else
             {
-                Debug.LogWarning("BB" + scroller.horizontalNormalizedPosition);
+                //Debug.LogWarning("BB" + scroller.horizontalNormalizedPosition);
                 overlay.SetActive(false);
                 selected = false;
             }

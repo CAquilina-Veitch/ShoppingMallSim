@@ -19,26 +19,26 @@ public class RoomManager : MonoBehaviour
     public Dictionary<Vector2, Path> pathDictionary = new Dictionary<Vector2, Path>();
 
     public Dictionary<Vector2, Business> businesses = new Dictionary<Vector2, Business>();
-
+    Vector2 currentlyOpenedInteractWindow = Vector2.one * -1;
     public void pathAdd(Path path, Vector2 CO)
     {
-        Debug.Log("Added path at " + CO);
+        //Debug.Log("Added path at " + CO);
         pathDictionary.Add(CO, path);
     }
 
     public bool checkAdjacentHasPath(Vector2 coordinate)
     {
-        Debug.Log(21);
+        //Debug.Log(21);
         if(coordinate.x < 0 || coordinate.y < 0)
         {
-            Debug.Log(26 +""+coordinate );
+            //Debug.Log(26 +""+coordinate );
             return false;
         }
-        Debug.Log(22);
+        //Debug.Log(22);
         Vector2[] Adj = { Vector2.left, Vector2.down, Vector2.right, Vector2.up };
         foreach(Vector2 v in Adj)
         {
-            Debug.Log(23+""+ pathDictionary.ContainsKey(coordinate + v)+ (coordinate + v));
+            //Debug.Log(23+""+ pathDictionary.ContainsKey(coordinate + v)+ (coordinate + v));
             if (pathDictionary.ContainsKey(coordinate + v))
             {
                 return true;
@@ -49,28 +49,28 @@ public class RoomManager : MonoBehaviour
     }
     public Vector2[] AdjacentPaths(Vector2 coordinate)
     {
-        Debug.Log(1);
+        //Debug.Log(1);
         if (coordinate.x < 0 || coordinate.y < 0)
         {
             return new Vector2[0];
         }
-        Debug.Log(2);
+        //Debug.Log(2);
 
         Vector2[] Adj = { Vector2.left, Vector2.down, Vector2.right, Vector2.up };
         List<Vector2> temp = new List<Vector2>();
         foreach (Vector2 v in Adj)
         {
-            Debug.Log(v);
+            //Debug.Log(v);
 
             if (pathDictionary.ContainsKey(coordinate + v))
             {
-                Debug.Log($"{coordinate+v}fouund");
+                //Debug.Log($"{coordinate+v}fouund");
 
                 temp.Add(coordinate + v);
             }
             else
             {
-                Debug.Log($"{coordinate+v} not found");
+               // Debug.Log($"{coordinate+v} not found");
             }
         }
         return temp.ToArray();
@@ -106,7 +106,7 @@ public class RoomManager : MonoBehaviour
         temp.coord = coord;
         temp.rM = this;
         temp.preExistingAdjPaths = AdjacentPaths(coord);
-        Debug.LogWarning(coord + "ADDED");
+        //Debug.LogWarning(coord + "ADDED");
         occupiedDictionary.Add(coord, temp);
     }
     struct Room
@@ -158,23 +158,23 @@ public class RoomManager : MonoBehaviour
                 if (businesses.ContainsKey(clickedTile))
                 {
                     
-                    Debug.Log("there is abusiness now");
+                    Debug.Log("there is abusiness");
+                    Debug.LogWarning(occupiedDictionary[clickedTile].uiOpen);
 
-                    if (occupiedDictionary[clickedTile].uiOpen)
+                    if (UHWM.selected.Count > 0 && occupiedDictionary[clickedTile].uiOpen)
                     {
-                        if (UHWM.selected.Count > 0)
-                        {
-                            Debug.Log(6);
+                        Debug.Log(6);
 
-                            //try to move the workers to here
-                            UHWM.TryDesignateSelectedWorkers(businesses[clickedTile]);
-                            businesses[clickedTile].UpdateWorkerUI();
-                        }
+                        //try to move the workers to here
+                        UHWM.TryDesignateSelectedWorkers(businesses[clickedTile]);
+                        businesses[clickedTile].UpdateWorkerUI();
                     }
                     else
                     {
-                        businesses[clickedTile].Interact(true);
+                        updateInteractWindows(clickedTile);
                     }
+
+                   
                     
                 }
                 else
@@ -304,7 +304,31 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-
+    public void hideInteractWindows()
+    {
+        updateInteractWindows(Vector2.positiveInfinity);
+    }
+    public void updateInteractWindows(Vector2 clickedTile)
+    {
+        Debug.Log($" to {clickedTile} from {currentlyOpenedInteractWindow}");
+        if (currentlyOpenedInteractWindow == clickedTile && clickedTile != Vector2.one*-1)
+        {
+            Debug.Log("closing it ");
+            currentlyOpenedInteractWindow = Vector2.one * -1;
+            businesses[clickedTile].Interact(false);
+        }
+        else
+        {
+            if (currentlyOpenedInteractWindow != Vector2.one * -1)
+            {
+                Debug.Log($"trying to close at {currentlyOpenedInteractWindow}");
+                businesses[currentlyOpenedInteractWindow].Interact(false);
+            }
+            currentlyOpenedInteractWindow = clickedTile;
+            businesses[clickedTile].UpdateWorkerUI();
+            businesses[clickedTile].Interact(true);
+        }
+    }
 
 }
 

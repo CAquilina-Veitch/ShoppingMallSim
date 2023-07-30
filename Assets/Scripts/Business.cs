@@ -40,11 +40,11 @@ public class Business : MonoBehaviour
     public shopUI shopGUI;
     public void init()
     {
-        canvasesOwner = listBG.parent;
+        canvasesOwner = listBG.parent.parent;
         GameObject businessWorkerUIPrefab = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().businessWorkerUIPrefab;
         for (int i = 0; i < 3; i++)
         {
-            Debug.LogWarning(listBG);
+            //Debug.LogWarning(listBG);
             GameObject temp = Instantiate(businessWorkerUIPrefab,listBG);
             hiredWUI.Add(temp.GetComponent<HiredWorkerUI>());
             temp.GetComponent<HiredWorkerUI>().init(this);
@@ -116,6 +116,7 @@ public class Business : MonoBehaviour
     }
     public void Interact(bool to)
     {
+        Debug.Log($" {to} ing, {oS.coord}");
         if (listBG == null)
         {
             Debug.LogError("no listbg" + gameObject);
@@ -128,21 +129,26 @@ public class Business : MonoBehaviour
             for (int i = 0; i < 3; i++)
             {
                 Debug.Log($"setting hired worker {i} of {hiredWUI.Count} to {i} of {hiredWorkers.Count}");
-                hiredWUI[i].info = hiredWorkers[i];
-                hiredWUI[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, i * -50);
+                if (hiredWorkers.Count > i)
+                {
+                    hiredWUI[i].info = hiredWorkers[i];
+                    hiredWUI[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, i * -50);
+                }
+                
             }
-            if (hiredWUI.Count > hiredWUI.Count) //                                                            <<<<<<<<<        ??????????????????????????????????????????????????????????????????????????????????????
+            /*if (hiredWUI.Count > hiredWUI.Count) //                                                            <<<<<<<<<        ??????????????????????????????????????????????????????????????????????????????????????
             {
                 hiredWUI.RemoveRange(hiredWUI.Count - 1, hiredWUI.Count - hiredWUI.Count);
-            }
+            }*/
         }
         else
         {
-            interactionOpen = true;
+            
 
         }
-
-         listBG.gameObject.SetActive(interactionOpen);
+        Debug.Log(interactionOpen);
+        canvasesOwner.gameObject.SetActive(interactionOpen);
+        oS.uiOpen = interactionOpen;
     }
     
     public void UpdateWorkerUI()

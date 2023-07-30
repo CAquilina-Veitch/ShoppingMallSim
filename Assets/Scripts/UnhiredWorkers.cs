@@ -102,6 +102,7 @@ public class UnhiredWorkers : MonoBehaviour
 
     public void TryDesignateSelectedWorkers(Business b)
     {
+        Debug.Log("trying");
         List<UnhiredWorkerUI> toRemove = new List<UnhiredWorkerUI>();
         foreach( UnhiredWorkerUI uhw in selected)
         {
