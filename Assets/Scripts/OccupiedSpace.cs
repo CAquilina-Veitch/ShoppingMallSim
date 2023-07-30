@@ -49,7 +49,7 @@ public class OccupiedSpace : MonoBehaviour
         sR = GetComponentInChildren<SpriteRenderer>();
         sR.sprite = workSprites[0];
         rM = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>();
-
+        transform.position = new Vector3 (0, 0, (transform.position.y * 0.1f)) + transform.position;
 
 
     }
