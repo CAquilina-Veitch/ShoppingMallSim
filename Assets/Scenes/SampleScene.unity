@@ -1395,10 +1395,6 @@ MonoBehaviour:
   wheel: {fileID: 366278049}
   wallet: {fileID: 1253083565}
   customerController: {fileID: 1573120408}
-  currentStage: 0
-  rotation: 0
-  speed: 5
-  timeRemaining: 0
 --- !u!4 &1670532861
 Transform:
   m_ObjectHideFlags: 0
@@ -1904,28 +1900,120 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animalTypes:
   - specie: 0
-    walkCycle: []
-    working: []
+    walkCycleBack:
+    - {fileID: 21300000, guid: bc451185ae702b440ba5dfabb79490d9, type: 3}
+    - {fileID: 21300000, guid: 2579d40fde2f7a74da5f7eba86024579, type: 3}
+    walkCycleForward:
+    - {fileID: 21300000, guid: c54b0957011281149bed4dee59ad573b, type: 3}
+    - {fileID: 21300000, guid: fbc0b5e422df4fc4dab08fc97f08922f, type: 3}
+    workingForward:
+    - {fileID: 21300000, guid: c4c89832f641d094abf6c477cb3521bc, type: 3}
+    workingBackward:
+    - {fileID: 21300000, guid: 16566eb2be9a36e43a766f5aec1e2955, type: 3}
     face:
     - {fileID: -1015389182, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
   - specie: 1
-    walkCycle: []
-    working: []
+    walkCycleBack:
+    - {fileID: 21300000, guid: 85364a2aa89c6844a846b5dfcfa209fb, type: 3}
+    - {fileID: 21300000, guid: 61d0a4a05dff6ee44882f34f9f726a12, type: 3}
+    walkCycleForward:
+    - {fileID: 21300000, guid: 7784d6e7f7f7d0b438cd201800c44d19, type: 3}
+    - {fileID: 21300000, guid: 68189042d8aab634fa0d7e862927a257, type: 3}
+    workingForward:
+    - {fileID: 21300000, guid: e9f2e8cc561d0594a9ce854c617d392e, type: 3}
+    workingBackward:
+    - {fileID: 21300000, guid: 6ea47eaced799de468289e9562cce9a4, type: 3}
     face:
     - {fileID: -1959360459, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
   - specie: 2
-    walkCycle: []
-    working: []
+    walkCycleBack:
+    - {fileID: 21300000, guid: 59157e419e65a0948ab2a0b8797c2dbd, type: 3}
+    - {fileID: 21300000, guid: 91aa6e0052f513b47b928f7abf5c94ea, type: 3}
+    walkCycleForward:
+    - {fileID: 21300000, guid: 809d397eb75e72941b51159acb3948e0, type: 3}
+    - {fileID: 21300000, guid: 6212052703538ce43ab06c58281defa8, type: 3}
+    workingForward:
+    - {fileID: 21300000, guid: 3eecd02b479e8e64da5bd057a8e390dd, type: 3}
+    workingBackward:
+    - {fileID: 21300000, guid: d8362ec1d2299e241bd9723f77923909, type: 3}
     face:
     - {fileID: -742838810, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
   - specie: 3
-    walkCycle: []
-    working: []
+    walkCycleBack:
+    - {fileID: 21300000, guid: 4baec72270c48994486b30a3b1eb7efe, type: 3}
+    - {fileID: 21300000, guid: 176bfbd064862cf4d982f7f474cee775, type: 3}
+    walkCycleForward:
+    - {fileID: 21300000, guid: b3844487b2581d54e8105c37db15704d, type: 3}
+    - {fileID: 21300000, guid: fa98a34c7f658f54b8b329b346b34d7f, type: 3}
+    workingForward:
+    - {fileID: 21300000, guid: ec493dd3bb2e4de4cb715e15cac44fa3, type: 3}
+    workingBackward:
+    - {fileID: 21300000, guid: 8cd7c3ebff2779541bcc6164e05a3914, type: 3}
     face:
     - {fileID: 526513674, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
   - specie: 4
-    walkCycle: []
-    working: []
+    walkCycleBack:
+    - {fileID: 21300000, guid: 1f3ff1d1ed4470245a6bdc72a8e89108, type: 3}
+    - {fileID: 21300000, guid: a8390708004115a48973ec7f48e4155b, type: 3}
+    walkCycleForward:
+    - {fileID: 21300000, guid: 53888cd31f3584943b31ab8aaf68a36a, type: 3}
+    - {fileID: 21300000, guid: 7a44aaf4497d0434eb5fc0740ba91565, type: 3}
+    workingForward:
+    - {fileID: 21300000, guid: 77b687168a917354c923222e485df07b, type: 3}
+    workingBackward:
+    - {fileID: 21300000, guid: d5436fa5b963f1041912658b6998f2eb, type: 3}
+    face:
+    - {fileID: 1362249164, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
+  - specie: 5
+    walkCycleBack:
+    - {fileID: 21300000, guid: cf76e8ddeb6e55847a0aa9f614dc659b, type: 3}
+    - {fileID: 21300000, guid: 5ff774d5a6914294ca79cf75ea763688, type: 3}
+    walkCycleForward:
+    - {fileID: 21300000, guid: d768ce7c3148a4d4b8788c5e11b2c121, type: 3}
+    - {fileID: 21300000, guid: ab36e8b1521561b45a4a2e62fd4e3f18, type: 3}
+    workingForward:
+    - {fileID: 21300000, guid: 3541826845ba9ab42ab9e5286ff9ad1b, type: 3}
+    workingBackward:
+    - {fileID: 21300000, guid: 70c9c68251c040445b51f90258c7f098, type: 3}
+    face:
+    - {fileID: 1362249164, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
+  - specie: 6
+    walkCycleBack:
+    - {fileID: 21300000, guid: fc2dabec3d0d327438d8ec43a509ff78, type: 3}
+    - {fileID: 21300000, guid: b7b117c8b5afa2d4c84b16b494f01854, type: 3}
+    walkCycleForward:
+    - {fileID: 21300000, guid: 972ecff6b25c2db49bc4e4c4e18d5fd9, type: 3}
+    - {fileID: 21300000, guid: 7e5047010fe600748a33573424c05e7e, type: 3}
+    workingForward:
+    - {fileID: 21300000, guid: 5519cb51eb1ec2743896b99e96ea83f1, type: 3}
+    workingBackward:
+    - {fileID: 21300000, guid: 94b04528fbf2486448e6244293bd94c0, type: 3}
+    face:
+    - {fileID: 1362249164, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
+  - specie: 7
+    walkCycleBack:
+    - {fileID: 21300000, guid: 07282941ca20730499881798b56b2b0f, type: 3}
+    - {fileID: 21300000, guid: b7a6c7743b75c584c8e580ee29355c99, type: 3}
+    walkCycleForward:
+    - {fileID: 21300000, guid: 2a6a897b0dc78904bbe67a7c02937b91, type: 3}
+    - {fileID: 21300000, guid: 288d8f4f3aec1274482e3bc80df0d1b0, type: 3}
+    workingForward:
+    - {fileID: 21300000, guid: 6715e7f85f2dd79469c8f47a1989add8, type: 3}
+    workingBackward:
+    - {fileID: 21300000, guid: 218ac001addce8d40afe8214cc2237ea, type: 3}
+    face:
+    - {fileID: 1362249164, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
+  - specie: 8
+    walkCycleBack:
+    - {fileID: 21300000, guid: bdae9c01865e7c64e9f840b64cc61bcc, type: 3}
+    - {fileID: 21300000, guid: 0efef2e255ee98340878de1c5a2c5e5d, type: 3}
+    walkCycleForward:
+    - {fileID: 21300000, guid: 05a9370d0fb3ab24ea4048ffdc4be0c9, type: 3}
+    - {fileID: 21300000, guid: 6b4884667873f6247ab3c666cfcd86cc, type: 3}
+    workingForward:
+    - {fileID: 21300000, guid: eb3655718f59f244484d44607acd2193, type: 3}
+    workingBackward:
+    - {fileID: 21300000, guid: 27c8f6bd651d2964f8f42e2017061972, type: 3}
     face:
     - {fileID: 1362249164, guid: ca02b4b8f28208e4bbf9e48ff3f678d0, type: 3}
 --- !u!1 &1927300035
