@@ -44,6 +44,9 @@ public class Customers : MonoBehaviour
             StartNewCustomer();
         }
     }
-
+    public void SaleDay()
+    {
+        Debug.LogWarning("SaleDay");
+    }
 
 }
