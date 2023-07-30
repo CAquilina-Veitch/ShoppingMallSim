@@ -5,6 +5,7 @@ using UnityEngine;
 public class DailySpin : MonoBehaviour
 {
     [SerializeField] Transform wheel;
+    [SerializeField] GameObject triangleObj, buttonObj;
     [SerializeField] Wallet wallet;
     [SerializeField] Customers customerController;
     enum stage
@@ -19,6 +20,8 @@ public class DailySpin : MonoBehaviour
 
     float timeRemaining = 0;
     float maxTime;
+
+    bool currentlyActive;
     private void FixedUpdate()
     {
         if (currentStage == stage.prespin)
@@ -84,5 +87,12 @@ public class DailySpin : MonoBehaviour
     private void OnEnable()
     {
         currentStage = stage.prespin;
+        triangleObj.SetActive(true);
+        buttonObj.SetActive(true);
+    }
+    public void hide()
+    {
+        currentlyActive = !currentlyActive;
+        gameObject.SetActive(currentlyActive);
     }
 }

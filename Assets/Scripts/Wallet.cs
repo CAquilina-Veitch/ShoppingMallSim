@@ -82,7 +82,8 @@ public class Wallet : MonoBehaviour
         }
         if (premiumCurrency != visualCurrency)
         {
-
+            visualPremium = Mathf.RoundToInt(Mathf.Lerp(visualPremium, premiumCurrency, 0.5f));
+            uiPremium.text = "" + premiumCurrency;
         }
     }
 

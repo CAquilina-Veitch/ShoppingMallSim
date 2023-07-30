@@ -155,7 +155,6 @@ public static class GlobalFunctions
         string _name = "";
         for(int i = 0; i < nameSegments.Count(); i++)
         {
-            Debug.Log(i);
             _name = $"{_name}{nameSegments[i][Random.Range(0, nameSegments[i].Count())]}";
         }
         return new WorkerInfo
