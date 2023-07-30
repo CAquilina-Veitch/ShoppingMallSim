@@ -11,7 +11,8 @@ public enum species
 public struct animalType
 {
     public species specie;
-    public Sprite[] walkCycle;
+    public Sprite[] walkCycleBack;
+    public Sprite[] walkCycleForward;
     public Sprite[] working;
     public Sprite[] face;
 }
