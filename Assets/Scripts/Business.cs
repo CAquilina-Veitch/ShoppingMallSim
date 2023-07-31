@@ -26,7 +26,7 @@ public class Business : MonoBehaviour
 
 
     public List<WorkerInfo> hiredWorkers = new List<WorkerInfo>();
-    public List<WorkerInfo> activeWorkers = new List<WorkerInfo>();
+    public List<HiredWorkerUI> activeWorkers = new List<HiredWorkerUI>();
     public List<HiredWorkerUI> hiredWUI = new List<HiredWorkerUI>();
 
     public bool businessActive;
@@ -38,6 +38,20 @@ public class Business : MonoBehaviour
     Transform canvasesOwner;
 
     public shopUI shopGUI;
+
+    public void toggleWorker(HiredWorkerUI who)
+    {
+        if (activeWorkers.Contains(who))
+        {
+            GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<AllWorkers>().StopWork(who);
+        }
+        else
+        {
+            GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<AllWorkers>().StartWork(who);
+        }
+    }
+
+
     public void init()
     {
         canvasesOwner = listBG.parent.parent;
@@ -49,7 +63,7 @@ public class Business : MonoBehaviour
             hiredWUI.Add(temp.GetComponent<HiredWorkerUI>());
             temp.GetComponent<HiredWorkerUI>().init(this);
 
-            Debug.Log($"business init new worker{i}");
+            //Debug.Log($"business init new worker{i}");
             
             hiredWUI[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, i * -20);
 
@@ -149,6 +163,11 @@ public class Business : MonoBehaviour
         Debug.Log(interactionOpen);
         canvasesOwner.gameObject.SetActive(interactionOpen);
         oS.uiOpen = interactionOpen;
+        foreach (HiredWorkerUI hwui in hiredWUI)
+        {
+            hwui.updateVisuals();
+        }
+        shopGUI.updateVisual();
     }
     
     public void UpdateWorkerUI()
@@ -173,6 +192,11 @@ public class Business : MonoBehaviour
 
 
 
+        }
+        foreach(HiredWorkerUI hwui in hiredWUI)
+        {
+            Debug.Log($"updating {hwui.info.name}, to be {hwui.info.specie} ");
+            hwui.updateVisuals();
         }
     }
 

@@ -15,7 +15,7 @@ public struct animalType
     public Sprite[] walkCycleForward;
     public Sprite[] workingForward;
     public Sprite[] workingBackward;
-    public Sprite[] face;
+    public Sprite face;
 }
 
 
