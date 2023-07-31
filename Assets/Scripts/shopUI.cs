@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public struct stockInfo
 {
@@ -24,8 +25,17 @@ public class shopUI : MonoBehaviour
     {
         b = _b;
         icon.sprite = icons[(int)b.stockDetails.type];
+        updateVisual();
     }
 
+    public void updateVisual()
+    {
+        stockInfo stock = b.stockDetails;
+        title.text = $"{Enum.GetName(typeof(stockType), stock.type)}";
+        quantity.text = stock.amount.ToString();
+        icon.sprite = icons[(int)stock.type];
+
+    }
 
 
 }

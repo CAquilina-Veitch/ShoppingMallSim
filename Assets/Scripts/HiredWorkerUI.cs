@@ -109,6 +109,11 @@ public class HiredWorkerUI : MonoBehaviour
         }*/
 
     }
+    public void Unswipe()
+    {
+        scroller.horizontalNormalizedPosition = 1;
+        selected = false;
+    }
 
 
 

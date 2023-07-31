@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 
 public enum stockType
 {
-    groceries, two,three,four,five
+    Books, Clothing, Games, Groceries, Shoes
 }
 [Serializable]
 public struct WorkerInfo
@@ -64,11 +64,9 @@ public class Business : MonoBehaviour
                     name = "null"
                 };
             }
-
-
-
         }
-        
+        shopGUI = canvasesOwner.GetComponentInChildren<shopUI>();
+        shopGUI.init(this);
     }
 
     private void FixedUpdate()
@@ -116,7 +114,7 @@ public class Business : MonoBehaviour
     }
     public void Interact(bool to)
     {
-        Debug.Log($" {to} ing, {oS.coord}");
+        //Debug.Log($" {to} ing, {oS.coord}");
         if (listBG == null)
         {
             Debug.LogError("no listbg" + gameObject);
@@ -126,13 +124,15 @@ public class Business : MonoBehaviour
 
         if (interactionOpen)
         {
+            shopGUI.updateVisual();
             for (int i = 0; i < 3; i++)
             {
-                Debug.Log($"setting hired worker {i} of {hiredWUI.Count} to {i} of {hiredWorkers.Count}");
+                //Debug.Log($"setting hired worker {i} of {hiredWUI.Count} to {i} of {hiredWorkers.Count}");
                 if (hiredWorkers.Count > i)
                 {
                     hiredWUI[i].info = hiredWorkers[i];
-                    hiredWUI[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, i * -50);
+                    hiredWUI[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, i * -20);
+                    hiredWUI[i].Unswipe();
                 }
                 
             }

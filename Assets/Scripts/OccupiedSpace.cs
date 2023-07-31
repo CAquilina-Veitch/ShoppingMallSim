@@ -64,9 +64,9 @@ public class OccupiedSpace : MonoBehaviour
         currentRoomHighlight += increase ? 1 : -1;
         if (currentRoomHighlight < 0)
         {
-            currentRoomHighlight = 5;
+            currentRoomHighlight = System.Enum.GetValues(typeof(stockType)).Length-1;
         }
-        else if (currentRoomHighlight > 5)
+        else if (currentRoomHighlight >= System.Enum.GetValues(typeof(stockType)).Length)
         {
             currentRoomHighlight = 0;
         }
@@ -90,7 +90,7 @@ public class OccupiedSpace : MonoBehaviour
         {
             path = gameObject.AddComponent(typeof(Path)) as Path;
             path.oS = this;
-
+            Destroy(businessCanvasOwner.gameObject);
             GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().pathAdd(path, coord);
             if (preExistingAdjPaths.Length != 0)
             {
@@ -216,6 +216,7 @@ public class OccupiedSpace : MonoBehaviour
         rM.AddBusiness(business, coord);
         business.listBG = bGList;
         business.init();
+        business.stockDetails.type = (stockType)currentRoomHighlight;
 
 
 
