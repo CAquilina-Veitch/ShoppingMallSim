@@ -8,7 +8,7 @@ public class UnhiredWorkerUI : MonoBehaviour
     WorkerInfo w;
 
     //[SerializeField] Sprite[] specieSprites;
-    Sprite[] workerSpecieSprites;
+    Sprite workerFaceSprite;
 
     [SerializeField] TextMeshProUGUI workerName;
     [SerializeField] TextMeshProUGUI level;
@@ -25,7 +25,7 @@ public class UnhiredWorkerUI : MonoBehaviour
     private void OnEnable()
     {
         scroller = GetComponent<ScrollRect>();
-        workerSpecieSprites = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)w.specie].face;
+        workerFaceSprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)w.specie].face;
     }
 
     public WorkerInfo info
@@ -33,7 +33,7 @@ public class UnhiredWorkerUI : MonoBehaviour
         set
         {
             w = value;
-            updateFace();
+            updateVisuals();
         }
         get
         {
@@ -44,10 +44,10 @@ public class UnhiredWorkerUI : MonoBehaviour
     {
         UHWM = u;
         scroller = GetComponent<ScrollRect>();
-        workerSpecieSprites = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)w.specie].face;
+        workerFaceSprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)w.specie].face;
     }
 
-    public void updateFace()
+    public void updateVisuals()
     {/*
         Debug.Log(gameObject);
         Debug.Log(w);
@@ -55,8 +55,7 @@ public class UnhiredWorkerUI : MonoBehaviour
         Debug.Log(workerSpecieSprites);
         Debug.Log(workerSpecieSprites.Length);*/
         Debug.Log($"updating face of {w.name}");
-        int tiredness = Mathf.RoundToInt((workerSpecieSprites.Length - 1 < 0 ? 0 : workerSpecieSprites.Length - 1) * w.energy);
-        icon.sprite = workerSpecieSprites[tiredness];
+        icon.sprite = workerFaceSprite;
         workerName.text = w.name;
         level.text = $"{w.level}";
     }

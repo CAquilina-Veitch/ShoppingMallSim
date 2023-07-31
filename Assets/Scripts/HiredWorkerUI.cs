@@ -9,10 +9,13 @@ public class HiredWorkerUI : MonoBehaviour
 {
     [SerializeField] WorkerInfo w;
 
-    Sprite[] workerSpecieSprites;
+    Sprite workerSpecieSprite;
+    [SerializeField] Sprite[] tirednessIndicators;
     [SerializeField] TextMeshProUGUI workerName;
     [SerializeField] TextMeshProUGUI level;
     [SerializeField] Image icon;
+    [SerializeField] Image tirednessIcon;
+    [SerializeField] Image colourBG;
 
     [SerializeField] GameObject overlay;
 
@@ -22,9 +25,12 @@ public class HiredWorkerUI : MonoBehaviour
 
     public Business bsns;
 
+    bool isWorking;
+
+
     private void OnEnable()
     {
-        workerSpecieSprites = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)w.specie].face;
+        workerSpecieSprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)w.specie].face;
         scroller = GetComponent<ScrollRect>();
 
     }
@@ -36,7 +42,7 @@ public class HiredWorkerUI : MonoBehaviour
             if(value.name != "null")
             {
                 w = value;
-                updateFace();
+                updateVisuals();
             }
             else
             {
@@ -56,17 +62,22 @@ public class HiredWorkerUI : MonoBehaviour
         workerName.text = "Empty";
         level.text = null;
     }
-    public void updateFace()
+    public void updateVisuals()
     {
-        int tiredness = Mathf.RoundToInt((workerSpecieSprites.Length - 1 < 0 ? 0 : workerSpecieSprites.Length - 1) * w.energy);
-        icon.sprite = workerSpecieSprites[tiredness];
+        UpdateTiredness();
+        icon.sprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)w.specie].face;
         workerName.text = w.name;
         level.text = $"{w.level}";
+    }
+    public void UpdateTiredness()
+    {
+        /*int tiredness = Mathf.RoundToInt((workerSpecieSprites.Length - 1 < 0 ? 0 : workerSpecieSprites.Length - 1) * w.energy);
+        tirednessIcon.sprite = workerSpecieSprites[tiredness];*/
     }
     public void init(Business b)
     {
         bsns = b;
-        workerSpecieSprites = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)w.specie].face;
+        updateVisuals();
         scroller = GetComponent<ScrollRect>();
     }
     public void swiped()
@@ -115,6 +126,13 @@ public class HiredWorkerUI : MonoBehaviour
         selected = false;
     }
 
-
+    public void ToggleWork()
+    {
+        ToggleWork(!isWorking);
+    }
+    public void ToggleWork(bool to)
+    {
+       // bsns.activeWorkers;
+    }
 
 }

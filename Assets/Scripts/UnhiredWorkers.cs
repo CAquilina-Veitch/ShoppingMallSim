@@ -71,8 +71,13 @@ public class UnhiredWorkers : MonoBehaviour
             }
             
         }
-
         listBG.gameObject.SetActive(listShowing);
+        foreach (UnhiredWorkerUI uhwui in unhiredWUI)
+        {
+            uhwui.updateVisuals();
+        }
+
+
     }
 
     public void ClearSelected()
@@ -110,6 +115,7 @@ public class UnhiredWorkers : MonoBehaviour
             {
                 b.hiredWorkers.Add(uhw.info);
                 toRemove.Add(uhw);
+                b.UpdateWorkerUI();
             }
             else
             {

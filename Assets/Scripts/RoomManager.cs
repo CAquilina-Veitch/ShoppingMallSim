@@ -124,6 +124,10 @@ public class RoomManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
         if (Input.GetKeyDown(KeyCode.Mouse0)||Input.touchCount==1)
         {
             Vector2 clickedTile;
@@ -158,12 +162,12 @@ public class RoomManager : MonoBehaviour
                 if (businesses.ContainsKey(clickedTile))
                 {
                     
-                    Debug.Log("there is abusiness");
-                    Debug.LogWarning(occupiedDictionary[clickedTile].uiOpen);
+                    //Debug.Log("there is abusiness");
+                    //Debug.LogWarning(occupiedDictionary[clickedTile].uiOpen);
 
                     if (UHWM.selected.Count > 0 && occupiedDictionary[clickedTile].uiOpen)
                     {
-                        Debug.Log(6);
+                        //Debug.Log(6);
 
                         //try to move the workers to here
                         UHWM.TryDesignateSelectedWorkers(businesses[clickedTile]);
@@ -179,7 +183,7 @@ public class RoomManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("businesses doesnt contain def for this coord");
+                    Debug.LogError("businesses doesnt contain def for this coord");
 
                 }
                 
@@ -327,6 +331,7 @@ public class RoomManager : MonoBehaviour
             currentlyOpenedInteractWindow = clickedTile;
             businesses[clickedTile].UpdateWorkerUI();
             businesses[clickedTile].Interact(true);
+            businesses[clickedTile].UpdateWorkerUI();
         }
     }
 
