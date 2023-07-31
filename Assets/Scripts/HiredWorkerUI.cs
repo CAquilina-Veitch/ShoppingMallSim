@@ -4,7 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System;
 public class HiredWorkerUI : MonoBehaviour
 {
     [SerializeField] WorkerInfo w;
@@ -109,7 +109,8 @@ public class HiredWorkerUI : MonoBehaviour
                 overlay.SetActive(false);
                 selected = false;
             }
-        }/*
+        }
+        /*
         if (bsns.selected.Contains(this) && !selected)
         {
             bsns.selected.Remove(this);
