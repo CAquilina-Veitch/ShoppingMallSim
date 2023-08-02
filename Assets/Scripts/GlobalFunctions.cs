@@ -8,6 +8,15 @@ public static class GlobalFunctions
     public static Vector3 isoCoordToWorldPosition(this Vector2 coord)
     {
         return new Vector3(coord.x - coord.y, 0.5f * (coord.x + coord.y));
+    }    
+    public static Vector3[] isoCoordToWorldPosition(this Vector2[] coords)
+    {
+        Vector3[] temp = new Vector3[coords.Length];
+        for(int i =0; i < temp.Length; i++)
+        {
+            temp[i] = coords[i].isoCoordToWorldPosition();
+        }
+        return temp;
     }
     public static Vector3 worldToIsoCoord(this Vector2 pos)
     {
@@ -163,7 +172,7 @@ public static class GlobalFunctions
             name = _name,
             level = lvl+Random.Range(-2,2),
             specie = (species)Random.Range(0, System.Enum.GetValues(typeof(species)).Length),
-            energy = 1f
+            Energy = 60
     };
     }
 }

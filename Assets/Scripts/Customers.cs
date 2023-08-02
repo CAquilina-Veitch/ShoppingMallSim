@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Customers : MonoBehaviour
 {
-    List<Business> activeBusinesses;
-    List<CustomerNPC> walkers;
+    [SerializeField] List<Business> activeBusinesses;
+    List<CustomerNPC> walkers = new List<CustomerNPC>();
 
     [SerializeField] GameObject customerPrefab;
 
@@ -33,6 +33,9 @@ public class Customers : MonoBehaviour
         }
         Business target = activeBusinesses[Random.Range(0, activeBusinesses.Count)];
         GameObject temp = Instantiate(customerPrefab, transform);
+        Debug.Log(temp);
+        Debug.Log(walkers);
+        Debug.Log(temp.GetComponent<CustomerNPC>());
         walkers.Add(temp.GetComponent<CustomerNPC>());
         temp.GetComponent<CustomerNPC>().init(target);
     }

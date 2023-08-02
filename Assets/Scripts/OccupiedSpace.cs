@@ -112,9 +112,9 @@ public class OccupiedSpace : MonoBehaviour
                     Debug.Log($"{pathAndLength[0]} first, last {pathAndLength[pathAndLength.Count - 1]}");
 
                     pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[0].x]].pathFromEntrance)
-                        {
-                            coord//adds coord on end
-                        };
+                    {
+                        coord//adds coord on end
+                    };
 
                     //update others
                     for (int i = 1; i < pathAndLength.Count; i++)
@@ -150,7 +150,10 @@ public class OccupiedSpace : MonoBehaviour
 
             sR.sprite = roomSprites[currentRoomHighlight];
 
-            pathFromEntrance.Add(coord);
+            pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[0]].pathFromEntrance)
+            {
+                coord
+            };
             business = gameObject.AddComponent(typeof(Business)) as Business;
             business.oS = this;
             business.shopGUI = shop;
@@ -221,10 +224,11 @@ public class OccupiedSpace : MonoBehaviour
 
 
         rM.AddBusiness(business, coord);
+        business.visualPositions = temp.GetComponent<ShopPosition>();
         business.listBG = bGList;
         business.init();
         business.stockDetails.type = (stockType)currentRoomHighlight;
-        business.visualPositions = temp.GetComponent<ShopPosition>();
+        
 
 
     }

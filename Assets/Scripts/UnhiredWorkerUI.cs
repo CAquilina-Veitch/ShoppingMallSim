@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 public class UnhiredWorkerUI : MonoBehaviour
 {
-    WorkerInfo w;
+    [SerializeField] WorkerInfo _info;
 
     //[SerializeField] Sprite[] specieSprites;
     Sprite workerFaceSprite;
@@ -25,26 +25,26 @@ public class UnhiredWorkerUI : MonoBehaviour
     private void OnEnable()
     {
         scroller = GetComponent<ScrollRect>();
-        workerFaceSprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)w.specie].face;
+        workerFaceSprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)info.specie].face;
     }
 
     public WorkerInfo info
     {
         set
         {
-            w = value;
+            _info = value;
             updateVisuals();
         }
         get
         {
-            return w;
+            return _info;
         }
     }
     public void init(UnhiredWorkers u)
     {
         UHWM = u;
         scroller = GetComponent<ScrollRect>();
-        workerFaceSprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)w.specie].face;
+        workerFaceSprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)info.specie].face;
     }
 
     public void updateVisuals()
@@ -54,10 +54,10 @@ public class UnhiredWorkerUI : MonoBehaviour
         Debug.Log(w.energy);
         Debug.Log(workerSpecieSprites);
         Debug.Log(workerSpecieSprites.Length);*/
-        Debug.Log($"updating face of {w.name}");
+        Debug.Log($"updating face of {info.name}");
         icon.sprite = workerFaceSprite;
-        workerName.text = w.name;
-        level.text = $"{w.level}";
+        workerName.text = info.name;
+        level.text = $"{info.level}";
     }
 
     public void swiped()

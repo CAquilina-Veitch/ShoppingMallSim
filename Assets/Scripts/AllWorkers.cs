@@ -21,13 +21,6 @@ public struct WorkerTimePacket
 }
 public class AllWorkers : MonoBehaviour
 {
-    
-    public List<HiredWorkerUI> recoveringHiredWorkers = new List<HiredWorkerUI>();
-    public List<UnhiredWorkerUI> recoveringFiredWorkers = new List<UnhiredWorkerUI>();
-    public List<HiredWorkerUI> workingWorkers = new List<HiredWorkerUI>();
-
-    Dictionary<HiredWorkerUI, DateTime> timeIn = new Dictionary<HiredWorkerUI,DateTime>();
-
     public List<WorkerTimePacket> currentProcesses = new List<WorkerTimePacket>();
 
     private void Update()
@@ -43,22 +36,11 @@ public class AllWorkers : MonoBehaviour
         }
         else
         {
-            DateTime timeOut = DateTime.Now.AddMinutes(who.energy);
+            DateTime timeOut = DateTime.Now.AddMinutes(who.info.Energy);
             WorkerTimePacket temp = new WorkerTimePacket() { _details = $"{who.info.name} - {who.bsns.oS.coord}", info = who.info, hwui = who, timeIn = DateTime.Now, process = currentWorkerProcess.working, timeOut = timeOut };
             currentProcesses.Add(temp);
             SortPackets();
         }
-
-/*        if (!workingWorkers.Contains(who))
-        {
-            if (recoveringHiredWorkers.Contains(who))
-            {
-                UpdateAllEnergies();
-                recoveringHiredWorkers.Remove(who);
-            }
-            workingWorkers.Add(who);
-            timeIn.Add(who, DateTime.Now);
-        }*/
     }
     void SortPackets()
     {
@@ -66,24 +48,41 @@ public class AllWorkers : MonoBehaviour
     }
     public void StopWork(HiredWorkerUI who)
     {
-        if (!recoveringHiredWorkers.Contains(who))
+        if (currentProcesses.Any(x => x.hwui == who))
         {
-            if (workingWorkers.Contains(who))
+            //+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+   check if there are multiple;
+
+            SortPackets();
+
+            WorkerTimePacket process = currentProcesses.First(x => x.hwui == who);
+
+            if (process.timeOut.CompareTo(DateTime.Now) >= 0)
             {
-                //can work
-
-                SortPackets();
-
-
-                //calculate energy for this guy
-
-
-
-                UpdateAllEnergies();
-                workingWorkers.Remove(who);
+                //then timeout is larger than now - yet to come;
+                who.info.Energy = process.timeOut.Subtract(process.timeOut).Minutes - DateTime.Now.Subtract(process.timeIn).Minutes;
             }
-            recoveringHiredWorkers.Add(who);
+            else
+            {
+                who.info.Energy = 0;
+            }
+
+
+            WorkerTimePacket newProcess = process;
+
+            currentProcesses.Remove(process);
+
+            newProcess.process = currentWorkerProcess.recovering;
+            newProcess.timeIn = DateTime.Now;
+            newProcess.timeOut = DateTime.Now.AddMinutes((60 - who.info.Energy)*2);
+
+            currentProcesses.Add(newProcess);
+
+            SortPackets();
+
         }
+        UpdateAllEnergies();
+
+
     }
     public void ConvertRecovering(UnhiredWorkerUI whoWas)
     {

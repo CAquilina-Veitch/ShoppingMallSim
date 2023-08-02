@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using System;
 public class HiredWorkerUI : MonoBehaviour
 {
-    [SerializeField] WorkerInfo w;
+    [SerializeField] WorkerInfo _info;
 
     Sprite workerSpecieSprite;
     [SerializeField] Sprite[] tirednessIndicators;
@@ -27,13 +27,11 @@ public class HiredWorkerUI : MonoBehaviour
 
     bool isWorking;
 
-    public int energy = 60;
-
     public currentWorkerProcess process;
 
     private void OnEnable()
     {
-        workerSpecieSprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)w.specie].face;
+        workerSpecieSprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)info.specie].face;
         scroller = GetComponent<ScrollRect>();
 
     }
@@ -44,7 +42,7 @@ public class HiredWorkerUI : MonoBehaviour
         {
             if(value.name != "null")
             {
-                w = value;
+                _info = value;
                 updateVisuals();
             }
             else
@@ -55,7 +53,7 @@ public class HiredWorkerUI : MonoBehaviour
         }
         get
         {
-            return w;
+            return _info;
         }
     }
     public void BlankFace()
@@ -68,17 +66,18 @@ public class HiredWorkerUI : MonoBehaviour
     public void updateVisuals()
     {
         UpdateTiredness();
-        icon.sprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)w.specie].face;
-        workerName.text = w.name;
-        level.text = $"{w.level}";
+        icon.sprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)info.specie].face;
+        workerName.text = info.name;
+        level.text = $"{info.level}";
 
         if (bsns.activeWorkers.Contains(this))
         {
+            Debug.Log("wokring");
             colourBG.color = new Color(0.568807f, 1, 0.5613208f, 1);
         }
         else
         {
-            colourBG.color = Color.Lerp(new Color(0.5850837f, 0.6212634f, 0.7169812f, 1),new Color(0.7607843f,1, 0.9921569f,1),energy/60f);
+            colourBG.color = Color.Lerp(new Color(0.5850837f, 0.6212634f, 0.7169812f, 1),new Color(0.7607843f,1, 0.9921569f,1),info.Energy/60f);
         }
         bsns.updateVisualWorkers();
 
@@ -144,6 +143,7 @@ public class HiredWorkerUI : MonoBehaviour
     public void ToggleWork()
     {
         bsns.toggleWorker(this);
+        Debug.Log(2);
         updateVisuals();
     }
     

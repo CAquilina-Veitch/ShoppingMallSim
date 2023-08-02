@@ -9,12 +9,24 @@ public enum stockType
     Books, Clothing, Games, Groceries, Shoes
 }
 [Serializable]
-public struct WorkerInfo
+public class WorkerInfo
 {
     public string name;
     public int level;
-    public species specie;
-    public float energy;
+    public species specie; 
+    private int energy;
+    public currentWorkerProcess process;
+    public int Energy
+    {
+        get
+        {
+            return energy;
+        }
+        set
+        {
+            energy = Mathf.Clamp(value, 0, 60);
+        }
+    }
 }
 
 public class Business : MonoBehaviour
@@ -45,11 +57,18 @@ public class Business : MonoBehaviour
     {
         if (activeWorkers.Contains(who))
         {
+            Debug.Log(3);
+            activeWorkers.Remove(who);
             GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<AllWorkers>().StopWork(who);
+
         }
         else
         {
+            Debug.Log(4);
+            activeWorkers.Add(who);
             GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<AllWorkers>().StartWork(who);
+            //add activeworkers
+            
         }
     }
 
@@ -83,6 +102,8 @@ public class Business : MonoBehaviour
         }
         shopGUI = canvasesOwner.GetComponentInChildren<shopUI>();
         shopGUI.init(this);
+        updateVisualWorkers();
+        StartCoroutine(secondTicked());
     }
 
     private void FixedUpdate()
@@ -127,9 +148,13 @@ public class Business : MonoBehaviour
     {
         for(int i = 0; i < visualPositions.npcs.Length; i++)
         {
-            if (i >= visualPositions.npcs.Length)
+            if (i >= activeWorkers.Count)
             {
-
+                visualPositions.ChangeSprite(i);
+            }
+            else
+            {
+                visualPositions.ChangeSprite(i, activeWorkers[i].info.specie);
             }
         }
     }
@@ -162,10 +187,6 @@ public class Business : MonoBehaviour
                 }
                 
             }
-            /*if (hiredWUI.Count > hiredWUI.Count) //                                                            <<<<<<<<<        ??????????????????????????????????????????????????????????????????????????????????????
-            {
-                hiredWUI.RemoveRange(hiredWUI.Count - 1, hiredWUI.Count - hiredWUI.Count);
-            }*/
         }
         else
         {
@@ -210,6 +231,12 @@ public class Business : MonoBehaviour
             Debug.Log($"updating {hwui.info.name}, to be {hwui.info.specie} ");
             hwui.updateVisuals();
         }
+    }
+    IEnumerator secondTicked()
+    {
+        stockDetails.amount += activeWorkers.Count;
+        yield return new WaitForSeconds(1);
+        StartCoroutine(secondTicked());
     }
 
 }

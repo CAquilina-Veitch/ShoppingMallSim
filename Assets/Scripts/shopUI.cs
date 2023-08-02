@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 
+[Serializable]
 public struct stockInfo
 {
     public stockType type;

@@ -12,6 +12,11 @@ public class ShopPosition : MonoBehaviour
 
     public void ChangeSprite(int who, species to)
     {
-
+        Sprite[] temp = who != 1 ? ref forwardSprites : ref backSprites;
+        npcs[who].sprite = temp[(int)to] ;
+    }
+    public void ChangeSprite(int who)
+    {
+        npcs[who].sprite = null;
     }
 }
