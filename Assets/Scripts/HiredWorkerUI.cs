@@ -27,6 +27,7 @@ public class HiredWorkerUI : MonoBehaviour
 
     bool isWorking;
 
+    public int energy = 60;
 
     private void OnEnable()
     {

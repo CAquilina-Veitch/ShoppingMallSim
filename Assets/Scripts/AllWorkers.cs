@@ -39,7 +39,7 @@ public class AllWorkers : MonoBehaviour
         }
         else
         {
-            DateTime timeOut = new DateTime();
+            DateTime timeOut = DateTime.Now.AddMinutes(who.energy);
             WorkerTimePacket temp = new WorkerTimePacket() { hwui = who, timeIn = DateTime.Now, process = currentWorkerProcess.working, timeOut = timeOut };
             currentProcesses.Add(temp); 
         }
