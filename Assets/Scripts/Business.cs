@@ -38,6 +38,8 @@ public class Business : MonoBehaviour
     Transform canvasesOwner;
 
     public shopUI shopGUI;
+    public ShopPosition visualPositions;
+
 
     public void toggleWorker(HiredWorkerUI who)
     {
@@ -119,7 +121,14 @@ public class Business : MonoBehaviour
             c = GameObject.FindGameObjectWithTag("Customers").GetComponent<Customers>();
         }
         c.ChangeBusinessActivity(this, businessActive);
+        updateVisualWorkers();
+    }
+    public void updateVisualWorkers()
+    {
+        for(int i = 0; i < activeWorkers.Count; i++)
+        {
 
+        }
     }
 
     public void Interact()

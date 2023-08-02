@@ -29,6 +29,8 @@ public class HiredWorkerUI : MonoBehaviour
 
     public int energy = 60;
 
+    public currentWorkerProcess process;
+
     private void OnEnable()
     {
         workerSpecieSprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)w.specie].face;
@@ -69,6 +71,17 @@ public class HiredWorkerUI : MonoBehaviour
         icon.sprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)w.specie].face;
         workerName.text = w.name;
         level.text = $"{w.level}";
+
+        if (bsns.activeWorkers.Contains(this))
+        {
+            colourBG.color = new Color(0.568807f, 1, 0.5613208f, 1);
+        }
+        else
+        {
+            colourBG.color = Color.Lerp(new Color(0.5850837f, 0.6212634f, 0.7169812f, 1),new Color(0.7607843f,1, 0.9921569f,1),energy/60f);
+        }
+        bsns.updateVisualWorkers();
+
     }
     public void UpdateTiredness()
     {
@@ -130,11 +143,9 @@ public class HiredWorkerUI : MonoBehaviour
 
     public void ToggleWork()
     {
-        ToggleWork(!isWorking);
+        bsns.toggleWorker(this);
+        updateVisuals();
     }
-    public void ToggleWork(bool to)
-    {
-       // bsns.activeWorkers;
-    }
+    
 
 }

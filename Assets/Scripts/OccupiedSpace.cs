@@ -39,7 +39,7 @@ public class OccupiedSpace : MonoBehaviour
     //Second node thing
     public List<Vector2> pathFromEntrance = new List<Vector2>();
 
-
+    public GameObject[] visualLayeredPrefabs;
 
 
 
@@ -147,7 +147,9 @@ public class OccupiedSpace : MonoBehaviour
         else if(cT == constructionType.Business)
         {
             transform.GetChild(1).gameObject.SetActive(true);
+
             sR.sprite = roomSprites[currentRoomHighlight];
+
             pathFromEntrance.Add(coord);
             business = gameObject.AddComponent(typeof(Business)) as Business;
             business.oS = this;
@@ -208,7 +210,12 @@ public class OccupiedSpace : MonoBehaviour
 
     public void confirmHoveredBusiness()
     {
-        sR.sprite = roomSprites[currentRoomHighlight];
+        sR.sprite = workSprites[2];
+
+        sR.enabled = false;
+        GameObject temp = Instantiate(visualLayeredPrefabs[currentRoomHighlight], sR.transform);
+        
+
         Debug.Log(1);
         Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
 
@@ -217,7 +224,7 @@ public class OccupiedSpace : MonoBehaviour
         business.listBG = bGList;
         business.init();
         business.stockDetails.type = (stockType)currentRoomHighlight;
-
+        business.visualPositions = temp.GetComponent<ShopPosition>();
 
 
     }

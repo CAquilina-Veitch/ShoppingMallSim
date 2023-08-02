@@ -8,8 +8,11 @@ public enum currentWorkerProcess
 {
     empty, working, recovering
 }
+[Serializable]
 public struct WorkerTimePacket
 {
+    public string _details;
+    public WorkerInfo info;
     public currentWorkerProcess process;
     public DateTime timeIn;
     public DateTime timeOut;
@@ -25,7 +28,7 @@ public class AllWorkers : MonoBehaviour
 
     Dictionary<HiredWorkerUI, DateTime> timeIn = new Dictionary<HiredWorkerUI,DateTime>();
 
-    List<WorkerTimePacket> currentProcesses = new List<WorkerTimePacket>();
+    public List<WorkerTimePacket> currentProcesses = new List<WorkerTimePacket>();
 
     private void Update()
     {
@@ -33,6 +36,7 @@ public class AllWorkers : MonoBehaviour
     }
     public void StartWork(HiredWorkerUI who)
     {
+        Debug.Log(1);
         if (currentProcesses.Any(x => x.hwui == who))
         {
             currentProcesses.First(x => x.hwui == who);
@@ -40,8 +44,9 @@ public class AllWorkers : MonoBehaviour
         else
         {
             DateTime timeOut = DateTime.Now.AddMinutes(who.energy);
-            WorkerTimePacket temp = new WorkerTimePacket() { hwui = who, timeIn = DateTime.Now, process = currentWorkerProcess.working, timeOut = timeOut };
-            currentProcesses.Add(temp); 
+            WorkerTimePacket temp = new WorkerTimePacket() { _details = $"{who.info.name} - {who.bsns.oS.coord}", info = who.info, hwui = who, timeIn = DateTime.Now, process = currentWorkerProcess.working, timeOut = timeOut };
+            currentProcesses.Add(temp);
+            SortPackets();
         }
 
 /*        if (!workingWorkers.Contains(who))
@@ -57,7 +62,7 @@ public class AllWorkers : MonoBehaviour
     }
     void SortPackets()
     {
-
+        currentProcesses.OrderByDescending(x => x.timeOut);
     }
     public void StopWork(HiredWorkerUI who)
     {
