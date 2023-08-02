@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using System;
+using System.Linq;
 public enum currentWorkerProcess
 {
     empty, working, recovering
 }
 public struct WorkerTimePacket
 {
-    public WorkerInfo info;
     public currentWorkerProcess process;
-    public DateTime point;
+    public DateTime timeIn;
+    public DateTime timeOut;
     public HiredWorkerUI hwui;
     public UnhiredWorkerUI uhwui;
 }
@@ -24,6 +25,7 @@ public class AllWorkers : MonoBehaviour
 
     Dictionary<HiredWorkerUI, DateTime> timeIn = new Dictionary<HiredWorkerUI,DateTime>();
 
+    List<WorkerTimePacket> currentProcesses = new List<WorkerTimePacket>();
 
     private void Update()
     {
@@ -31,7 +33,18 @@ public class AllWorkers : MonoBehaviour
     }
     public void StartWork(HiredWorkerUI who)
     {
-        if (!workingWorkers.Contains(who))
+        if (currentProcesses.Any(x => x.hwui == who))
+        {
+            currentProcesses.First(x => x.hwui == who);
+        }
+        else
+        {
+            DateTime timeOut = new DateTime();
+            WorkerTimePacket temp = new WorkerTimePacket() { hwui = who, timeIn = DateTime.Now, process = currentWorkerProcess.working, timeOut = timeOut };
+            currentProcesses.Add(temp); 
+        }
+
+/*        if (!workingWorkers.Contains(who))
         {
             if (recoveringHiredWorkers.Contains(who))
             {
@@ -40,7 +53,11 @@ public class AllWorkers : MonoBehaviour
             }
             workingWorkers.Add(who);
             timeIn.Add(who, DateTime.Now);
-        }
+        }*/
+    }
+    void SortPackets()
+    {
+
     }
     public void StopWork(HiredWorkerUI who)
     {
@@ -50,6 +67,10 @@ public class AllWorkers : MonoBehaviour
             {
                 //can work
 
+                SortPackets();
+
+
+                //calculate energy for this guy
 
 
 
