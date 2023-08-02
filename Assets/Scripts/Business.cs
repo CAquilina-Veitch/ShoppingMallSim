@@ -125,9 +125,12 @@ public class Business : MonoBehaviour
     }
     public void updateVisualWorkers()
     {
-        for(int i = 0; i < activeWorkers.Count; i++)
+        for(int i = 0; i < visualPositions.npcs.Length; i++)
         {
+            if (i >= visualPositions.npcs.Length)
+            {
 
+            }
         }
     }
 

@@ -9,21 +9,9 @@ public class ShopPosition : MonoBehaviour
     [SerializeField] Sprite[] forwardSprites;
     [SerializeField] Sprite[] backSprites;
 
-    
 
-
-
-
-
-    // Start is called before the first frame update
-    void Start()
+    public void ChangeSprite(int who, species to)
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
