@@ -7,13 +7,11 @@ public class CustomerNPC : MonoBehaviour
     Business business;
     [SerializeField]Vector2[] isoPath;
     [SerializeField]Vector3[] realPath;
-    float timePerTile = 0.8f;
-    float t = 0;
-    Vector2 fromCoord, toCoord;
+    float timePerTile = 1.3f;
     [SerializeField]SpriteRenderer sR;
 
     animalType aT;
-
+    [SerializeField]Animator anim;
 
     public void init(Business goal)
     {
@@ -26,24 +24,6 @@ public class CustomerNPC : MonoBehaviour
         StartCoroutine(MoveNPC());
     }
 
-    IEnumerator walkPath()
-    {
-        Vector2 enterPosition = Random.Range(0, 2) == 0 ? Vector2.left : Vector2.down;
-        fromCoord = enterPosition;
-        toCoord = Vector2.zero;
-        t = 0;
-        sR.enabled = true;
-        for(int i = 0;i< realPath.Length;i++)
-        {
-            transform.position = toCoord;
-            fromCoord = realPath[i];
-            toCoord = realPath[i];
-            t = 0;
-            yield return new WaitForSeconds(timePerTile);
-        }
-    }
-
-    public float walkSpeed = 0.8f; // Set the desired speed of the NPC in units per second
 
     private int currentPointIndex = 0;
 
@@ -54,17 +34,20 @@ public class CustomerNPC : MonoBehaviour
         while (currentPointIndex < realPath.Length - 1)
         {
             Debug.Log(2);
-            // Calculate the current segment's duration based on the distance and desired speed
             Vector3 start = realPath[currentPointIndex];
             Vector3 end = realPath[currentPointIndex + 1];
-            float segmentDistance = Vector3.Distance(start, end);
-            float segmentDuration = segmentDistance / walkSpeed;
 
             float elapsedTime = 0;
 
-            while (elapsedTime < segmentDuration)
+            Vector3 direction = (end - start).normalized;
+
+            sR.flipX = (direction.x > 0 && direction.y < 0) || (direction.x < 0 && direction.y > 0)?true:false;
+            Debug.Log(direction);
+            anim.SetFloat("ydir", direction.y);
+
+            while (elapsedTime < timePerTile)
             {
-                float t = elapsedTime / segmentDuration;
+                float t = elapsedTime / timePerTile;
                 transform.position = Vector3.Lerp(start, end, t);
 
                 elapsedTime += Time.deltaTime;
@@ -74,31 +57,7 @@ public class CustomerNPC : MonoBehaviour
             // Move to the next segment
             currentPointIndex++;
         }
-
-        // If the NPC reached the last point, you can reset or stop the movement here.
-        // For example, you could loop the movement or disable the script to stop the NPC.
-        // This depends on your specific use case.
+        //npc at the end
     }
-
-
-
-
-    /*public void FixedUpdate()
-    {
-        if (t < 3)
-        {
-            t += timePerTile / 0.02f;
-            if (t > 1)
-            {
-                t = 3;
-                transform.position = Vector2.Lerp(fromCoord, toCoord, 1);
-            }
-            else
-            {
-                transform.position = Vector2.Lerp(fromCoord, toCoord, t);
-            }
-        }
-    }*/
-
 
 }
