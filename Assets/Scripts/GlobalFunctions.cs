@@ -24,7 +24,16 @@ public static class GlobalFunctions
     }
     public static Vector2[] reverseArray(Vector2[] array)
     {
-        Vector2[] temp = array;
+        Vector2[] temp = new Vector2[array.Length];
+        for (int i = 0; i < array.Length; i++)
+        {
+            temp[i] = array[array.Length - 1 - i];
+        }
+        return temp;
+    }
+    public static Vector3[] reverseArray(Vector3[] array)
+    {
+        Vector3[] temp = new Vector3[array.Length];
         for (int i = 0; i < array.Length; i++)
         {
             temp[i] = array[array.Length - 1 - i];

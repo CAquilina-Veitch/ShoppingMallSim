@@ -9,6 +9,7 @@ public class Customers : MonoBehaviour
 
     [SerializeField] GameObject customerPrefab;
 
+    [SerializeField] Wallet w;
     public void ChangeBusinessActivity(Business b, bool to)
     {
         if (!activeBusinesses.Contains(b) && to)
@@ -38,6 +39,7 @@ public class Customers : MonoBehaviour
         Debug.Log(temp.GetComponent<CustomerNPC>());
         walkers.Add(temp.GetComponent<CustomerNPC>());
         temp.GetComponent<CustomerNPC>().init(target);
+        temp.GetComponent<CustomerNPC>().cM = this;
     }
 
     private void Update()
@@ -50,6 +52,12 @@ public class Customers : MonoBehaviour
     public void SaleDay()
     {
         Debug.LogWarning("SaleDay");
+    }
+    public void makeSale(Business b)
+    {
+        Debug.LogWarning("Sale made");
+        w.Currency += b.stockDetails.value;
+        b.stockDetails.amount--;
     }
 
 }

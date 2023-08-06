@@ -99,10 +99,6 @@ public class Wallet : MonoBehaviour
         {
             Currency += 10000;
         }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            Currency += 3;
-        }
     }
 
 }
