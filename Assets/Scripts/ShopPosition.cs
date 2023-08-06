@@ -8,8 +8,7 @@ public class ShopPosition : MonoBehaviour
     public SpriteRenderer[] npcs;
     [SerializeField] Sprite[] forwardSprites;
     [SerializeField] Sprite[] backSprites;
-
-
+    public Transform[] wanderPoints;
     public void ChangeSprite(int who, species to)
     {
         Sprite[] temp = who != 1 ? ref forwardSprites : ref backSprites;
