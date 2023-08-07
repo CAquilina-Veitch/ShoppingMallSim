@@ -52,6 +52,8 @@ public class DailySpin : MonoBehaviour
         {
 
         }
+
+        //print(rotation);
     }
 
     public void StartSpin()
@@ -66,7 +68,9 @@ public class DailySpin : MonoBehaviour
 
     void reward()
     {
-        float val = (wheel.rotation.z + 24.35f) % 360;
+        float val = (rotation) % 360;//wheel.rotation.z*Mathf.Rad2Deg + 24.35f) % 360;
+        Debug.Log($"{val} {(val )%360} {(val%360)/360}from rotation {rotation}");
+
         if (val <90)
         {
             wallet.Premium += 10;
