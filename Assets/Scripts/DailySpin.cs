@@ -68,7 +68,7 @@ public class DailySpin : MonoBehaviour
 
     void reward()
     {
-        float val = (rotation) % 360;//wheel.rotation.z*Mathf.Rad2Deg + 24.35f) % 360;
+        float val = (rotation) % 360;
         Debug.Log($"{val} {(val )%360} {(val%360)/360}from rotation {rotation}");
 
         if (val <90)
@@ -77,7 +77,8 @@ public class DailySpin : MonoBehaviour
         }
         else if( val<180)
         {
-            wallet.Currency += 100;
+            //s
+            wallet.Currency += 40;
         }
         else if (val < 270)
         {
@@ -85,7 +86,8 @@ public class DailySpin : MonoBehaviour
         }
         else
         {
-            wallet.Currency += 40;
+            // m
+            wallet.Currency += 100;
         }
     }
     private void OnEnable()
