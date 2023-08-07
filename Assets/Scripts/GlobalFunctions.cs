@@ -192,9 +192,9 @@ public static class GlobalFunctions
         return new WorkerInfo
         {
             name = _name,
-            level = lvl+Random.Range(-2,2),
+            level = Mathf.Max(0, lvl+Random.Range(-2,2)),
             specie = (species)Random.Range(0, System.Enum.GetValues(typeof(species)).Length),
             Energy = 60
-    };
+        };
     }
 }

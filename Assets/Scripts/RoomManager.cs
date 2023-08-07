@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -20,6 +22,102 @@ public class RoomManager : MonoBehaviour
 
     public Dictionary<Vector2, Business> businesses = new Dictionary<Vector2, Business>();
     Vector2 currentlyOpenedInteractWindow = Vector2.one * -1;
+
+    float constructionTime = 60;
+
+    [Serializable]
+    public struct ConstructionTimePacket
+    {
+        public string _details;
+        public Vector2 coord;
+        public bool isPath;
+        public businessTypes businessType;
+        public DateTime timeIn;
+        public DateTime timeOut;
+    }
+
+    public List<ConstructionTimePacket> currentConstructions = new List<ConstructionTimePacket>();
+
+    public void StartConstruction(Vector2 coordWhere, businessTypes bT)
+    {
+        Debug.Log(1);
+        if (currentConstructions.Any(x => x.coord == coordWhere))
+        {
+            //currentProcesses.First(x => x.coord == coordWhere);
+            Debug.LogError($" somehow found {coordWhere}");
+
+        }
+        else
+        {
+            DateTime timeOut = DateTime.Now.AddMinutes(constructionTime);
+            ConstructionTimePacket temp = new ConstructionTimePacket() { _details = $"{coordWhere} - {bT}", timeIn = DateTime.Now, timeOut = timeOut, coord = coordWhere, isPath = false, businessType = bT };
+            currentConstructions.Add(temp);
+            SortPackets();
+        }
+    }
+    public void StartConstruction(Vector2 coordWhere, constructionType cT)
+    {
+        Debug.Log(1);
+        if (currentConstructions.Any(x => x.coord == coordWhere))
+        {
+            //currentProcesses.First(x => x.coord == coordWhere);
+            Debug.LogError($" somehow found {coordWhere}");
+        }
+        else
+        {
+            DateTime timeOut = DateTime.Now.AddMinutes(constructionTime);
+            ConstructionTimePacket temp = new ConstructionTimePacket() { _details = $"{coordWhere} - {cT}", timeIn = DateTime.Now, timeOut = timeOut, coord = coordWhere, isPath = true };
+            temp._details = $"{temp._details} - {temp.timeOut.ToString("HH:mm")}";
+            currentConstructions.Add(temp);
+            SortPackets();
+        }
+    }
+    void SortPackets()
+    {
+        currentConstructions.OrderByDescending(x => x.timeOut);
+    }
+    IEnumerator UpdateEverySecond()
+    {
+        if (currentConstructions.Count > 0)
+        {
+            if (currentConstructions[0].timeOut < DateTime.Now)
+            {
+                List<ConstructionTimePacket> toRemove = new List<ConstructionTimePacket>();
+                foreach(ConstructionTimePacket ctp in currentConstructions)
+                {
+                    if (ctp.timeOut < DateTime.Now)
+                    {
+                        if (ctp.isPath)
+                        {
+                            occupiedDictionary[ctp.coord].CompletePathConstruction();
+                        }
+                        else
+                        {
+                            occupiedDictionary[ctp.coord].CompleteBusinessConstruction();
+                        }
+                        toRemove.Add(ctp);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                foreach(ConstructionTimePacket ctp in toRemove)
+                {
+                    currentConstructions.Remove(ctp);
+                }
+
+            }
+        }
+        yield return new WaitForSeconds(1);
+        StartCoroutine(UpdateEverySecond());
+    }
+
+
+
+
+
+
     public void pathAdd(Path path, Vector2 CO)
     {
         //Debug.Log("Added path at " + CO);
@@ -296,10 +394,6 @@ public class RoomManager : MonoBehaviour
         return temp.ToArray();
     }
 
-    public void FixedUpdate()
-    {
-        
-    }
     public void AddBusiness(Business b, Vector2 coord)
     {
         if (!businesses.ContainsKey(coord))

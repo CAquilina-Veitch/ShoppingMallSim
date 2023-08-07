@@ -49,7 +49,7 @@ public class OccupiedSpace : MonoBehaviour
         sR = GetComponentInChildren<SpriteRenderer>();
         sR.sprite = workSprites[0];
         rM = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>();
-        transform.position = new Vector3 (0, 0, (transform.position.y * 0.1f)) + transform.position;
+        transform.position = new Vector3 (0, 0, transform.position.y * 0.1f) + transform.position;
 
 
     }
@@ -88,61 +88,7 @@ public class OccupiedSpace : MonoBehaviour
 
         if (cT == constructionType.Path)
         {
-            path = gameObject.AddComponent(typeof(Path)) as Path;
-            path.oS = this;
-            Destroy(businessCanvasOwner.gameObject);
-            GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().pathAdd(path, coord);
-            if (preExistingAdjPaths.Length != 0)
-            {
-                if (preExistingAdjPaths.Length > 1)
-                {
-                    //junciton, choose shorter, then update them until all are shorter
-
-                    List<Vector2Int> pathAndLength = new List<Vector2Int>();
-                    for (int i = 0; i < preExistingAdjPaths.Length; i++)
-                    {
-                        Vector2Int temp = new Vector2Int(i, rM.occupiedDictionary[preExistingAdjPaths[i]].pathFromEntrance.Count);
-                        pathAndLength.Add(temp);
-                    }
-
-
-
-                    pathAndLength.Sort((a, b) => a.y.CompareTo(b.y));
-
-                    Debug.Log($"{pathAndLength[0]} first, last {pathAndLength[pathAndLength.Count - 1]}");
-
-                    pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[0].x]].pathFromEntrance)
-                    {
-                        coord//adds coord on end
-                    };
-
-                    //update others
-                    for (int i = 1; i < pathAndLength.Count; i++)
-                    {
-                        if (pathFromEntrance.Count + 1 < pathAndLength[i].y)
-                        {
-                            rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[i].x]].UpdateLength(coord);
-                        }
-                    }
-
-                }
-                else
-                {
-                    //not junction
-                    pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[0]].pathFromEntrance)
-                    {
-                        coord//adds coord on end
-                    };
-                }
-
-
-
-            }
-            else
-            {
-                pathFromEntrance = new List<Vector2>() { coord };
-            }
-            path.init();
+            rM.StartConstruction(coord, constructionType.Path);
         }
         else if(cT == constructionType.Business)
         {
@@ -150,32 +96,117 @@ public class OccupiedSpace : MonoBehaviour
 
             sR.sprite = roomSprites[currentRoomHighlight];
 
-            pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[0]].pathFromEntrance)
-            {
-                coord
-            };
-            business = gameObject.AddComponent(typeof(Business)) as Business;
-            business.oS = this;
-            business.shopGUI = shop;
         }
         else
         {
 
         }
     }
+
+
+
+    
+
+
+    public void CompletePathConstruction()
+    {
+        path = gameObject.AddComponent(typeof(Path)) as Path;
+        path.oS = this;
+        Destroy(businessCanvasOwner.gameObject);
+        GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().pathAdd(path, coord);
+        if (preExistingAdjPaths.Length != 0)
+        {
+            if (preExistingAdjPaths.Length > 1)
+            {
+                //junciton, choose shorter, then update them until all are shorter
+
+                List<Vector2Int> pathAndLength = new List<Vector2Int>();
+                for (int i = 0; i < preExistingAdjPaths.Length; i++)
+                {
+                    Vector2Int temp = new Vector2Int(i, rM.occupiedDictionary[preExistingAdjPaths[i]].pathFromEntrance.Count);
+                    pathAndLength.Add(temp);
+                }
+
+
+
+                pathAndLength.Sort((a, b) => a.y.CompareTo(b.y));
+
+                Debug.Log($"{pathAndLength[0]} first, last {pathAndLength[pathAndLength.Count - 1]}");
+
+                pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[0].x]].pathFromEntrance)
+                {
+                    coord//adds coord on end
+                };
+
+                //update others
+                for (int i = 1; i < pathAndLength.Count; i++)
+                {
+                    if (pathFromEntrance.Count + 1 < pathAndLength[i].y)
+                    {
+                        rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[i].x]].UpdateLength(coord);
+                    }
+                }
+
+            }
+            else
+            {
+                //not junction
+                pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[0]].pathFromEntrance)
+                {
+                    coord//adds coord on end
+                };
+            }
+
+
+
+        }
+        else
+        {
+            pathFromEntrance = new List<Vector2>() { coord };
+        }
+        path.init();
+    }
+    public void CompleteBusinessConstruction()
+    {
+
+        pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[0]].pathFromEntrance)
+        {
+            coord
+        };
+        business = gameObject.AddComponent(typeof(Business)) as Business;
+        business.oS = this;
+        business.shopGUI = shop;
+        
+        GameObject temp = Instantiate(visualLayeredPrefabs[currentRoomHighlight], sR.transform);
+
+
+        //Debug.Log(1);
+        Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
+
+
+        rM.AddBusiness(business, coord);
+        business.visualPositions = temp.GetComponent<ShopPosition>();
+        business.listBG = bGList;
+        business.init();
+        business.stockDetails.type = (stockType)currentRoomHighlight;
+        business.ChangeEntranceDirection();
+
+    }
+
+
     public void UpdateLength(Vector2 coordReqFrom)
     {
-        Debug.LogError($"{coord} 1");
+        //Debug.LogError($"{coord} 1");
         preExistingAdjPaths = rM.AdjacentPaths(coord);
         
-        Debug.LogError(preExistingAdjPaths.Count());
+        //Debug.LogError(preExistingAdjPaths.Count());
 
 
         List<Vector2Int> pathAndLength = new List<Vector2Int>();
         for (int i = 0; i < preExistingAdjPaths.Length; i++)
         {
             Vector2Int temp = new Vector2Int(i, rM.occupiedDictionary[preExistingAdjPaths[i]].pathFromEntrance.Count);
-            Debug.Log(temp);
+            //Debug.Log(temp);
             pathAndLength.Add(temp);
         }
 
@@ -183,25 +214,25 @@ public class OccupiedSpace : MonoBehaviour
 
         pathAndLength.Sort((a, b) => a.y.CompareTo(b.y));
 
-        Debug.LogWarning($"{pathAndLength[0]} first, last {pathAndLength[pathAndLength.Count - 1]}, length of {pathAndLength.Count}");
+        //Debug.LogWarning($"{pathAndLength[0]} first, last {pathAndLength[pathAndLength.Count - 1]}, length of {pathAndLength.Count}");
 
         pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[0].x]].pathFromEntrance)
         {
             coord//adds coord on end
         };
-        Debug.LogWarning($"{coord} 2");
+        //Debug.LogWarning($"{coord} 2");
         //update others
         for (int i = 1; i < pathAndLength.Count; i++)
         {
-            Debug.LogWarning($"{coord} 3");
+            //Debug.LogWarning($"{coord} 3");
 
             if (pathFromEntrance.Count + 1 < pathAndLength[i].y)
             {
-                Debug.LogWarning($"{coord} 4");
+                //Debug.LogWarning($"{coord} 4");
 
                 if (coord != coordReqFrom)
                 {
-                    Debug.LogWarning($"{coord} 5");
+                    //Debug.LogWarning($"{coord} 5");
 
                     rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[i].x]].UpdateLength(coord);
                 }
@@ -216,19 +247,7 @@ public class OccupiedSpace : MonoBehaviour
         sR.sprite = workSprites[2];
 
         sR.enabled = false;
-        GameObject temp = Instantiate(visualLayeredPrefabs[currentRoomHighlight], sR.transform);
-        
-
-        Debug.Log(1);
-        Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
-
-
-        rM.AddBusiness(business, coord);
-        business.visualPositions = temp.GetComponent<ShopPosition>();
-        business.listBG = bGList;
-        business.init();
-        business.stockDetails.type = (stockType)currentRoomHighlight;
-        business.ChangeEntranceDirection();
+        rM.StartConstruction(coord,(businessTypes)currentRoomHighlight);
 
 
     }

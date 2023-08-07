@@ -55,8 +55,9 @@ public class Customers : MonoBehaviour
     }
     public void makeSale(Business b)
     {
-        Debug.LogWarning("Sale made");
+        Debug.LogWarning($"Sale made {w} {w.Currency}, adding {b.stockDetails.value}");
         w.Currency += b.stockDetails.value;
+        Debug.LogWarning($"{w} {w.Currency}");
         b.stockDetails.amount--;
     }
 

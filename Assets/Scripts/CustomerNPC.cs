@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CustomerNPC : MonoBehaviour
@@ -31,6 +32,20 @@ public class CustomerNPC : MonoBehaviour
 
     IEnumerator MoveNPC()
     {
+
+        float _eT = 0;
+        int m = Random.Range(0, 2) == 0 ? -1 : 1;
+        anim.SetFloat("ydir", 0);
+        sR.flipX = m > 0;
+        while (_eT < timePerTile)
+        {
+            float t = _eT / timePerTile;
+            transform.position = Vector3.Lerp(new Vector3(m*0.8f,-0.4f), Vector3.zero, t);
+
+            _eT += Time.deltaTime;
+            yield return null;
+        }
+
         goalShopPositions = business.visualPositions;
         realPath[realPath.Length - 1] = goalShopPositions.wanderPoints[0].position;
         Vector3 direction = Vector3.up;
@@ -84,7 +99,7 @@ public class CustomerNPC : MonoBehaviour
             Vector3 start = goalShopPositions.wanderPoints[1].position;
             Vector3 end = goalShopPositions.wanderPoints[2].position;
             int r = Random.Range(0, 2);
-            end.x = transform.position.x + (goalShopPositions.wanderPoints[2].localPosition.x * r == 0 ? 1 : -1);
+            end.x += (Mathf.Abs(goalShopPositions.wanderPoints[2].localPosition.x) * (r == 0 ? 0 : 2));
 
             float elapsedTime = 0;
 
@@ -133,9 +148,9 @@ public class CustomerNPC : MonoBehaviour
 
 
         _elapsed = 0;
-        while (_elapsed < timePerTile/2)
+        while (_elapsed < (timePerTile / 2))
         {
-            float t = _elapsed / timePerTile;
+            float t = _elapsed / (timePerTile / 2);
             transform.position = Vector3.Lerp(_midpoint, _midcheckout, t);
 
             _elapsed += Time.deltaTime;
@@ -143,9 +158,9 @@ public class CustomerNPC : MonoBehaviour
         }
         sR.flipX = !sR.flipX;
         _elapsed = 0;
-        while (_elapsed < timePerTile / 2)
+        while (_elapsed < (timePerTile / 2))
         {
-            float t = _elapsed / timePerTile;
+            float t = _elapsed / (timePerTile/2);
             transform.position = Vector3.Lerp(_midcheckout, _atcheckout, t);
 
             _elapsed += Time.deltaTime;
@@ -153,15 +168,16 @@ public class CustomerNPC : MonoBehaviour
         }
 
         anim.SetFloat("ydir", direction.y > 0 ? 0.51f : 0.49f);
+        sR.flipX = !sR.flipX;
         yield return new WaitForSeconds(5 - business.activeWorkers.Count);
         cM.makeSale(business);
-
+        sR.flipX = !sR.flipX;
         anim.SetFloat("ydir", direction.y > 0 ? 0 : 1);
 
         _elapsed = 0;
         while (_elapsed < timePerTile / 2)
         {
-            float t = _elapsed / timePerTile;
+            float t = _elapsed / (timePerTile / 2);
             transform.position = Vector3.Lerp(_atcheckout, _midcheckout, t);
 
             _elapsed += Time.deltaTime;
@@ -171,7 +187,7 @@ public class CustomerNPC : MonoBehaviour
         _elapsed = 0;
         while (_elapsed < timePerTile / 2)
         {
-            float t = _elapsed / timePerTile;
+            float t = _elapsed / (timePerTile / 2);
             transform.position = Vector3.Lerp(_midcheckout, _midpoint, t);
 
             _elapsed += Time.deltaTime;
@@ -182,7 +198,6 @@ public class CustomerNPC : MonoBehaviour
         realPath = GlobalFunctions.reverseArray(realPath);
         while (currentPointIndex < realPath.Length - 1)
         {
-            Debug.Log(realPath[currentPointIndex]);
             Vector3 start = realPath[currentPointIndex];
             Vector3 end = realPath[currentPointIndex + 1];
 
@@ -205,7 +220,20 @@ public class CustomerNPC : MonoBehaviour
             // Move to the next segment
             currentPointIndex++;
         }
-        Debug.LogWarning("finished path length " +realPath.Length);
+
+        _eT = 0;
+        anim.SetFloat("ydir", 0);
+        sR.flipX = m > 0;
+        while (_eT < timePerTile)
+        {
+            float t = _eT / timePerTile;
+            transform.position = Vector3.Lerp(Vector3.zero,new Vector3(m * 0.8f, -0.4f), t);
+
+            _eT += Time.deltaTime;
+            yield return null;
+        }
+
+
 
 
 

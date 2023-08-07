@@ -23,16 +23,12 @@ public class AllWorkers : MonoBehaviour
 {
     public List<WorkerTimePacket> currentProcesses = new List<WorkerTimePacket>();
 
-    private void Update()
-    {
-       
-    }
     public void StartWork(HiredWorkerUI who)
     {
         Debug.Log(1);
         if (currentProcesses.Any(x => x.hwui == who))
         {
-            currentProcesses.First(x => x.hwui == who);
+            Debug.LogError($"somehow found {currentProcesses.First(x => x.hwui == who)._details}");
         }
         else
         {
