@@ -41,7 +41,7 @@ public class OccupiedSpace : MonoBehaviour
 
     public GameObject[] visualLayeredPrefabs;
 
-
+    public ConstructionVisuals cV;
 
 
     private void OnEnable()
@@ -84,8 +84,10 @@ public class OccupiedSpace : MonoBehaviour
         //hide canvas
         Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
 
-        sR.sprite = workSprites[(int)cT + 1];
-
+        Debug.Log(sR.sprite);
+        sR.sprite = workSprites[2];
+        Debug.Log(sR.sprite);
+        cV.gameObject.SetActive(true);
         if (cT == constructionType.Path)
         {
             rM.StartConstruction(coord, constructionType.Path);
@@ -248,6 +250,8 @@ public class OccupiedSpace : MonoBehaviour
 
         sR.enabled = false;
         rM.StartConstruction(coord,(businessTypes)currentRoomHighlight);
+
+        cV.gameObject.SetActive(true);
 
 
     }

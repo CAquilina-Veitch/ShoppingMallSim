@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,11 @@ public static class GlobalFunctions
     public static Vector3 isoCoordToWorldPosition(this Vector2 coord)
     {
         return new Vector3(coord.x - coord.y, 0.5f * (coord.x + coord.y));
-    }    
+    }
     public static Vector3[] isoCoordToWorldPosition(this Vector2[] coords)
     {
         Vector3[] temp = new Vector3[coords.Length];
-        for(int i =0; i < temp.Length; i++)
+        for (int i = 0; i < temp.Length; i++)
         {
             temp[i] = coords[i].isoCoordToWorldPosition();
         }
@@ -56,7 +57,7 @@ public static class GlobalFunctions
         }
         Debug.Log(1);
         return array;
-        
+
     }
     public static Vector2[] addToArrayStart(this Vector2[] array, Vector2 added)
     {
@@ -111,12 +112,13 @@ public static class GlobalFunctions
             temp = Vector2.negativeInfinity;
         }
         return temp;
-    }    public static Vector2 Last(this Vector2[] array,int from)
+    }
+    public static Vector2 Last(this Vector2[] array, int from)
     {
         Vector2 temp;
         try
         {
-            temp = array[array.Length - 1-from];
+            temp = array[array.Length - 1 - from];
         }
         catch
         {
@@ -144,7 +146,7 @@ public static class GlobalFunctions
         return new Vector2(v.y, v.x);
     }
 
-    
+
     public static Vector2[] AddArrayToArrayEnd(this Vector2[] array, Vector2[] arrayToAdd)
     {
         List<Vector2> list = new List<Vector2>(array);
@@ -157,44 +159,45 @@ public static class GlobalFunctions
             }
         }
 
-        
+
 
         list.AddRange(arrayToAdd);
         return list.ToArray();
     }
     static string[][] nameSegments =
     {
-        new string[]
-        {
-            "C","B","R","G","J","L","W","Sh","Bl","N","Fr","F","K","S","P"
-        },
-        new string[]
-        {
-            "o","i","u","e"
-        },
-        new string[]
-        {
-            "bb","dd","ff","ch","pp","rt","sh","ll","l","d"
-        },new string[]
-        {
-            "y","s","ie","er","olas","opher"
-        }
+    new string[]
+    {
+        "C","B","R","G","J","L","W","Sh","Bl","N","Fr","F","K","S","P"
+    },
+    new string[]
+    {
+        "o","i","u","e"
+    },
+    new string[]
+    {
+        "bb","dd","ff","ch","pp","rt","sh","ll","l","d"
+    },new string[]
+    {
+        "y","s","ie","er","olas","opher"
+    }
 
-    };
+};
     public static WorkerInfo RandomNewWorker(int lvl)
     {
         //Debug.Log("worker" + ((species)Random.Range(0, System.Enum.GetValues(typeof(species)).Length)));
         string _name = "";
-        for(int i = 0; i < nameSegments.Count(); i++)
+        for (int i = 0; i < nameSegments.Count(); i++)
         {
-            _name = $"{_name}{nameSegments[i][Random.Range(0, nameSegments[i].Count())]}";
+            _name = $"{_name}{nameSegments[i][UnityEngine.Random.Range(0, nameSegments[i].Count())]}";
         }
         return new WorkerInfo
         {
             name = _name,
-            level = Mathf.Max(0, lvl+Random.Range(-2,2)),
-            specie = (species)Random.Range(0, System.Enum.GetValues(typeof(species)).Length),
+            level = Mathf.Max(0, lvl + UnityEngine.Random.Range(-2, 2)),
+            specie = (species)UnityEngine.Random.Range(0, System.Enum.GetValues(typeof(species)).Length),
             Energy = 60
         };
     }
+
 }

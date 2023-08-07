@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 
+
 public class UnhiredWorkers : MonoBehaviour
 {
     public List<WorkerInfo> unhiredWorkers = new List<WorkerInfo>();

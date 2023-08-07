@@ -23,7 +23,8 @@ public class RoomManager : MonoBehaviour
     public Dictionary<Vector2, Business> businesses = new Dictionary<Vector2, Business>();
     Vector2 currentlyOpenedInteractWindow = Vector2.one * -1;
 
-    float constructionTime = 60;
+    //float constructionTime = 1/4f;
+    TimeSpan constructionTime = new TimeSpan(0, 0, 10);
 
     [Serializable]
     public struct ConstructionTimePacket
@@ -49,7 +50,7 @@ public class RoomManager : MonoBehaviour
         }
         else
         {
-            DateTime timeOut = DateTime.Now.AddMinutes(constructionTime);
+            DateTime timeOut = DateTime.Now.Add(constructionTime);
             ConstructionTimePacket temp = new ConstructionTimePacket() { _details = $"{coordWhere} - {bT}", timeIn = DateTime.Now, timeOut = timeOut, coord = coordWhere, isPath = false, businessType = bT };
             currentConstructions.Add(temp);
             SortPackets();
@@ -65,7 +66,7 @@ public class RoomManager : MonoBehaviour
         }
         else
         {
-            DateTime timeOut = DateTime.Now.AddMinutes(constructionTime);
+            DateTime timeOut = DateTime.Now.Add(constructionTime);
             ConstructionTimePacket temp = new ConstructionTimePacket() { _details = $"{coordWhere} - {cT}", timeIn = DateTime.Now, timeOut = timeOut, coord = coordWhere, isPath = true };
             temp._details = $"{temp._details} - {temp.timeOut.ToString("HH:mm")}";
             currentConstructions.Add(temp);
@@ -216,7 +217,7 @@ public class RoomManager : MonoBehaviour
     {
         cam = Camera.main;
         newRoom(new Vector2(0, 0));
-
+        StartCoroutine(UpdateEverySecond());
     }
 
     // Update is called once per frame
