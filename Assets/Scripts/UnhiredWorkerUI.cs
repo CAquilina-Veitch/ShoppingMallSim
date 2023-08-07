@@ -48,13 +48,8 @@ public class UnhiredWorkerUI : MonoBehaviour
     }
 
     public void updateVisuals()
-    {/*
-        Debug.Log(gameObject);
-        Debug.Log(w);
-        Debug.Log(w.energy);
-        Debug.Log(workerSpecieSprites);
-        Debug.Log(workerSpecieSprites.Length);*/
-        Debug.Log($"updating face of {info.name}");
+    {
+        //Debug.Log($"updating face of {info.name}");
         icon.sprite = workerFaceSprite;
         workerName.text = info.name;
         level.text = $"{info.level}";

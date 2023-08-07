@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Unity.VisualScripting;
+using System.Linq;
 
 public enum stockType
 {
@@ -36,6 +37,7 @@ public class Business : MonoBehaviour
 
     public stockInfo stockDetails;
 
+    Vector2 pathFrom;
 
     public List<WorkerInfo> hiredWorkers = new List<WorkerInfo>();
     public List<HiredWorkerUI> activeWorkers = new List<HiredWorkerUI>();
@@ -72,6 +74,31 @@ public class Business : MonoBehaviour
         }
     }
 
+    public void ChangeEntranceDirection()
+    {
+        pathFrom = oS.pathFromEntrance.ToArray().Last() - oS.pathFromEntrance.ToArray().Last(1);
+        Debug.Log(pathFrom);
+        if(pathFrom == Vector2.up)
+        {
+            
+        }
+        else if (pathFrom == Vector2.down)
+        {
+
+        }else if(pathFrom == Vector2.left)
+        {
+
+        }else if (pathFrom == Vector2.right)
+        {
+
+        }
+        else
+        {
+            Debug.LogError($"this shouldnt happen, had {pathFrom}, from {oS.pathFromEntrance.ToArray().Last()} -  {oS.pathFromEntrance.ToArray().Last(1)}");
+        }
+
+
+    }
 
     public void init()
     {
@@ -84,7 +111,6 @@ public class Business : MonoBehaviour
             hiredWUI.Add(temp.GetComponent<HiredWorkerUI>());
             temp.GetComponent<HiredWorkerUI>().init(this);
 
-            //Debug.Log($"business init new worker{i}");
             
             hiredWUI[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, i * -20);
 

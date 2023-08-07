@@ -123,16 +123,6 @@ public class HiredWorkerUI : MonoBehaviour
                 selected = false;
             }
         }
-        /*
-        if (bsns.selected.Contains(this) && !selected)
-        {
-            bsns.selected.Remove(this);
-        }
-        else if (!bsns.selected.Contains(this) && selected)
-        {
-            bsns.selected.Add(this);
-        }*/
-
     }
     public void Unswipe()
     {

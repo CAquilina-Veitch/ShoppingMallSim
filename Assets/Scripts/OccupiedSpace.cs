@@ -228,7 +228,7 @@ public class OccupiedSpace : MonoBehaviour
         business.listBG = bGList;
         business.init();
         business.stockDetails.type = (stockType)currentRoomHighlight;
-        
+        business.ChangeEntranceDirection();
 
 
     }

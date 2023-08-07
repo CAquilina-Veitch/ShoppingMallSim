@@ -111,6 +111,19 @@ public static class GlobalFunctions
             temp = Vector2.negativeInfinity;
         }
         return temp;
+    }    public static Vector2 Last(this Vector2[] array,int from)
+    {
+        Vector2 temp;
+        try
+        {
+            temp = array[array.Length - 1-from];
+        }
+        catch
+        {
+            Debug.Log("AAA" + array);
+            temp = Vector2.negativeInfinity;
+        }
+        return temp;
     }
     public static Vector2 First(this Vector2[] array)
     {
