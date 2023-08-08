@@ -14,9 +14,16 @@ public class Wallet : MonoBehaviour
 
     public int visualCurrency, visualPremium;
 
-    private float textTransitionTime = 0.2f;
+    private float textTransitionTime = 0.25f;
     float s,p;
+    float stm, ptm;
 
+    bool sl, pl;
+
+    bool sd, pd;
+    Vector2 gc, gp;
+
+    float maxSize = 1.7f;
     public void Start()
     {
         Currency += 100;
@@ -30,6 +37,10 @@ public class Wallet : MonoBehaviour
         }
         set
         {
+            gc = new Vector2(standardCurrency, value);
+            sl = true;
+            s = 0;
+            sd = true;
             standardCurrency = value;
         }
     }
@@ -41,6 +52,10 @@ public class Wallet : MonoBehaviour
         }
         set
         {
+            gp = new Vector2(Premium, value);
+            pl = true;
+            p = 0;
+            pd = true;
             premiumCurrency = value;
         }
     }
@@ -76,18 +91,69 @@ public class Wallet : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        s = Mathf.Lerp(s, standardCurrency != visualCurrency ? 1 : 0, 0.1f);
-        p = Mathf.Lerp(p, standardCurrency != visualCurrency ? 1 : 0, 0.1f);
+        if (sl)
+        {
+            if (s >= 1)
+            {
+                sl = false;
+                visualCurrency = standardCurrency;
+            }
+            else
+            {
+                visualCurrency = Mathf.RoundToInt(Mathf.Lerp(gc.x, gc.y, s));
+                s += Time.deltaTime / textTransitionTime;
+            }
+            uiCurrency.text = $"{visualCurrency}";
 
-        if (standardCurrency != visualCurrency)
-        {
-            visualCurrency = Mathf.RoundToInt(Mathf.Lerp(visualCurrency, standardCurrency, 0.5f));
-            uiCurrency.text = ""+visualCurrency;
         }
-        if (premiumCurrency != visualCurrency)
+        if (pl)
         {
-            visualPremium = Mathf.RoundToInt(Mathf.Lerp(visualPremium, premiumCurrency, 0.5f));
-            uiPremium.text = "" + premiumCurrency;
+            if (p >= 1)
+            {
+                pl = false;
+                visualCurrency = standardCurrency;
+            }
+            else
+            {
+                visualCurrency = Mathf.RoundToInt(Mathf.Lerp(gp.x, gp.y, p));
+                p += Time.deltaTime / textTransitionTime;
+            }
+            uiPremium.text = $"{visualPremium}";
+
+        }
+        if (sd)
+        {
+            if (sl)
+            {
+                stm *= 1.2f;
+            }
+            else
+            {
+                stm *= 0.8f;
+                if (stm < 1)
+                {
+                    sd = false;
+                }
+            }
+            stm = Mathf.Clamp(stm, 1, maxSize);
+            uiCurrency.transform.localScale = Vector3.one * stm;
+        }
+        if (pd)
+        {
+            if (pl)
+            {
+                ptm *= 1.2f;
+            }
+            else
+            {
+                ptm *= 0.8f;
+                if (ptm < 1)
+                {
+                    pd = false;
+                }
+            }
+            ptm = Mathf.Clamp(stm, 1, maxSize);
+            uiPremium.transform.localScale = Vector3.one * ptm;
         }
     }
 

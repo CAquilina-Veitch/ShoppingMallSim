@@ -41,6 +41,17 @@ public class Customers : MonoBehaviour
         temp.GetComponent<CustomerNPC>().init(target);
         temp.GetComponent<CustomerNPC>().cM = this;
     }
+    public void StartNewCustomer(Business b)
+    {
+        Business target = b;
+        GameObject temp = Instantiate(customerPrefab, transform);
+        Debug.Log(temp);
+        Debug.Log(walkers);
+        Debug.Log(temp.GetComponent<CustomerNPC>());
+        walkers.Add(temp.GetComponent<CustomerNPC>());
+        temp.GetComponent<CustomerNPC>().init(target);
+        temp.GetComponent<CustomerNPC>().cM = this;
+    }
 
     private void Update()
     {
@@ -52,6 +63,7 @@ public class Customers : MonoBehaviour
     public void SaleDay()
     {
         Debug.LogWarning("SaleDay");
+        StartCoroutine(saleDayLoop());
     }
     public void makeSale(Business b)
     {
@@ -59,6 +71,33 @@ public class Customers : MonoBehaviour
         w.Currency += b.stockDetails.value;
         Debug.LogWarning($"{w} {w.Currency}");
         b.stockDetails.amount--;
+    }
+    private void FixedUpdate()
+    {
+        if (activeBusinesses.Count > 0)
+        {
+            foreach(Business b in activeBusinesses)
+            {
+                //stock check here ???
+
+                int n = Random.Range(0, 5);
+                n -= b.activeWorkers.Count;
+                if(n <= 0)
+                {
+                    StartNewCustomer(b);
+                }
+            }
+        }
+    }
+    
+
+    IEnumerator saleDayLoop()
+    {
+        for (int i = 0; i < 30; i++)
+        {
+            StartNewCustomer();
+            yield return new WaitForSeconds(0.4f);
+        }
     }
 
 }
