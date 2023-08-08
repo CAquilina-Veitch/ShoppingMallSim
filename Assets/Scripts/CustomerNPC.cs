@@ -15,6 +15,8 @@ public class CustomerNPC : MonoBehaviour
     [SerializeField]Animator anim;
     ShopPosition goalShopPositions;
     public Customers cM;
+
+
     public void init(Business goal)
     {
         business = goal;

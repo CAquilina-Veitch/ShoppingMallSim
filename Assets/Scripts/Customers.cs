@@ -10,6 +10,9 @@ public class Customers : MonoBehaviour
     [SerializeField] GameObject customerPrefab;
 
     [SerializeField] Wallet w;
+
+    [SerializeField] GameObject moneyEarntPrefab;
+
     public void ChangeBusinessActivity(Business b, bool to)
     {
         if (!activeBusinesses.Contains(b) && to)
