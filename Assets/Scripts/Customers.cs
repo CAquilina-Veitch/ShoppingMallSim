@@ -74,6 +74,10 @@ public class Customers : MonoBehaviour
         w.Currency += b.stockDetails.value;
         Debug.LogWarning($"{w} {w.Currency}");
         b.stockDetails.amount--;
+
+        GameObject temp = Instantiate(moneyEarntPrefab,transform);
+        temp.GetComponent<MoneyEarnt>().StartMoving(b);
+
     }
     private void FixedUpdate()
     {

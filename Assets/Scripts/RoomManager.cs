@@ -176,8 +176,6 @@ public class RoomManager : MonoBehaviour
 
     }
 
-
-
     public bool checkAdjacentIsEmpty(Vector2 coordinate)
     {
         if (coordinate.x < 0 || coordinate.y < 0)
