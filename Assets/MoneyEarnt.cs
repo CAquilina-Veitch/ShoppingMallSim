@@ -10,6 +10,9 @@ public class MoneyEarnt : MonoBehaviour
     Vector3 startPosition;
     Vector3 goalPosition;
     Vector3 screenGoalPosition = new Vector3(0,0,0);
+
+    [SerializeField] GameObject doneEffectPrefab;
+
     public void StartMoving(Business b)
     {
         startPosition = b.oS.coord;
