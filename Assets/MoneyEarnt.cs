@@ -5,7 +5,6 @@ using UnityEngine;
 public class MoneyEarnt : MonoBehaviour
 {
     float travelTime = 2;
-
     bool traveling;
     float i = 0;
     Vector3 startPosition;
@@ -21,7 +20,12 @@ public class MoneyEarnt : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+
+        if (traveling)
+        {
+            transform.position = Vector3.Lerp(startPosition,goalPosition,i);
+        }
+
     }
 
 
