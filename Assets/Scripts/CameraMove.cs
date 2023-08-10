@@ -11,7 +11,8 @@ public class CameraMove : MonoBehaviour
     Vector3 basePosition;
     float ratio = 5 / 10.8f;
     float scale = 5f;
-    Vector2 boundsMax = new Vector2(2,0);
+    Vector2 boundsMax = new Vector2(38, 38.2f);
+    Vector2 boundsMin = new Vector2(-38, 0);
     // Update is called once per frame
     private void Start()
     {
@@ -65,6 +66,6 @@ public class CameraMove : MonoBehaviour
         cam.orthographicSize = scale;
         *//*basePosition = new Vector3(Mathf.Clamp(basePosition.x, 0, 2*boundsMax.x * (1 - scrollAmount)), Mathf.Clamp(basePosition.y, 0, 2*boundsMax.y * (1 - scrollAmount)), -10);
         */transform.position = basePosition + Vector3.forward*-10;/*
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, 0, boundsMax.x*2), Mathf.Clamp(transform.position.y, 0, boundsMax.y), transform.position.z);*/
+        */transform.position = new Vector3(Mathf.Clamp(transform.position.x, boundsMin.x, boundsMax.x), Mathf.Clamp(transform.position.y, boundsMin.y, boundsMax.y), transform.position.z);
     }
 }
