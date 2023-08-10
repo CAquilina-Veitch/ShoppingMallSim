@@ -11,8 +11,11 @@ public class CameraMove : MonoBehaviour
     Vector3 basePosition;
     float ratio = 5 / 10.8f;
     float scale = 5f;
-    Vector2 boundsMax = new Vector2(38, 38.2f);
+    Vector3 midPoint = new Vector3(0, 19);
+    Vector2 boundsMax = new Vector2(38, 38);
     Vector2 boundsMin = new Vector2(-38, 0);
+    Vector2 distanceCenter = new Vector2(0, 0);
+    public float multiplier = 1;
     // Update is called once per frame
     private void Start()
     {
@@ -29,25 +32,26 @@ public class CameraMove : MonoBehaviour
     void Update()
     {
 
-/*
-        //Movement
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            mouseDown = Input.mousePosition;
-            mouseCamPos = transform.position;
-        }
-        else if(Input.GetKey(KeyCode.Mouse1))
-        {
-            diff = mouseDown - Input.mousePosition;
-            transform.position = diff - cam.ScreenToWorldPoint(mouseDown);
-        }*/
-        
+        /*
+                //Movement
+                if (Input.GetKeyDown(KeyCode.Mouse1))
+                {
+                    mouseDown = Input.mousePosition;
+                    mouseCamPos = transform.position;
+                }
+                else if(Input.GetKey(KeyCode.Mouse1))
+                {
+                    diff = mouseDown - Input.mousePosition;
+                    transform.position = diff - cam.ScreenToWorldPoint(mouseDown);
+                }*/
 
 
+        distanceCenter = (transform.position - midPoint);
+        Debug.LogWarning(distanceCenter);
+        multiplier = -Mathf.Abs(distanceCenter.y) + (boundsMax.x * 0.5f);
+        Debug.Log(multiplier);
 
-
-
-
+      
 
 
         if (Input.GetKey(KeyCode.UpArrow) == true || Input.GetKey(KeyCode.W) == true) { basePosition += transform.up * moveSpeed * Time.deltaTime; }
@@ -61,11 +65,14 @@ public class CameraMove : MonoBehaviour
         {
             scrollAmount = Mathf.Clamp(scrollAmount - Input.mouseScrollDelta.y * scrollSpeed, 0.1f, 1);
             
-        }/*
+        }
+        Debug.Log($"{basePosition.x},  {multiplier}");
+        /*
         scale = Mathf.Lerp(0, boundsMax.x + 1 *ratio, scrollAmount);
         cam.orthographicSize = scale;
         *//*basePosition = new Vector3(Mathf.Clamp(basePosition.x, 0, 2*boundsMax.x * (1 - scrollAmount)), Mathf.Clamp(basePosition.y, 0, 2*boundsMax.y * (1 - scrollAmount)), -10);
-        */transform.position = basePosition + Vector3.forward*-10;/*
-        */transform.position = new Vector3(Mathf.Clamp(transform.position.x, boundsMin.x, boundsMax.x), Mathf.Clamp(transform.position.y, boundsMin.y, boundsMax.y), transform.position.z);
+        */
+        basePosition = new Vector3(Mathf.Clamp(basePosition.x, -multiplier * 2, multiplier * 2), Mathf.Clamp(basePosition.y, boundsMin.y, boundsMax.y), transform.position.z);
+        transform.position = new Vector3(basePosition.x, basePosition.y, -10);
     }
 }
