@@ -87,12 +87,11 @@ public class OccupiedSpace : MonoBehaviour
         //hide canvas
         Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
 
-        Debug.Log(sR.sprite);
-        sR.sprite = workSprites[2];
-        Debug.Log(sR.sprite);
-        cV.gameObject.SetActive(true);
+        sR.sprite = workSprites[0];
+        
         if (cT == constructionType.Path)
         {
+            cV.gameObject.SetActive(true);
             rM.StartConstruction(coord, constructionType.Path);
         }
         else if(cT == constructionType.Business)
@@ -188,9 +187,8 @@ public class OccupiedSpace : MonoBehaviour
 
 
         //Debug.Log(1);
-        Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
 
-
+        sR.enabled = false;
         rM.AddBusiness(business, coord);
         business.visualPositions = temp.GetComponent<ShopPosition>();
         business.listBG = bGList;
@@ -251,14 +249,15 @@ public class OccupiedSpace : MonoBehaviour
 
     public void confirmHoveredBusiness()
     {
-        sR.sprite = workSprites[2];
+        sR.sprite = workSprites[0];
 
-        sR.enabled = false;
+        //sR.enabled = false;
+        cV.gameObject.SetActive(true);
         rM.StartConstruction(coord,(businessTypes)currentRoomHighlight);
 
         cV.gameObject.SetActive(true);
 
-
+        Destroy(chooseBuildingCanvas);
     }
 
     public void ShowBusinessUI(bool to)
