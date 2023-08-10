@@ -5,38 +5,36 @@ using spr = UnityEngine.SpriteRenderer;
 using os = OccupiedSpace;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class ConstructionVisuals : MonoBehaviour
 {
-    spr sR;
+    [SerializeField] GameObject canvas;
     [SerializeField] os oS;
     [SerializeField] RectMask2D mask;
     float fraction;
-    float totalTime;
-    float elapsedTime;
-    private void OnEnable()
-    {
-        sR = GetComponent<spr>();
-
-        //make the walls appear or not bsed off cam pos;
-
-
-    }
+    TimeSpan total;
+    TimeSpan elapsed;
+    DateTime timeIn;
+    
     public void SetPacket(ConstructionTimePacket packet)
     {
-        elapsedTime = 0;
-        totalTime = (packet.timeOut - packet.timeIn).Seconds;
-        fraction = 0.01f * totalTime;
+        canvas.SetActive(true);
+        timeIn = packet.timeIn;
+        total = (packet.timeOut - packet.timeIn);
+        fraction = 0.01f * (float)total.TotalSeconds;
         StartCoroutine(updateTimer());
     }
     IEnumerator updateTimer()
     {
         yield return new WaitForSeconds(fraction);
-        elapsedTime += fraction;
+        elapsed = DateTime.Now-timeIn;
         UpdatePercentage();
-        if (elapsedTime >= totalTime)
+        if (elapsed.TotalSeconds >= total.TotalSeconds)
         {
             //done idk what to doehere
+            Debug.Log($"{elapsed.TotalSeconds}, {elapsed}, elapsed: from {total.TotalSeconds}, {total} ");
+            Destroy(gameObject);
         }
         else
         {
@@ -45,7 +43,7 @@ public class ConstructionVisuals : MonoBehaviour
     }
     void UpdatePercentage()
     {
-        mask.padding = new Vector4(0, 0, elapsedTime/totalTime);
+        mask.padding = new Vector4(0, 0, (float)elapsed.TotalSeconds/(float)total.TotalSeconds);
     }
 
 }

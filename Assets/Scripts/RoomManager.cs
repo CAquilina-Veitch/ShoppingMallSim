@@ -85,13 +85,17 @@ public class RoomManager : MonoBehaviour
     {
         if (currentConstructions.Count > 0)
         {
+            Debug.Log($"{currentConstructions[0].timeOut} out, now is {DateTime.Now}");
+
             if (currentConstructions[0].timeOut < DateTime.Now)
             {
                 List<ConstructionTimePacket> toRemove = new List<ConstructionTimePacket>();
                 foreach(ConstructionTimePacket ctp in currentConstructions)
                 {
+                    
                     if (ctp.timeOut < DateTime.Now)
                     {
+                        
                         if (ctp.isPath)
                         {
                             occupiedDictionary[ctp.coord].CompletePathConstruction();

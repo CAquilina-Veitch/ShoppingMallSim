@@ -80,11 +80,11 @@ public class Wallet : MonoBehaviour
         {
             if (isPremium)
             {
-                premiumCurrency -= amount;
+                Premium -= amount;
             }
             else
             {
-                standardCurrency -= amount;
+                Currency -= amount;
             }
             return true;
         }
