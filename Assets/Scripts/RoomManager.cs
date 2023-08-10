@@ -7,6 +7,16 @@ using UnityEngine;
 
 public enum businessTypes {Construction, Clothes, Groceries, Videogames, Books, Shoes};
 public enum constructionType { Path, Business, Parking};
+[Serializable]
+public struct ConstructionTimePacket
+{
+    public string _details;
+    public Vector2 coord;
+    public bool isPath;
+    public businessTypes businessType;
+    public DateTime timeIn;
+    public DateTime timeOut;
+}
 public class RoomManager : MonoBehaviour
 {
     [SerializeField] GameObject building;
@@ -26,16 +36,7 @@ public class RoomManager : MonoBehaviour
     //float constructionTime = 1/4f;
     TimeSpan constructionTime = new TimeSpan(0, 0, 10);
 
-    [Serializable]
-    public struct ConstructionTimePacket
-    {
-        public string _details;
-        public Vector2 coord;
-        public bool isPath;
-        public businessTypes businessType;
-        public DateTime timeIn;
-        public DateTime timeOut;
-    }
+    
 
     public List<ConstructionTimePacket> currentConstructions = new List<ConstructionTimePacket>();
 
@@ -54,7 +55,9 @@ public class RoomManager : MonoBehaviour
             ConstructionTimePacket temp = new ConstructionTimePacket() { _details = $"{coordWhere} - {bT}", timeIn = DateTime.Now, timeOut = timeOut, coord = coordWhere, isPath = false, businessType = bT };
             currentConstructions.Add(temp);
             SortPackets();
+            occupiedDictionary[coordWhere].cV.SetPacket(temp);
         }
+        
     }
     public void StartConstruction(Vector2 coordWhere, constructionType cT)
     {
@@ -71,6 +74,7 @@ public class RoomManager : MonoBehaviour
             temp._details = $"{temp._details} - {temp.timeOut.ToString("HH:mm")}";
             currentConstructions.Add(temp);
             SortPackets();
+            occupiedDictionary[coordWhere].cV.SetPacket(temp);
         }
     }
     void SortPackets()

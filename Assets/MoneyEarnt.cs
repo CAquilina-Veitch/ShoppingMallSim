@@ -9,7 +9,7 @@ public class MoneyEarnt : MonoBehaviour
     float elapsed = 0;
     Vector3 startPosition;
     Vector3 goalPosition;
-    Vector3 screenGoalPosition = new Vector3(0,0,0);
+    Vector3 screenGoalPosition = new Vector3(340, 25, 0);
 
     [SerializeField] GameObject doneEffectPrefab;
 
@@ -34,6 +34,7 @@ public class MoneyEarnt : MonoBehaviour
                 elapsed = travelTime;
                 traveling = false;
                 Debug.LogWarning("Done");
+                StartCoroutine(done());
             }
             float t = elapsed / travelTime;
 
@@ -42,6 +43,14 @@ public class MoneyEarnt : MonoBehaviour
             elapsed += Time.deltaTime;
         }
 
+    }
+    IEnumerator done()
+    {
+        GetComponent<SpriteRenderer>().enabled = false;
+        GameObject temp = Instantiate(doneEffectPrefab, transform.position, Quaternion.identity, transform);
+        yield return new WaitForSeconds(2);
+        Destroy(temp);
+        Destroy(gameObject);
     }
 
 
