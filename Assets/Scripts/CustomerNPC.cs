@@ -11,7 +11,7 @@ public class CustomerNPC : MonoBehaviour
     float timePerTile = 2.5f;
     [SerializeField]SpriteRenderer sR;
 
-    animalType aT;
+    [SerializeField] animalType aT;
     [SerializeField]Animator anim;
     ShopPosition goalShopPositions;
     public Customers cM;
@@ -25,6 +25,7 @@ public class CustomerNPC : MonoBehaviour
         aT = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[Random.Range(0, System.Enum.GetValues(typeof(species)).Length)];
         //StartCoroutine(walkPath());
         sR.sprite = aT.walkCycleBack[0];
+        anim.SetInteger("Species", (int)aT.specie);
         StartCoroutine(MoveNPC());
     }
 
