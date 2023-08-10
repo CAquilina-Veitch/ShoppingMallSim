@@ -27,6 +27,8 @@ public class OccupiedSpace : MonoBehaviour
     public Business business;
     [SerializeField] RectTransform bGList;
 
+    [SerializeField] GameObject chooseBuildingCanvas; 
+
     //Pathstuff
     public Path path;
 
@@ -42,6 +44,7 @@ public class OccupiedSpace : MonoBehaviour
     public GameObject[] visualLayeredPrefabs;
 
     public ConstructionVisuals cV;
+    
 
 
     private void OnEnable()
@@ -55,7 +58,7 @@ public class OccupiedSpace : MonoBehaviour
     }
     public void pathEntranceSprite(bool to)
     {
-        sR.sprite = workSprites[4];
+        sR.sprite = workSprites[3];
     }
 
 
@@ -115,6 +118,8 @@ public class OccupiedSpace : MonoBehaviour
         path = gameObject.AddComponent(typeof(Path)) as Path;
         path.oS = this;
         Destroy(businessCanvasOwner.gameObject);
+        Destroy(chooseBuildingCanvas);
+        sR.sprite = workSprites[1];
         GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().pathAdd(path, coord);
         if (preExistingAdjPaths.Length != 0)
         {

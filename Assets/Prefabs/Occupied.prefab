@@ -2216,7 +2216,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 046396304ec409c4a983bf66fdd8b5ba, type: 3}
   - {fileID: 21300000, guid: 83ab4aecb926fe74192546b00e8fa6a4, type: 3}
   - {fileID: 21300000, guid: 2691db424a9645d4fbebef93a39310d9, type: 3}
-  - {fileID: 21300000, guid: dda89af6fd6e07e4480b4b158282dc92, type: 3}
   - {fileID: 21300000, guid: f8f532048c7796040a07d185f79e9aa3, type: 3}
   roomSprites:
   - {fileID: 21300000, guid: 5ab77637c59637f4bae899f821d38513, type: 3}
@@ -2229,9 +2228,10 @@ MonoBehaviour:
   preExistingAdjPaths: []
   business: {fileID: 0}
   bGList: {fileID: 102209613413795367}
+  chooseBuildingCanvas: {fileID: 6435959017644811952}
   path: {fileID: 0}
   uiOpen: 0
-  businessCanvasOwner: {fileID: 0}
+  businessCanvasOwner: {fileID: 5294553711135920223}
   shop: {fileID: 2869328208847456356}
   pathFromEntrance: []
   visualLayeredPrefabs:

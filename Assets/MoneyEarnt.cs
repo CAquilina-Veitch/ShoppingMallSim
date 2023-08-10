@@ -21,6 +21,7 @@ public class MoneyEarnt : MonoBehaviour
     }
     private void OnEnable()
     {
+        screenGoalPosition = new Vector3(Screen.width * 0.45f, Screen.height * 0.06f);
         GetComponent<SpriteRenderer>().enabled = true;
     }
 
