@@ -16,6 +16,7 @@ public class ConstructionVisuals : MonoBehaviour
     TimeSpan total;
     TimeSpan elapsed;
     DateTime timeIn;
+    [SerializeField] TextMeshProUGUI timeLeft;
     
     public void SetPacket(ConstructionTimePacket packet)
     {
@@ -28,7 +29,7 @@ public class ConstructionVisuals : MonoBehaviour
     IEnumerator updateTimer()
     {
         yield return new WaitForSeconds(fraction);
-        elapsed = DateTime.Now-timeIn;
+        elapsed = DateTime.Now - timeIn;
         UpdatePercentage();
         if (elapsed.TotalSeconds >= total.TotalSeconds)
         {
@@ -44,6 +45,8 @@ public class ConstructionVisuals : MonoBehaviour
     void UpdatePercentage()
     {
         mask.padding = new Vector4(0, 0, (float)elapsed.TotalSeconds/(float)total.TotalSeconds);
+
+        timeLeft.text = (float)(total - elapsed).TotalMinutes > 60 ? $"{(total - elapsed).TotalHours}:{(total - elapsed).TotalMinutes}" : $"{(total - elapsed).TotalMinutes}:{(total - elapsed).TotalSeconds}";
     }
 
 }
