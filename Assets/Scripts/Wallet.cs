@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using TMPro;
+using UnityEditor.SceneManagement;
 
 public class Wallet : MonoBehaviour
 {
@@ -111,11 +112,11 @@ public class Wallet : MonoBehaviour
             if (p >= 1)
             {
                 pl = false;
-                visualCurrency = standardCurrency;
+                visualPremium = premiumCurrency;
             }
             else
             {
-                visualCurrency = Mathf.RoundToInt(Mathf.Lerp(gp.x, gp.y, p));
+                visualPremium = Mathf.RoundToInt(Mathf.Lerp(gp.x, gp.y, p));
                 p += Time.deltaTime / textTransitionTime;
             }
             uiPremium.text = $"{visualPremium}";
