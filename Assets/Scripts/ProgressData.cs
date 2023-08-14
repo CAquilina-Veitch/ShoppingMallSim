@@ -10,7 +10,7 @@ using UnityEngine;
 public class ProgressData
 {
     public int[] money;
-    public Dictionary<Vector2, OccupiedSpace> allOccupiedSpaces;
+    public List<tileInfo> allOccupiedSpaces;
     public ProgressData(Progress progress)
     {
         money = progress.money;

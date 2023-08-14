@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
+
 public class OccupiedSpace : MonoBehaviour
 {
     public Vector2 coord;
