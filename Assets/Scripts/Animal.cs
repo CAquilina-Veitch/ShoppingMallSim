@@ -24,6 +24,7 @@ public class Animal : MonoBehaviour
     public List<animalType> animalTypes = new List<animalType>();
 
 
+    public Sprite blank;
 
 
 }

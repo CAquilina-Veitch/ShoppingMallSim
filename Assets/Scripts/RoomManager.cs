@@ -34,7 +34,7 @@ public class RoomManager : MonoBehaviour
     Vector2 currentlyOpenedInteractWindow = Vector2.one * -1;
 
     //float constructionTime = 1/4f;
-    TimeSpan constructionTime = new TimeSpan(0, 0, 10);
+    TimeSpan constructionTime = new TimeSpan(0, 0, 1);
 
     
 

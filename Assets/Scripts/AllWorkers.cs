@@ -69,7 +69,7 @@ public class AllWorkers : MonoBehaviour
 
             newProcess.process = currentWorkerProcess.recovering;
             newProcess.timeIn = DateTime.Now;
-            newProcess.timeOut = DateTime.Now.AddMinutes((60 - who.info.Energy)*2);
+            newProcess.timeOut = DateTime.Now.AddMinutes((120 - who.info.Energy)*2);
 
             currentProcesses.Add(newProcess);
 

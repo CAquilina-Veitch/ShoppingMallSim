@@ -25,7 +25,7 @@ public class WorkerInfo
         }
         set
         {
-            energy = Mathf.Clamp(value, 0, 60);
+            energy = Mathf.Clamp(value, 0, 120);
         }
     }
 }

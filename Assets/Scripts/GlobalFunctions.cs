@@ -196,7 +196,7 @@ public static class GlobalFunctions
             name = _name,
             level = Mathf.Max(0, lvl + UnityEngine.Random.Range(-2, 2)),
             specie = (species)UnityEngine.Random.Range(0, System.Enum.GetValues(typeof(species)).Length),
-            Energy = 60
+            Energy = 120
         };
     }
 
