@@ -7,7 +7,7 @@ using UnityEngine;
 
 public enum businessTypes {Construction, Clothes, Groceries, Videogames, Books, Shoes};
 public enum constructionType { Path, Business, Parking};
-[Serializable]
+
 public struct ConstructionTimePacket
 {
     public string _details;
@@ -34,7 +34,7 @@ public class RoomManager : MonoBehaviour
     Vector2 currentlyOpenedInteractWindow = Vector2.one * -1;
 
     //float constructionTime = 1/4f;
-    TimeSpan constructionTime = new TimeSpan(0, 0, 10);
+    TimeSpan constructionTime = new TimeSpan(0, 0, 1);
 
     
 

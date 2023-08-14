@@ -15,6 +15,10 @@ public class Storage : MonoBehaviour
 {
     public Progress p;
 
+    
+
+
+
     string saveFileLocation;
 
 

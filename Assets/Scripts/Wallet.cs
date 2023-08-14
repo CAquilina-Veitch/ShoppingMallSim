@@ -28,6 +28,7 @@ public class Wallet : MonoBehaviour
 
     public void loadToCurrent()
     {
+        Debug.Log(progress);
         Currency = progress.money[0];
         Premium = progress.money[1];
     }

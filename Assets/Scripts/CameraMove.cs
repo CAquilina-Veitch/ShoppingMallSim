@@ -9,8 +9,6 @@ public class CameraMove : MonoBehaviour
     public float scrollSpeed = 0.05f;
     public float scrollAmount = 0f;
     Vector3 basePosition;
-    float ratio = 5 / 10.8f;
-    float scale = 5f;
     Vector3 midPoint = new Vector3(0, 19);
     Vector2 boundsMax = new Vector2(38, 38);
     Vector2 boundsMin = new Vector2(-38, 0);
@@ -47,9 +45,9 @@ public class CameraMove : MonoBehaviour
 
 
         distanceCenter = (transform.position - midPoint);
-        Debug.LogWarning(distanceCenter);
+        //Debug.LogWarning(distanceCenter);
         multiplier = -Mathf.Abs(distanceCenter.y) + (boundsMax.x * 0.5f);
-        Debug.Log(multiplier);
+        //Debug.Log(multiplier);
 
       
 
@@ -66,7 +64,7 @@ public class CameraMove : MonoBehaviour
             scrollAmount = Mathf.Clamp(scrollAmount - Input.mouseScrollDelta.y * scrollSpeed, 0.1f, 1);
             
         }
-        Debug.Log($"{basePosition.x},  {multiplier}");
+        //Debug.Log($"{basePosition.x},  {multiplier}");
         /*
         scale = Mathf.Lerp(0, boundsMax.x + 1 *ratio, scrollAmount);
         cam.orthographicSize = scale;
