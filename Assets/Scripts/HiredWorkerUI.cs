@@ -40,7 +40,7 @@ public class HiredWorkerUI : MonoBehaviour
     {
         set
         {
-            if(value.name != "null")
+            if(!(value.name == "null"|| value.name == ""))
             {
                 _info = value;
                 updateVisuals();
@@ -58,28 +58,41 @@ public class HiredWorkerUI : MonoBehaviour
     }
     public void BlankFace()
     {
+
         //int tiredness = Mathf.RoundToInt((workerSpecieSprites.Length - 1 < 0 ? 0 : workerSpecieSprites.Length - 1) * w.energy);
-        icon.sprite = null;
+        icon.sprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().blank;
         workerName.text = "Empty";
         level.text = null;
+        Debug.Log(1);
     }
     public void updateVisuals()
     {
-        UpdateTiredness();
-        icon.sprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)info.specie].face;
-        workerName.text = info.name;
-        level.text = $"{info.level}";
-
-        if (bsns.activeWorkers.Contains(this))
+        Debug.Log(3);
+        if (_info.name == "null" || _info.name == "")
         {
-            Debug.Log("wokring");
-            colourBG.color = new Color(0.568807f, 1, 0.5613208f, 1);
+            Debug.Log(2);
+            BlankFace();
         }
         else
         {
-            colourBG.color = Color.Lerp(new Color(0.5850837f, 0.6212634f, 0.7169812f, 1),new Color(0.7607843f,1, 0.9921569f,1),info.Energy/60f);
+            UpdateTiredness();
+            icon.sprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)info.specie].face;
+            workerName.text = info.name;
+            level.text = $"{info.level}";        
+            
+            if (bsns.activeWorkers.Contains(this))
+            {
+                Debug.Log("wokring");
+                colourBG.color = new Color(0.568807f, 1, 0.5613208f, 1);
+            }
+            else
+            {
+                colourBG.color = Color.Lerp(new Color(0.5850837f, 0.6212634f, 0.7169812f, 1),new Color(0.7607843f,1, 0.9921569f,1),info.Energy/120f);
+            }
+            bsns.updateVisualWorkers();
         }
-        bsns.updateVisualWorkers();
+
+
 
     }
     public void UpdateTiredness()
@@ -132,9 +145,12 @@ public class HiredWorkerUI : MonoBehaviour
 
     public void ToggleWork()
     {
-        bsns.toggleWorker(this);
-        Debug.Log(2);
-        updateVisuals();
+        if (!(_info.name == "null" || _info.name == ""))
+        {
+            bsns.toggleWorker(this);
+                    updateVisuals();
+        }
+        
     }
     
 

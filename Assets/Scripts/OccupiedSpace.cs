@@ -53,9 +53,13 @@ public class OccupiedSpace : MonoBehaviour
         sR = GetComponentInChildren<SpriteRenderer>();
         sR.sprite = workSprites[0];
         rM = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>();
-        transform.position = new Vector3 (0, 0, transform.position.y * 0.1f) + transform.position;
 
 
+    }
+    public void init()
+    {
+        sR = GetComponentInChildren<SpriteRenderer>();
+        sR.sortingOrder = -(int)(coord.x + coord.y);
     }
     public void pathEntranceSprite(bool to)
     {
@@ -186,7 +190,7 @@ public class OccupiedSpace : MonoBehaviour
         
         GameObject temp = Instantiate(visualLayeredPrefabs[currentRoomHighlight], sR.transform);
 
-
+        temp.GetComponent<ShopPosition>().changeOrder(sR.sortingOrder);
         //Debug.Log(1);
 
         sR.enabled = false;

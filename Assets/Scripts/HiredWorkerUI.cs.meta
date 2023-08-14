@@ -3,7 +3,15 @@ guid: 7c8a38cf171fb6f4d966fa978bac74f3
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - workerName: {instanceID: 0}
+  - level: {instanceID: 0}
+  - icon: {instanceID: 0}
+  - tirednessIcon: {instanceID: 0}
+  - colourBG: {instanceID: 0}
+  - blank: {fileID: 21300000, guid: 9d4ea44b38a497e49b15968deaef0071, type: 3}
+  - overlay: {instanceID: 0}
+  - bsns: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
