@@ -24,6 +24,15 @@ public class Wallet : MonoBehaviour
     Vector2 gc, gp;
 
     float maxSize = 1.7f;
+    [SerializeField] Progress progress;
+
+    public void loadToCurrent()
+    {
+        Currency = progress.money[0];
+        Premium = progress.money[1];
+    }
+
+
     public void Start()
     {
         Currency += 100;

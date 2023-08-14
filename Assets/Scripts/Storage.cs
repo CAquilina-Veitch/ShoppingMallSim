@@ -7,60 +7,28 @@ using System.Runtime.Serialization;
 using System;
 using UnityEngine.Playables;
 
+
+using UnityEditor.U2D.Animation;
+using UnityEngine.TextCore.Text;
+
 public class Storage : MonoBehaviour
 {
-    public Wallet w;
-
-    public SaveData saveData;
-
-
+    public Progress p;
 
     string saveFileLocation;
-    /// TO STORE:
-    /// 
-    /// dictionary of business type
-    ///    > Workers?
-    /// 
-    /// money, premium currency
-    /// 
-    /// time
-    /// 
-    /// 
 
 
-    void Set(int i)
-    {
-        if (i == 1)
-        {
-            w.Currency++;
-        }
-        else
-        {
-            w.Premium++;
-        }
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //data.Add("YourKeyName", 0);
-    }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            Set(1);
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            Set(2);
-        }
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.LeftCurlyBracket))
         {
             writeFile();
+        }
+        if (Input.GetKeyDown(KeyCode.RightCurlyBracket))
+        {
+            readFile();
         }
         
         
@@ -72,120 +40,57 @@ public class Storage : MonoBehaviour
     {
         saveFileLocation = Application.persistentDataPath + "/gameProgress.data";
         Debug.Log(saveFileLocation);
-        //LoadUpgradeData();
+
         readFile();
-        //WARNING! data.Clear() deletes EVERYTHING
-        //data.Clear();
-        //SaveData();
+        StartCoroutine(AutoSave());
+        //data.Clear()
     }
 
-
-
-    // Create a single FileStream to be overwritten as needed in the class.
-    FileStream dataStream;
-
-    // Create a single BinaryFormatter to be used across methods.
-    BinaryFormatter converter = new BinaryFormatter();
 
 
     void readFile()
     {
-        // Does the file exist?
         if (File.Exists(saveFileLocation))
         {
-            // Create a FileStream connected to the saveFile.
-            // Set to the file mode to "Open".
-            dataStream = new FileStream(saveFileLocation, FileMode.Open);
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(saveFileLocation, FileMode.Open);
 
-            // Serialize GameData into binary data 
-            //  and add it to an existing input stream.
-            converter.Serialize(dataStream, saveData);
+            ProgressData data = formatter.Deserialize(stream) as ProgressData;
 
-            // Close the stream
-            dataStream.Close();
+            stream.Close();
+
+            p.LoadTo(data);
         }
-        w.Currency = saveData.money[0];
-        w.Premium = saveData.money[1];
+        else
+        {
+            Debug.LogError("Error: Save file not found in " + saveFileLocation);
+        }
     }
+
     void writeFile()
     {
-        // Create a FileStream connected to the saveFile path.
-        // Set the file mode to "Create".
-        dataStream = new FileStream(saveFileLocation, FileMode.OpenOrCreate);
+        p.updateProgress();
 
-        // Deserialize binary data 
-        //  and convert it into GameData, saving it as part of gameData.
-        saveData = converter.Deserialize(dataStream) as SaveData;
-
-        // Close stream.
-        dataStream.Close();
-    }
-
-/*
-
-
-
-
-
-public void LoadData()
-    {
-        //this loads the data
-        data = DeserializeData<Dictionary<string, int>>("PleaseWork.save");
-    }
-
-    public void SaveData()
-    {
-        //this saves the data
-        SerializeData(data, "PleaseWork.save");
-    }
-    public static void SerializeData<T>(T data, string path)
-    {
-        //this is just magic to save data.
-        //if you're interested read up on serialization
-        FileStream fs = new FileStream(path, FileMode.OpenOrCreate);
         BinaryFormatter formatter = new BinaryFormatter();
-        try
-        {
-            formatter.Serialize(fs, data);
-            Debug.Log("Data written to " + path + " @ " + DateTime.Now.ToShortTimeString());
-        }
-        catch (SerializationException e)
-        {
-            Debug.LogError(e.Message);
-        }
-        finally
-        {
-            fs.Close();
-        }
+
+
+        FileStream stream = new FileStream(saveFileLocation, FileMode.OpenOrCreate);
+
+        ProgressData pData = new ProgressData(p);
+
+        formatter.Serialize(stream, pData);
+        stream.Close();
     }
-
-    public static T DeserializeData<T>(string path)
+    private void OnDisable()
     {
-        //this is the magic that deserializes the data so we can load it
-        T data = default(T);
-
-        if (File.Exists(path))
-        {
-            FileStream fs = new FileStream(path, FileMode.Open);
-            try
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                data = (T)formatter.Deserialize(fs);
-                Debug.Log("Data read from " + path);
-            }
-            catch (SerializationException e)
-            {
-                Debug.LogError(e.Message);
-            }
-            finally
-            {
-                fs.Close();
-            }
-        }
-        return data;
-    }*/
-
-
+        writeFile();
+    }
+    IEnumerator AutoSave()
+    {
+        yield return new WaitForSeconds(30);
+        writeFile();
+        StartCoroutine(AutoSave());
+    }
 
 }
 
