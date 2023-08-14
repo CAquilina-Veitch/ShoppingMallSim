@@ -18,4 +18,12 @@ public class ShopPosition : MonoBehaviour
     {
         npcs[who].sprite = null;
     }
+    public void changeOrder(int to)
+    {
+        SpriteRenderer[] sRs = GetComponentsInChildren<SpriteRenderer>();
+        foreach(SpriteRenderer sr in sRs)
+        {
+            sr.sortingOrder = to;
+        }
+    }
 }

@@ -213,6 +213,7 @@ public class RoomManager : MonoBehaviour
         temp.preExistingAdjPaths = AdjacentPaths(coord);
         //Debug.LogWarning(coord + "ADDED");
         occupiedDictionary.Add(coord, temp);
+        temp.init();
     }
     struct Room
     {

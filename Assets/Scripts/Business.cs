@@ -235,7 +235,7 @@ public class Business : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            Debug.Log(i);
+            Debug.LogError(i);
 
             if (hiredWorkers.Count > i)
             {

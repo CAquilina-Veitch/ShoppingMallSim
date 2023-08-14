@@ -64,10 +64,23 @@ public class CustomerNPC : MonoBehaviour
 
             sR.flipX = (direction.x > 0 && direction.y < 0) || (direction.x < 0 && direction.y > 0)?true:false;
             anim.SetFloat("ydir", direction.y > 0 ? 0 : 1);// up is 0, down is 1
-
+            bool newOrder = false;
             while (elapsedTime < timePerTile)
             {
                 float t = elapsedTime / timePerTile;
+                if (!newOrder && t >= 0.5f)
+                {
+                    newOrder = true;
+
+                    //sR.sortingOrder = -2*(int)transform.position.y;
+                    Vector3 temp = GlobalFunctions.worldToIsoCoord(end);
+                    sR.sortingOrder = -(int)(temp.x + temp.y);
+                    Debug.LogWarning("THIS HAPPENED TO SWTCH TO " + sR.sortingOrder);
+                }
+                else
+                {
+                    Debug.LogWarning($"{newOrder} , {t}");
+                }
                 transform.position = Vector3.Lerp(start, end, t);
 
                 elapsedTime += Time.deltaTime;

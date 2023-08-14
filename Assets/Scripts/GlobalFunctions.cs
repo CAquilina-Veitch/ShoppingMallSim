@@ -168,7 +168,7 @@ public static class GlobalFunctions
     {
     new string[]
     {
-        "C","B","R","G","J","L","W","Sh","Bl","N","Fr","F","K","S","P"
+        "C","B","R","G","J","L","W","Sh","Bl","N","Fr","F","K","S","P","Cr"
     },
     new string[]
     {
