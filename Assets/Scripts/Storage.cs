@@ -57,6 +57,28 @@ public class Storage : MonoBehaviour
         if (File.Exists(saveFileLocation))
         {
             File.Delete(saveFileLocation);
+
+            Debug.LogWarning("Started Writing");
+            Progress _p = new Progress();
+
+            BinaryFormatter formatter = new BinaryFormatter();
+
+
+            FileStream stream = new FileStream(saveFileLocation, FileMode.Create);
+
+            ProgressData pData = new ProgressData(_p);
+
+            formatter.Serialize(stream, pData);
+            stream.Close();
+            Debug.LogWarning("Stopped Writing");
+
+
+            readFile();
+
+
+
+
+
             Debug.Log("Save file reset");
         }
         else
