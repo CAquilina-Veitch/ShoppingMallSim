@@ -9,8 +9,7 @@ using UnityEngine;
 public class OccupiedSpace : MonoBehaviour
 {
     public Vector2 coord;
-    public constructionType constructionType;
-    public constructionType type;
+    public constructionType cType;
 
     [SerializeField] Sprite[] workSprites; //no final ones, contains paths, empty rooms and the constructed but not chosen type.
     [SerializeField] Sprite[] roomSprites; 
@@ -89,6 +88,7 @@ public class OccupiedSpace : MonoBehaviour
     }
     public void chooseConstruction(constructionType cT)
     {
+        cType = cT;
         //hide canvas
         Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
 

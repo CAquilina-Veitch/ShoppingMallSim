@@ -25,14 +25,16 @@ public class Progress : MonoBehaviour
         allOccupiedSpaces = new List<tileInfo>();
         foreach(Vector2 c in coords)
         {
-            Vector2 coord = rM.occupiedDictionary[c].coord;
-            tileInfo temp = new tileInfo(new float[] {coord.x,coord.y}); 
+            OccupiedSpace oS = rM.occupiedDictionary[c];
+
+            tileInfo temp = new tileInfo(new float[] {oS.coord.x,oS.coord.y},oS.cType); 
             allOccupiedSpaces.Add(temp);
         }
     }
-    public void LoadTo(ProgressData data)
+    public void LoadProgress(ProgressData data)
     {
         money = data.money;
+        allOccupiedSpaces = data.allOccupiedSpaces;
         wallet.loadToCurrent();
     }
 }
@@ -40,9 +42,11 @@ public class Progress : MonoBehaviour
 [Serializable]
 public class tileInfo
 {
-    public tileInfo(float[] v)
+    public tileInfo(float[] v,constructionType c)
     {
         coord = v;
+        cT = c;
     }
     public float[] coord;
+    public constructionType cT;
 }

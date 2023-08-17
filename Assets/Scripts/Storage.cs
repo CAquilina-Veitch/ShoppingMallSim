@@ -7,10 +7,6 @@ using System.Runtime.Serialization;
 using System;
 using UnityEngine.Playables;
 
-
-using UnityEditor.U2D.Animation;
-using UnityEngine.TextCore.Text;
-
 public class Storage : MonoBehaviour
 {
     public Progress p;
@@ -68,7 +64,7 @@ public class Storage : MonoBehaviour
 
             stream.Close();
 
-            p.LoadTo(data);
+            p.LoadProgress(data);
             Debug.LogWarning("Stopped Reading");
         }
         else
@@ -85,7 +81,7 @@ public class Storage : MonoBehaviour
         BinaryFormatter formatter = new BinaryFormatter();
 
 
-        FileStream stream = new FileStream(saveFileLocation, FileMode.OpenOrCreate);
+        FileStream stream = new FileStream(saveFileLocation, FileMode.Create);
 
         ProgressData pData = new ProgressData(p);
 
