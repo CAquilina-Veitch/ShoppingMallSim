@@ -47,6 +47,14 @@ public class tileInfo
         coord = v;
         cT = c;
     }
+    public tileInfo(OccupiedSpace oS)
+    {
+        coord = new float[2] { oS.coord.x, oS.coord.y };
+        cT = oS.cType;
+        businessType = oS.currentRoomHighlight;
+    }
+
     public float[] coord;
     public constructionType cT;
+    public int businessType;
 }
