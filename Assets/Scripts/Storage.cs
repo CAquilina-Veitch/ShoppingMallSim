@@ -32,6 +32,10 @@ public class Storage : MonoBehaviour
             Debug.Log(456);
             readFile();
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetSaveFile();
+        }
         
         
     }
@@ -45,9 +49,21 @@ public class Storage : MonoBehaviour
 
         readFile();
         StartCoroutine(AutoSave());
-        //data.Clear()
     }
 
+
+    public void ResetSaveFile()
+    {
+        if (File.Exists(saveFileLocation))
+        {
+            File.Delete(saveFileLocation);
+            Debug.Log("Save file reset");
+        }
+        else
+        {
+            Debug.Log("Save file not found. No need.");
+        }
+    }
 
 
     void readFile()
