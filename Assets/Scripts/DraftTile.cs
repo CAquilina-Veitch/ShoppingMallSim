@@ -33,7 +33,7 @@ public class DraftTile : MonoBehaviour
 
     public void moveDraft(Vector2 coordinate)
     {
-        transform.position = coordinate.isoCoordToWorldPosition()+Vector3.down*0.5f;
+        transform.position = coordinate.IsoCoordToWorldPosition() + Vector3.down * 0.5f;
         coord = coordinate;
         draftVisibility(true);
 

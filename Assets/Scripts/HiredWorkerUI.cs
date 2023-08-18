@@ -67,10 +67,8 @@ public class HiredWorkerUI : MonoBehaviour
     }
     public void updateVisuals()
     {
-        Debug.Log(3);
         if (_info.name == "null" || _info.name == "")
         {
-            Debug.Log(2);
             BlankFace();
         }
         else
@@ -82,7 +80,6 @@ public class HiredWorkerUI : MonoBehaviour
             
             if (bsns.activeWorkers.Contains(this))
             {
-                Debug.Log("wokring");
                 colourBG.color = new Color(0.568807f, 1, 0.5613208f, 1);
             }
             else
@@ -116,7 +113,7 @@ public class HiredWorkerUI : MonoBehaviour
                 scroller.velocity = Vector2.right * 100 * scroller.horizontalNormalizedPosition;
                 //scroller.horizontalNormalizedPosition = Mathf.Lerp(scroller.horizontalNormalizedPosition, 0, 0.5f);
                 overlay.SetActive(false);
-                Debug.LogWarning("BB" + scroller.horizontalNormalizedPosition);
+                //Debug.LogWarning("BB" + scroller.horizontalNormalizedPosition);
                 selected = false;
 
             }

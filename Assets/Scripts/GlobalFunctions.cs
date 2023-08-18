@@ -6,24 +6,24 @@ using UnityEngine;
 
 public static class GlobalFunctions
 {
-    public static Vector3 isoCoordToWorldPosition(this Vector2 coord)
+    public static Vector3 IsoCoordToWorldPosition(this Vector2 coord)
     {
         return new Vector3(coord.x - coord.y, 0.5f * (coord.x + coord.y));
     }
-    public static Vector3[] isoCoordToWorldPosition(this Vector2[] coords)
+    public static Vector3[] IsoCoordToWorldPosition(this Vector2[] coords)
     {
         Vector3[] temp = new Vector3[coords.Length];
         for (int i = 0; i < temp.Length; i++)
         {
-            temp[i] = coords[i].isoCoordToWorldPosition();
+            temp[i] = coords[i].IsoCoordToWorldPosition();
         }
         return temp;
     }
-    public static Vector3 worldToIsoCoord(this Vector2 pos)
+    public static Vector3 WorldToIsoCoord(this Vector2 pos)
     {
         return new Vector3(pos.x / 2 + pos.y, pos.y - pos.x / 2);
     }
-    public static Vector2[] reverseArray(Vector2[] array)
+    public static Vector2[] ReverseArray(Vector2[] array)
     {
         Vector2[] temp = new Vector2[array.Length];
         for (int i = 0; i < array.Length; i++)
@@ -32,7 +32,7 @@ public static class GlobalFunctions
         }
         return temp;
     }
-    public static Vector3[] reverseArray(Vector3[] array)
+    public static Vector3[] ReverseArray(Vector3[] array)
     {
         Vector3[] temp = new Vector3[array.Length];
         for (int i = 0; i < array.Length; i++)
@@ -41,7 +41,7 @@ public static class GlobalFunctions
         }
         return temp;
     }
-    public static Vector2[] orderArrayToCoord(Vector2[] array, Vector2 coordGoal)
+    public static Vector2[] OrderArrayToCoord(Vector2[] array, Vector2 coordGoal)
     {
         if (array.Length < 1)
         {
@@ -51,7 +51,7 @@ public static class GlobalFunctions
         {
             if (array[array.Length - 1] != coordGoal)
             {
-                return reverseArray(array);
+                return ReverseArray(array);
             }
             Debug.Log(2);
         }
@@ -59,14 +59,14 @@ public static class GlobalFunctions
         return array;
 
     }
-    public static Vector2[] addToArrayStart(this Vector2[] array, Vector2 added)
+    public static Vector2[] AddToArrayStart(this Vector2[] array, Vector2 added)
     {
         List<Vector2> temp = new List<Vector2>();
         temp.Add(added);
         temp.AddRange(array);
         return temp.ToArray();
     }
-    public static Vector2[] addToArrayEnd(this Vector2[] array, Vector2 added)
+    public static Vector2[] AddToArrayEnd(this Vector2[] array, Vector2 added)
     {
         Vector2[] temp;
         if (array == null)
@@ -165,24 +165,24 @@ public static class GlobalFunctions
         return list.ToArray();
     }
     static string[][] nameSegments =
-    {
-    new string[]
-    {
-        "C","B","R","G","J","L","W","Sh","Bl","N","Fr","F","K","S","P","Cr"
-    },
-    new string[]
-    {
-        "o","i","u","e"
-    },
-    new string[]
-    {
-        "bb","dd","ff","ch","pp","rt","sh","ll","l","d"
-    },new string[]
-    {
-        "y","s","ie","er","olas","opher"
-    }
+        {
+        new string[]
+        {
+            "C","B","R","G","J","L","W","Sh","Bl","N","Fr","F","K","S","P","Cr"
+        },
+        new string[]
+        {
+            "o","i","u","e"
+        },
+        new string[]
+        {
+            "bb","dd","ff","ch","pp","rt","sh","ll","l","d"
+        },new string[]
+        {
+            "y","s","ie","er","olas","opher"
+        }
 
-};
+    };
     public static WorkerInfo RandomNewWorker(int lvl)
     {
         //Debug.Log("worker" + ((species)Random.Range(0, System.Enum.GetValues(typeof(species)).Length)));
@@ -199,5 +199,30 @@ public static class GlobalFunctions
             Energy = 120
         };
     }
-
+    public static List<float[]> VectorToFloatArray(this List<Vector2> list)
+    {
+        List<float[]> temp = new List<float[]>();
+        foreach(Vector2 v in list)
+        {
+            temp.Add(new float[2] { v.x, v.y });
+        }
+        return temp;
+    }
+    public static float[] VectorToFloatArray(this Vector2 v)
+    {
+        return new float[2] { v.x, v.y };
+    }
+    public static List<Vector2> FloatArrayToVector(this List<float[]> list)
+    {
+        List<Vector2> temp = new List<Vector2>();
+        foreach(float[] f in list)
+        {
+            temp.Add(new Vector2(f[0], f[1]));
+        }
+        return temp;
+    }
+    public static Vector2 FloatArrayToVector(this float[] f)
+    {
+        return new Vector2(f[0], f[1]);
+    }
 }

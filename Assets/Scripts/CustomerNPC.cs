@@ -21,7 +21,7 @@ public class CustomerNPC : MonoBehaviour
     {
         business = goal;
         isoPath = business.oS.pathFromEntrance.ToArray();
-        realPath = isoPath.isoCoordToWorldPosition();
+        realPath = isoPath.IsoCoordToWorldPosition();
         aT = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[Random.Range(0, System.Enum.GetValues(typeof(species)).Length)];
         //StartCoroutine(walkPath());
         sR.sprite = aT.walkCycleBack[0];
@@ -73,7 +73,7 @@ public class CustomerNPC : MonoBehaviour
                     newOrder = true;
 
                     //sR.sortingOrder = -2*(int)transform.position.y;
-                    Vector3 temp = GlobalFunctions.worldToIsoCoord(end);
+                    Vector3 temp = GlobalFunctions.WorldToIsoCoord(end);
                     sR.sortingOrder = -(int)(temp.x + temp.y);
                     Debug.LogWarning("THIS HAPPENED TO SWTCH TO " + sR.sortingOrder);
                 }
@@ -211,7 +211,7 @@ public class CustomerNPC : MonoBehaviour
         }
 
         currentPointIndex = 0;
-        realPath = GlobalFunctions.reverseArray(realPath);
+        realPath = GlobalFunctions.ReverseArray(realPath);
         while (currentPointIndex < realPath.Length - 1)
         {
             Vector3 start = realPath[currentPointIndex];

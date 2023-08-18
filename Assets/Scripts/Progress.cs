@@ -27,7 +27,7 @@ public class Progress : MonoBehaviour
         {
             OccupiedSpace oS = rM.occupiedDictionary[c];
 
-            tileInfo temp = new tileInfo(new float[] {oS.coord.x,oS.coord.y},oS.cType); 
+            tileInfo temp = new tileInfo(oS); 
             allOccupiedSpaces.Add(temp);
         }
     }
@@ -35,7 +35,9 @@ public class Progress : MonoBehaviour
     {
         money = data.money;
         allOccupiedSpaces = data.allOccupiedSpaces;
-        wallet.loadToCurrent();
+        wallet.LoadToCurrent();
+
+        rM.LoadToCurrent(data);
     }
 }
 
@@ -49,12 +51,24 @@ public class tileInfo
     }
     public tileInfo(OccupiedSpace oS)
     {
-        coord = new float[2] { oS.coord.x, oS.coord.y };
+        coord = oS.coord.VectorToFloatArray();
         cT = oS.cType;
         businessType = oS.currentRoomHighlight;
+
+        if (cT == constructionType.Business)
+        {
+            Debug.LogError(oS.business.hiredWorkers[0]);
+            workers = oS.business.hiredWorkers.ToArray();
+            stock = oS.business.stockDetails;
+        }
+        pathFromEntrance = oS.pathFromEntrance.VectorToFloatArray();
+
     }
 
     public float[] coord;
     public constructionType cT;
     public int businessType;
+    public WorkerInfo[] workers;
+    public stockInfo stock;
+    public List<float[]> pathFromEntrance;
 }

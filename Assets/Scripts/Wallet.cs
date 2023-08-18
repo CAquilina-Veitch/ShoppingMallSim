@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using TMPro;
-using UnityEditor.SceneManagement;
 
 public class Wallet : MonoBehaviour
 {
@@ -27,7 +26,7 @@ public class Wallet : MonoBehaviour
     float maxSize = 1.7f;
     [SerializeField] Progress progress;
 
-    public void loadToCurrent()
+    public void LoadToCurrent()
     {
         Currency = progress.money[0];
         Premium = progress.money[1];

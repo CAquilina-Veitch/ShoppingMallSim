@@ -40,9 +40,11 @@ public class RoomManager : MonoBehaviour
 
     public List<ConstructionTimePacket> currentConstructions = new List<ConstructionTimePacket>();
 
+    [SerializeField] Progress progress;
+
     public void StartConstruction(Vector2 coordWhere, businessTypes bT)
     {
-        Debug.Log(1);
+        //Debug.Log(1);
         if (currentConstructions.Any(x => x.coord == coordWhere))
         {
             //currentProcesses.First(x => x.coord == coordWhere);
@@ -61,7 +63,7 @@ public class RoomManager : MonoBehaviour
     }
     public void StartConstruction(Vector2 coordWhere, constructionType cT)
     {
-        Debug.Log(1);
+        //Debug.Log(1);
         if (currentConstructions.Any(x => x.coord == coordWhere))
         {
             //currentProcesses.First(x => x.coord == coordWhere);
@@ -205,7 +207,7 @@ public class RoomManager : MonoBehaviour
     private Camera cam;
     public void newRoom(Vector2 coord)
     {
-        GameObject tileObj = Instantiate(building, coord.isoCoordToWorldPosition(), Quaternion.identity, transform);
+        GameObject tileObj = Instantiate(building, coord.IsoCoordToWorldPosition(), Quaternion.identity, transform);
         tileObj.name = $"{coord} construction";
         OccupiedSpace temp = tileObj.GetComponent<OccupiedSpace>();
         temp.coord = coord;
@@ -239,12 +241,12 @@ public class RoomManager : MonoBehaviour
             Vector2 clickedTile;
             if (Input.touchCount == 1) 
             {
-                clickedTile = coordToTileCenterPos(cam.ScreenToWorldPoint(Input.GetTouch(1).position)).worldToIsoCoord();
+                clickedTile = coordToTileCenterPos(cam.ScreenToWorldPoint(Input.GetTouch(1).position)).WorldToIsoCoord();
             }
             else
             {   
                 //// mouse controls
-                clickedTile = coordToTileCenterPos(cam.ScreenToWorldPoint(Input.mousePosition)).worldToIsoCoord();
+                clickedTile = coordToTileCenterPos(cam.ScreenToWorldPoint(Input.mousePosition)).WorldToIsoCoord();
             }
 
             if (checkEmpty(clickedTile))
@@ -435,6 +437,22 @@ public class RoomManager : MonoBehaviour
             businesses[clickedTile].Interact(true);
             businesses[clickedTile].UpdateWorkerUI();
         }
+    }
+    public void LoadToCurrent(ProgressData data)
+    {
+        /*
+        public float[] coord;
+        public constructionType cT;
+        public int businessType;
+        public WorkerInfo[] workers;
+        public stockInfo stock;
+        public List<float[]> pathFromEntrance;
+        */
+
+
+
+
+
     }
 
 }
