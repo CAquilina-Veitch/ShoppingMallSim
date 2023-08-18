@@ -744,7 +744,7 @@ RectTransform:
   - {fileID: 666378461}
   - {fileID: 968734334}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -12910,7 +12910,7 @@ RectTransform:
   m_Children:
   - {fileID: 156877357}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -15165,7 +15165,7 @@ Transform:
   - {fileID: 1287827060}
   - {fileID: 787300063}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &951163372
 GameObject:
@@ -16042,6 +16042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   money: 0000000000000000
+  allOccupiedSpaces: []
   wallet: {fileID: 1253083565}
   rM: {fileID: 1849401926}
 --- !u!1 &988251032
@@ -19476,7 +19477,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1253083565
 MonoBehaviour:
@@ -73952,7 +73953,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1573120408
 MonoBehaviour:
@@ -74281,7 +74282,7 @@ RectTransform:
   - {fileID: 2018512038}
   - {fileID: 726502731}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -74517,7 +74518,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1660452709
 MonoBehaviour:
@@ -76209,7 +76210,7 @@ MonoBehaviour:
   draft: {fileID: 1660452709}
   UHWM: {fileID: 2115004571}
   businessWorkerUIPrefab: {fileID: 3692229785340097197, guid: 64137b9e9daec974ba2c7d071a9ceb9b, type: 3}
-  currentConstructions: []
+  progress: {fileID: 987434988}
 --- !u!4 &1849401927
 Transform:
   m_ObjectHideFlags: 0
@@ -76223,7 +76224,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1849401928
 MonoBehaviour:
