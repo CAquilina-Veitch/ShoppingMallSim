@@ -449,10 +449,24 @@ public class RoomManager : MonoBehaviour
         public List<float[]> pathFromEntrance;
         */
 
+        data.allOccupiedSpaces.Sort((x, y) => x.pathFromEntrance.Count.CompareTo(y.pathFromEntrance.Count));
 
+        foreach(tileInfo tI in data.allOccupiedSpaces)
+        {
+            
+        }
 
-
-
+    }
+    public void loadRoom(Vector2 coord)
+    {
+        GameObject tileObj = Instantiate(building, coord.IsoCoordToWorldPosition(), Quaternion.identity, transform);
+        tileObj.name = $"{coord} construction";
+        OccupiedSpace temp = tileObj.GetComponent<OccupiedSpace>();
+        temp.coord = coord;
+        temp.rM = this;
+        temp.preExistingAdjPaths = AdjacentPaths(coord);
+        occupiedDictionary.Add(coord, temp);
+        temp.init();
     }
 
 }
