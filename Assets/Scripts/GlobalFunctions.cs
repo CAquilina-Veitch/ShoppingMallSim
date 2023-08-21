@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class GlobalFunctions
@@ -225,4 +226,64 @@ public static class GlobalFunctions
     {
         return new Vector2(f[0], f[1]);
     }
+    public static string ConvertTimeSpanToDigitalClock(this TimeSpan timeSpan)
+    {
+        string formattedTime;
+        if (timeSpan.TotalMinutes >= 60)
+        {
+            formattedTime = string.Format("{0}:{1:D2}", (int)timeSpan.TotalHours, timeSpan.Minutes);
+        }
+        else
+        {
+            formattedTime = string.Format("{0}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
+        }
+        return formattedTime;
+    }
+
+    public static List<ConstructionTimePacketData> TimePacketsToTimeData(this List<ConstructionTimePacket> cTP)
+    {
+        List<ConstructionTimePacketData> temp = new List<ConstructionTimePacketData>();
+        foreach(ConstructionTimePacket p in cTP)
+        {
+            temp.Add(new ConstructionTimePacketData(p));
+        }
+        return temp;
+    }   
+    public static List<ConstructionTimePacket> TimeDataToTimePacks(this List<ConstructionTimePacketData> cTP)
+    {
+        List<ConstructionTimePacket> temp = new List<ConstructionTimePacket>();
+        foreach(ConstructionTimePacketData p in cTP)
+        {
+            temp.Add(new ConstructionTimePacket(p));
+        }
+        return temp;
+    }
+
+    public static bool ContainsTile(this List<ConstructionTimePacketData> list, tileInfo tI, out ConstructionTimePacketData matchingTileData)
+    {
+        matchingTileData = default;
+        foreach (ConstructionTimePacketData p in list)
+        {
+            //Debug.Log($"{p.coord.FloatArrayToVector()} {tI.coord.FloatArrayToVector()}");
+            if (p.coord.FloatArrayToVector() == tI.coord.FloatArrayToVector())
+            {
+                matchingTileData = p;
+                return true;
+            }
+        }
+        return false;
+    }    
+    public static bool ContainsTile(this List<ConstructionTimePacketData> list, tileInfo tI)
+    {
+        foreach (ConstructionTimePacketData p in list)
+        {
+            //Debug.Log($"{p.coord.FloatArrayToVector()} {tI.coord.FloatArrayToVector()}");
+            if (p.coord.FloatArrayToVector() == tI.coord.FloatArrayToVector())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

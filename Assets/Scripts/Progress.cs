@@ -1,24 +1,101 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-
+using UnityEngine.Events;
 
 
 
 [Serializable]
 public class Progress : MonoBehaviour
 {
-    public int[] money = {0,0};
-    public List<tileInfo> allOccupiedSpaces = new List<tileInfo>();
+    
+
     public Wallet wallet;
     public RoomManager rM;
+
+
+    public int[] money = {0,0};
+    public int[] carParkUpgrades = new int[3] {0,0,0 };
+    public List<tileInfo> allOccupiedSpaces = new List<tileInfo>();
+
+    public List<ConstructionTimePacketData> currentConstructions = new List<ConstructionTimePacketData>();
+
+
+
+    [SerializeField] Carpark initialCarpark;
+    [SerializeField] Carpark[] carparkButtonsLeft;
+    [SerializeField] Carpark[] carparkButtonsRight;
+
+
+
     public void updateProgress()
     {
         money[0] = wallet.Currency;
         money[1] = wallet.Premium;
+        currentConstructions = rM.currentConstructions.TimePacketsToTimeData();
         updateTiles();
+
+
     }
+
+    public void LoadProgress(ProgressData data)
+    {
+        money = data.money;
+        allOccupiedSpaces = data.allOccupiedSpaces;
+        wallet.LoadToCurrent();
+        rM.LoadToCurrent(data);
+        SetCarpark(data.carparkProgress);
+
+        //offlineconstruction
+
+
+
+        rM.currentConstructions = data.currentConstructions.TimeDataToTimePacks();
+    }
+
+
+
+
+    void SetCarpark(int[] progress)
+    {
+        carParkUpgrades = progress;
+
+        if (carParkUpgrades[0] != 0)
+        {
+            initialCarpark.forceCarpark();
+
+            if (carParkUpgrades[0] == -1)
+            {
+                foreach(Carpark c in carparkButtonsLeft)
+                {
+                    c.forceCarpark();
+                }
+                foreach(Carpark c in carparkButtonsRight)
+                {
+                    c.forceCarpark();
+                }
+            }
+            else
+            {
+                for (int i = 0; i <= carParkUpgrades[1]; i++)
+                {
+                    carparkButtonsLeft[i].forceCarpark();
+                }
+                for (int i = 0; i <= carParkUpgrades[2]; i++)
+                {
+                    carparkButtonsRight[i].forceCarpark();
+                }
+            }
+        }
+
+
+
+
+
+    }
+
     void updateTiles()
     {
         List<Vector2> coords = new List<Vector2>(rM.occupiedDictionary.Keys);
@@ -31,14 +108,7 @@ public class Progress : MonoBehaviour
             allOccupiedSpaces.Add(temp);
         }
     }
-    public void LoadProgress(ProgressData data)
-    {
-        money = data.money;
-        allOccupiedSpaces = data.allOccupiedSpaces;
-        wallet.LoadToCurrent();
 
-        rM.LoadToCurrent(data);
-    }
 }
 
 [Serializable]
@@ -57,7 +127,7 @@ public class tileInfo
 
         if (cT == constructionType.Business)
         {
-            Debug.LogError(oS.business.hiredWorkers[0]);
+            //Debug.LogError(oS.business.hiredWorkers[0]);
             workers = oS.business.hiredWorkers.ToArray();
             stock = oS.business.stockDetails;
         }
@@ -71,4 +141,5 @@ public class tileInfo
     public WorkerInfo[] workers;
     public stockInfo stock;
     public List<float[]> pathFromEntrance;
+
 }

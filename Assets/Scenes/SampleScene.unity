@@ -16014,6 +16014,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   p: {fileID: 987434988}
+  scene: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
 --- !u!4 &987434986
 Transform:
   m_ObjectHideFlags: 0
@@ -16041,10 +16042,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8cb7ff2d9fb2ac49bb946221749f085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 0000000000000000
-  allOccupiedSpaces: []
   wallet: {fileID: 1253083565}
   rM: {fileID: 1849401926}
+  money: 0000000000000000
+  carParkUpgrades: 000000000000000000000000
+  allOccupiedSpaces: []
+  currentConstructions: []
+  initialCarpark: {fileID: 1396054957}
+  carparkButtonsLeft:
+  - {fileID: 1345870312}
+  - {fileID: 470565681}
+  - {fileID: 208252616}
+  - {fileID: 1289023790}
+  - {fileID: 243805433}
+  - {fileID: 2018512042}
+  - {fileID: 726502735}
+  carparkButtonsRight:
+  - {fileID: 1407734375}
+  - {fileID: 1904165161}
+  - {fileID: 293185732}
+  - {fileID: 553256188}
+  - {fileID: 532651170}
+  - {fileID: 951163377}
+  - {fileID: 201456273}
 --- !u!1 &988251032
 GameObject:
   m_ObjectHideFlags: 0
@@ -76210,7 +76230,9 @@ MonoBehaviour:
   draft: {fileID: 1660452709}
   UHWM: {fileID: 2115004571}
   businessWorkerUIPrefab: {fileID: 3692229785340097197, guid: 64137b9e9daec974ba2c7d071a9ceb9b, type: 3}
+  currentConstructions: []
   progress: {fileID: 987434988}
+  fileStorage: {fileID: 987434985}
 --- !u!4 &1849401927
 Transform:
   m_ObjectHideFlags: 0

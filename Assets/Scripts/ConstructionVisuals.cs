@@ -12,7 +12,6 @@ public class ConstructionVisuals : MonoBehaviour
     [SerializeField] GameObject canvas;
     [SerializeField] os oS;
     [SerializeField] RectMask2D mask;
-    float fraction;
     TimeSpan total;
     TimeSpan elapsed;
     DateTime timeIn;
@@ -22,13 +21,21 @@ public class ConstructionVisuals : MonoBehaviour
     {
         canvas.SetActive(true);
         timeIn = packet.timeIn;
-        total = (packet.timeOut - packet.timeIn);
-        fraction = 0.01f * (float)total.TotalSeconds;
+        total = packet.timeOut - packet.timeIn;
         StartCoroutine(updateTimer());
     }
     IEnumerator updateTimer()
     {
-        yield return new WaitForSeconds(fraction);
+        UpdatePercentage();
+        if ((timeIn - DateTime.Now).TotalHours >= 1)
+        {
+            yield return new WaitForSeconds(60);
+        }
+        else
+        {
+            yield return new WaitForSeconds(1);
+        }
+        
         elapsed = DateTime.Now - timeIn;
         UpdatePercentage();
         if (elapsed.TotalSeconds >= total.TotalSeconds)
@@ -45,7 +52,8 @@ public class ConstructionVisuals : MonoBehaviour
     void UpdatePercentage()
     {
         mask.padding = new Vector4(0, 0, 1.4f * (float)elapsed.TotalSeconds / (float)total.TotalSeconds);
-        timeLeft.text = (float)(total - elapsed).TotalMinutes > 60 ? $"{Mathf.RoundToInt((float)(total - elapsed).TotalHours)}:{((total - elapsed).TotalMinutes < 9.5f ? "0" : null)}{Mathf.RoundToInt((float)(total - elapsed).TotalMinutes)}" : $"{Mathf.RoundToInt((float)(total - elapsed).TotalMinutes)}:{((total - elapsed).TotalSeconds < 9.5f ? "0" : null)}{Mathf.RoundToInt((float)(total - elapsed).TotalSeconds)}";
+        //timeLeft.text = (float)(total - elapsed).TotalMinutes > 60 ? $"{Mathf.RoundToInt((float)(total - elapsed).TotalHours)}:{((total - elapsed).TotalMinutes < 9.5f ? "0" : null)}{Mathf.RoundToInt((float)(total - elapsed).TotalMinutes)}" : $"{Mathf.RoundToInt((float)(total - elapsed).TotalMinutes)}:{((total - elapsed).TotalSeconds < 9.5f ? "0" : null)}{Mathf.RoundToInt((float)(total - elapsed).TotalSeconds)}";
+        timeLeft.text = (total - elapsed).ConvertTimeSpanToDigitalClock();
     }
 
 }

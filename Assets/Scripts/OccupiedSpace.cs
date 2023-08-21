@@ -112,6 +112,59 @@ public class OccupiedSpace : MonoBehaviour
         }
     }
 
+    public void LoadConstruction(tileInfo tI)
+    {
+        cType = tI.cT;
+        Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
+
+        if (tI.cT == constructionType.Path)
+        {
+            cV.gameObject.SetActive(true);
+
+            CompletePathConstruction();
+            Destroy(cV.gameObject);
+
+        }
+        else if (tI.cT == constructionType.Business)
+        {
+            //sR.sprite = workSprites[0];
+
+            sR.enabled = false;
+
+            Destroy(chooseBuildingCanvas);
+
+
+            CompleteBusinessConstruction();
+
+            Destroy(cV.gameObject);
+
+
+            //business.hiredWorkers;
+            business.hiredWorkers = tI.workers.ToList();
+
+        }
+
+    }    
+    public void LoadConstructionProcess(tileInfo tI, ConstructionTimePacketData cTPD)
+    {
+        cType = tI.cT;
+        Destroy(transform.GetChild(0).GetComponent<Canvas>().gameObject);
+        cV.gameObject.SetActive(true);
+        cV.SetPacket(new ConstructionTimePacket(cTPD));
+        if (tI.cT == constructionType.Path)
+        {
+            cV.gameObject.SetActive(true);
+
+        }
+        else if (tI.cT == constructionType.Business)
+        {
+            sR.sprite = workSprites[0];
+            cV.gameObject.SetActive(true);
+
+        }
+
+    }
+
 
 
     

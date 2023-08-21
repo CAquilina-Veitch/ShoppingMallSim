@@ -2,16 +2,48 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public enum businessTypes {Construction, Clothes, Groceries, Videogames, Books, Shoes};
 public enum constructionType { Path, Business, Parking};
 
+[Serializable]
 public struct ConstructionTimePacket
 {
+    public ConstructionTimePacket(ConstructionTimePacketData d)
+    {
+        _details = d._details;
+        coord = d.coord.FloatArrayToVector();
+        isPath = d.isPath;
+        businessType = d.businessType;
+        timeIn = d.timeIn;
+        timeOut = d.timeOut;
+
+    }
     public string _details;
     public Vector2 coord;
+    public bool isPath;
+    public businessTypes businessType;
+    public DateTime timeIn;
+    public DateTime timeOut;
+}
+[Serializable]
+public struct ConstructionTimePacketData
+{
+    public ConstructionTimePacketData(ConstructionTimePacket d)
+    {
+        _details = d._details;
+        coord = d.coord.VectorToFloatArray();
+        isPath = d.isPath;
+        businessType = d.businessType;
+        timeIn = d.timeIn;
+        timeOut = d.timeOut;
+
+    }
+    public string _details;
+    public float[] coord;
     public bool isPath;
     public businessTypes businessType;
     public DateTime timeIn;
@@ -34,13 +66,26 @@ public class RoomManager : MonoBehaviour
     Vector2 currentlyOpenedInteractWindow = Vector2.one * -1;
 
     //float constructionTime = 1/4f;
-    TimeSpan constructionTime = new TimeSpan(0, 0, 1);
+    TimeSpan constructionTime = new TimeSpan(0, 0, 30);
 
     
 
     public List<ConstructionTimePacket> currentConstructions = new List<ConstructionTimePacket>();
 
     [SerializeField] Progress progress;
+
+    [SerializeField] Storage fileStorage;
+
+    private void Awake()
+    {
+        if (!fileStorage.FileExists())
+        {
+            newRoom(new Vector2(0, 0));
+
+        }                
+    }
+
+
 
     public void StartConstruction(Vector2 coordWhere, businessTypes bT)
     {
@@ -132,6 +177,8 @@ public class RoomManager : MonoBehaviour
     public void pathAdd(Path path, Vector2 CO)
     {
         //Debug.Log("Added path at " + CO);
+
+
         pathDictionary.Add(CO, path);
     }
 
@@ -225,7 +272,7 @@ public class RoomManager : MonoBehaviour
     void Start()
     {
         cam = Camera.main;
-        newRoom(new Vector2(0, 0));
+
         StartCoroutine(UpdateEverySecond());
     }
 
@@ -440,25 +487,29 @@ public class RoomManager : MonoBehaviour
     }
     public void LoadToCurrent(ProgressData data)
     {
-        /*
-        public float[] coord;
-        public constructionType cT;
-        public int businessType;
-        public WorkerInfo[] workers;
-        public stockInfo stock;
-        public List<float[]> pathFromEntrance;
-        */
+        List<ConstructionTimePacketData> packets = data.currentConstructions;
 
         data.allOccupiedSpaces.Sort((x, y) => x.pathFromEntrance.Count.CompareTo(y.pathFromEntrance.Count));
 
         foreach(tileInfo tI in data.allOccupiedSpaces)
         {
-            
+            if (!packets.ContainsTile(tI, out ConstructionTimePacketData packet))
+            {
+                loadRoom(tI);
+            }
+            else
+            {
+                loadRoomConstruction(tI, packet);
+            }
         }
 
     }
-    public void loadRoom(Vector2 coord)
+
+    void loadRoomConstruction(tileInfo _tileInfo,ConstructionTimePacketData cTPD)
     {
+        Debug.LogWarning("Loading construction");
+        Vector2 coord = _tileInfo.coord.FloatArrayToVector();
+
         GameObject tileObj = Instantiate(building, coord.IsoCoordToWorldPosition(), Quaternion.identity, transform);
         tileObj.name = $"{coord} construction";
         OccupiedSpace temp = tileObj.GetComponent<OccupiedSpace>();
@@ -467,6 +518,36 @@ public class RoomManager : MonoBehaviour
         temp.preExistingAdjPaths = AdjacentPaths(coord);
         occupiedDictionary.Add(coord, temp);
         temp.init();
+
+        temp.currentRoomHighlight = _tileInfo.businessType;
+        temp.LoadConstructionProcess(_tileInfo,cTPD);
+
+
+    }
+
+
+    public void loadRoom(tileInfo _tileInfo)
+    {
+        Vector2 coord = _tileInfo.coord.FloatArrayToVector();
+
+        GameObject tileObj = Instantiate(building, coord.IsoCoordToWorldPosition(), Quaternion.identity, transform);
+        tileObj.name = $"{coord} construction";
+        OccupiedSpace temp = tileObj.GetComponent<OccupiedSpace>();
+        temp.coord = coord;
+        temp.rM = this;
+        temp.preExistingAdjPaths = AdjacentPaths(coord);
+        occupiedDictionary.Add(coord, temp);
+        temp.init();
+
+        temp.currentRoomHighlight = _tileInfo.businessType;
+        temp.LoadConstruction(_tileInfo);
+
+
+
+
+        
+
+
     }
 
 }

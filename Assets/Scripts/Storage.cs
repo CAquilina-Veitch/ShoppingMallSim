@@ -6,18 +6,22 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using System;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
+
 
 public class Storage : MonoBehaviour
 {
     public Progress p;
 
-    
-
-
+    bool DontSave;
 
     string saveFileLocation;
 
-
+    public bool FileExists()
+    {
+        saveFileLocation = Application.persistentDataPath + "/gameProgress.data";
+        return File.Exists(saveFileLocation);
+    }
 
     // Update is called once per frame
     void Update()
@@ -54,6 +58,7 @@ public class Storage : MonoBehaviour
 
     public void ResetSaveFile()
     {
+        DontSave = true;
         if (File.Exists(saveFileLocation))
         {
             File.Delete(saveFileLocation);
@@ -77,7 +82,7 @@ public class Storage : MonoBehaviour
 
 
 
-
+            
 
             Debug.Log("Save file reset");
         }
@@ -85,6 +90,7 @@ public class Storage : MonoBehaviour
         {
             Debug.Log("Save file not found. No need.");
         }
+        SceneManager.LoadScene(0);
     }
 
 
@@ -129,9 +135,13 @@ public class Storage : MonoBehaviour
     }
     private void OnDisable()
     {
-       
         Debug.LogWarning("DISABLED");
-        writeFile();
+        if (!DontSave)
+        {
+            writeFile();
+        }
+
+
     }
     IEnumerator AutoSave()
     {
