@@ -92,7 +92,7 @@ public class CustomerNPC : MonoBehaviour
         }
         //npc at the end, (entrance)
         direction = (goalShopPositions.wanderPoints[1].position - goalShopPositions.wanderPoints[0].position).normalized;
-        sR.flipX = direction.x > 0;
+        sR.flipX = direction.x < 0;
         anim.SetFloat("ydir", direction.y > 0 ? 0 : 1);// up is 0, down is 1
         float _elapsed = 0;
         while (_elapsed < timePerTile)
@@ -158,7 +158,7 @@ public class CustomerNPC : MonoBehaviour
         Vector3 _atcheckout = goalShopPositions.wanderPoints[4].position;
 
         direction = (_midpoint - _midcheckout).normalized;
-        sR.flipX = direction.x > 0;
+        sR.flipX = direction.x > 0;//jc
         anim.SetFloat("ydir", direction.y > 0 ? 1 : 0);// up is 0, down is 1
 
 
@@ -199,7 +199,7 @@ public class CustomerNPC : MonoBehaviour
             _elapsed += Time.deltaTime;
             yield return null;
         }
-        //sR.flipX = !sR.flipX;
+        sR.flipX = !sR.flipX;
         _elapsed = 0;
         while (_elapsed < timePerTile / 2)
         {
@@ -221,7 +221,7 @@ public class CustomerNPC : MonoBehaviour
 
             direction = (end - start).normalized;
 
-            sR.flipX = direction.x < 0;
+            sR.flipX = direction.x > 0;
             anim.SetFloat("ydir", direction.y > 0 ? 0 : 1);// up is 0, down is 1
 
             while (elapsedTime < timePerTile)

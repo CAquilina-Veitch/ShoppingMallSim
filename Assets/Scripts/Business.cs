@@ -44,7 +44,7 @@ public class Business : MonoBehaviour
     public List<HiredWorkerUI> hiredWUI = new List<HiredWorkerUI>();
 
     public bool businessActive;
-    public bool restock;
+    public bool restock = false;
 
     Customers c;
 
@@ -177,6 +177,7 @@ public class Business : MonoBehaviour
             {
                 stockDetails.amount += 1;
                 wait = 0;
+                Debug.Log(stockDetails.amount);
             }
 
             if (stockDetails.amount == 100)
