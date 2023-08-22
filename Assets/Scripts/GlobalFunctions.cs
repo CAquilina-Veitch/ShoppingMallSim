@@ -246,6 +246,24 @@ public static class GlobalFunctions
             temp.Add(new ConstructionTimePacket(p));
         }
         return temp;
+    }    
+    public static List<WorkerTimePacketData> WorkerPacketsToWorkerData(this List<WorkerTimePacket> cTP)
+    {
+        List<WorkerTimePacketData> temp = new List<WorkerTimePacketData>();
+        foreach(WorkerTimePacket p in cTP)
+        {
+            temp.Add(new WorkerTimePacketData(p));
+        }
+        return temp;
+    }   
+    public static List<WorkerTimePacket> WorkerDataToWorkerPacks(this List<WorkerTimePacketData> cTP)
+    {
+        List<WorkerTimePacket> temp = new List<WorkerTimePacket>();
+        foreach(WorkerTimePacketData p in cTP)
+        {
+            temp.Add(new WorkerTimePacket(p));
+        }
+        return temp;
     }
 
     public static bool ContainsTile(this List<ConstructionTimePacketData> list, tileInfo tI, out ConstructionTimePacketData matchingTileData)

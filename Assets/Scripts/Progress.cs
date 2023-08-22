@@ -19,7 +19,9 @@ public class Progress : MonoBehaviour
     public int carParkTotal;
     public List<tileInfo> allOccupiedSpaces = new List<tileInfo>();
 
-    public List<ConstructionTimePacketData> currentConstructions = new List<ConstructionTimePacketData>();
+    public List<ConstructionTimePacketData> currentConstructions = new List<ConstructionTimePacketData>();
+    public List<WorkerTimePacketData> currentWorkers = new List<WorkerTimePacketData>();
+
 
 
 
@@ -33,6 +35,7 @@ public class Progress : MonoBehaviour
         money[0] = wallet.Currency;
         money[1] = wallet.Premium;
         currentConstructions = rM.currentConstructions.TimePacketsToTimeData();
+        currentWorkers = aW.currentProcesses.WorkerPacketsToWorkerData();
         updateTiles();
     }
 
@@ -45,6 +48,7 @@ public class Progress : MonoBehaviour
         SetCarpark(data.carparkProgress);
 
         rM.currentConstructions = data.currentConstructions.TimeDataToTimePacks();
+        aW.LoadProgress(data);
     }
 
 

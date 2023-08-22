@@ -18,8 +18,6 @@ public class WorkerInfo
     private int energy;
     public currentWorkerProcess process;
     public float[] businessCoord;
-    public DateTime timeIn;
-    public DateTime timeOut;
     public int Energy
     {
         get
