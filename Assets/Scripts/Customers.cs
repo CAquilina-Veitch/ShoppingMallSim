@@ -76,15 +76,27 @@ public class Customers : MonoBehaviour
         StartCoroutine(saleDayLoop());
     }
     public void makeSale(Business b)
-    {
-        Debug.LogWarning($"Sale made {w} {w.Currency}, adding {b.stockDetails.value}");
-        w.Currency += 1;
-        Debug.LogWarning($"{w} {w.Currency}");
-        b.stockDetails.amount--;
-        b.shopGUI.updateVisual();
-        GameObject temp = Instantiate(moneyEarntPrefab,transform);
-        temp.GetComponent<MoneyEarnt>().StartMoving(b);
-        Debug.Log(b.stockDetails.amount);
+    {        if (b.restock)
+        {
+
+        }        else
+        {
+            Debug.LogWarning($"Sale made {w} {w.Currency}, adding {b.stockDetails.value}");
+
+            w.Currency += 1;
+
+            Debug.LogWarning($"{w} {w.Currency}");
+
+            b.stockDetails.amount--;
+
+            b.shopGUI.updateVisual();
+
+            GameObject temp = Instantiate(moneyEarntPrefab, transform);
+
+            temp.GetComponent<MoneyEarnt>().StartMoving(b);
+
+            Debug.Log(b.stockDetails.amount);
+        }
     }
 
     private void OnEnable()
