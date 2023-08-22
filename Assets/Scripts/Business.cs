@@ -44,6 +44,7 @@ public class Business : MonoBehaviour
     public List<HiredWorkerUI> hiredWUI = new List<HiredWorkerUI>();
 
     public bool businessActive;
+    public bool restock;
 
     Customers c;
 
@@ -54,6 +55,12 @@ public class Business : MonoBehaviour
     public shopUI shopGUI;
     public ShopPosition visualPositions;
 
+    public float wait;
+
+    /*private void Start()
+    {
+        stockDetails.amount = 100;
+    }*/
 
     public void toggleWorker(HiredWorkerUI who)
     {
@@ -132,6 +139,8 @@ public class Business : MonoBehaviour
         StartCoroutine(secondTicked());
     }
 
+
+
     private void FixedUpdate()
     {
         if (!businessActive)
@@ -148,8 +157,41 @@ public class Business : MonoBehaviour
                 ToggleActivity(false);
             }
         }
-        
+
+        if (!businessActive)
+        {
+            if (stockDetails.amount == 0)
+            {
+                restock = true;
+            }
+        }
+
     }
+
+    private void Update()
+    {
+        if (restock)
+        {
+            wait += Time.deltaTime;
+            if (wait <= 6)
+            {
+                stockDetails.amount += 1;
+                wait = 0;
+            }
+
+            if (stockDetails.amount == 100)
+            {
+                restock = false;
+            }
+        }
+        else
+        {
+            wait = 0;
+        }
+
+
+    }
+
 
     public void ToggleActivity()
     {
@@ -260,7 +302,7 @@ public class Business : MonoBehaviour
     }
     IEnumerator secondTicked()
     {
-        stockDetails.amount += activeWorkers.Count;
+        //stockDetails.amount += activeWorkers.Count;
         yield return new WaitForSeconds(1);
         StartCoroutine(secondTicked());
     }
