@@ -14,6 +14,10 @@ public class Customers : MonoBehaviour
 
     [SerializeField] GameObject moneyEarntPrefab;
 
+    [SerializeField] Progress p;
+
+    public int carparkMultiplier = 1;
+
     public void ChangeBusinessActivity(Business b, bool to)
     {
         if (!activeBusinesses.Contains(b) && to)
@@ -87,8 +91,19 @@ public class Customers : MonoBehaviour
     }
     IEnumerator summonLoop()
     {
+        Debug.Log("bingle");
+        if (p.carParkUpgrades[0] == -1)
+        {
+            carparkMultiplier = 16;
+        }
+        else
+        {
+            carparkMultiplier = 1 + p.carParkTotal;
+            Debug.Log(carparkMultiplier);
+        }
+
         //Debug.Log("looped");
-        float delay = 5f;
+        float delay = 5f/carparkMultiplier;
         if (activeBusinesses.Count > 0)
         {
             foreach (Business b in activeBusinesses)

@@ -141,7 +141,7 @@ public class Business : MonoBehaviour
 
     private void Start()
     {
-        stockDetails.amount = 0;
+        stockDetails.amount = 100;
     }
 
     private void FixedUpdate()
@@ -166,10 +166,6 @@ public class Business : MonoBehaviour
             restock = true;
         }
 
-    }
-
-    private void Update()
-    {
         if (restock)
         {
             ToggleActivity(false);
@@ -192,8 +188,8 @@ public class Business : MonoBehaviour
             wait = 0;
         }
 
-
     }
+
 
 
     public void ToggleActivity()
