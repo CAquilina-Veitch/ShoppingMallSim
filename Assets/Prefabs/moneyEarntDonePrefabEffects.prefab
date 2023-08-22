@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3505752371301422541}
   - component: {fileID: 1983979305237548213}
   - component: {fileID: 8517124096536279160}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: moneyEarntDonePrefabEffects
   m_TagString: Untagged
   m_Icon: {fileID: 0}

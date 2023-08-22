@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Customers : MonoBehaviour
@@ -10,9 +10,13 @@ public class Customers : MonoBehaviour
 
     [SerializeField] GameObject customerPrefab;
 
-    [SerializeField] Wallet w;
-
+    [SerializeField] Wallet w;
+
     [SerializeField] GameObject moneyEarntPrefab;
+
+    [SerializeField] Progress p;
+
+    public int carparkMultiplier = 1;
 
     public void ChangeBusinessActivity(Business b, bool to)
     {
@@ -32,9 +36,9 @@ public class Customers : MonoBehaviour
 
     public void StartNewCustomer()
     {
-        if (activeBusinesses.Count == 0)
-        {
-            return;
+        if (activeBusinesses.Count == 0)
+        {
+            return;
         }
         Business target = activeBusinesses[Random.Range(0, activeBusinesses.Count)];
         GameObject temp = Instantiate(customerPrefab, transform);
@@ -57,67 +61,78 @@ public class Customers : MonoBehaviour
         temp.GetComponent<CustomerNPC>().cM = this;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            StartNewCustomer();
-        }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            StartNewCustomer();
+        }
     }
-    public void SaleDay()
-    {
-        Debug.LogWarning("SaleDay");
-        StartCoroutine(saleDayLoop());
+    public void SaleDay()
+    {
+        Debug.LogWarning("SaleDay");
+        StartCoroutine(saleDayLoop());
     }
-    public void makeSale(Business b)
-    {
-        Debug.LogWarning($"Sale made {w} {w.Currency}, adding {b.stockDetails.value}");
-        w.Currency += 1;
-        Debug.LogWarning($"{w} {w.Currency}");
-        b.stockDetails.amount--;
-        b.shopGUI.updateVisual();
-        GameObject temp = Instantiate(moneyEarntPrefab,transform);
-        temp.GetComponent<MoneyEarnt>().StartMoving(b);
-        Debug.Log(b.stockDetails.amount);
+    public void makeSale(Business b)
+    {
+        Debug.LogWarning($"Sale made {w} {w.Currency}, adding {b.stockDetails.value}");
+        w.Currency += 1;
+        Debug.LogWarning($"{w} {w.Currency}");
+        b.stockDetails.amount--;
+        b.shopGUI.updateVisual();
+        GameObject temp = Instantiate(moneyEarntPrefab,transform);
+        temp.GetComponent<MoneyEarnt>().StartMoving(b);
+        Debug.Log(b.stockDetails.amount);
     }
 
-    private void OnEnable()
-    {
-        StartCoroutine(summonLoop());
+    private void OnEnable()
+    {
+        StartCoroutine(summonLoop());
     }
-    IEnumerator summonLoop()
-    {
-        Debug.Log("looped");
-        float delay = 5f;
-        if (activeBusinesses.Count > 0)
-        {
-            foreach (Business b in activeBusinesses)
-            {
-                //stock check here ???
-
-                int n = Random.Range(0, 5);
-                n -= b.activeWorkers.Count;
-                if (n <= 0)
-                {
-                    float r = Random.Range(0, delay / 2);
-                    delay -= r;
-                    yield return new WaitForSeconds(r);
-                    StartNewCustomer(b);
-                    
-                }
-            }
-        }
-        yield return new WaitForSeconds(delay);
-        Debug.Log($"waited {delay}");
-        StartCoroutine(summonLoop());
+    IEnumerator summonLoop()
+    {
+        Debug.Log("bingle");
+        if (p.carParkUpgrades[0] == -1)
+        {
+            carparkMultiplier = 16;
+        }
+        else
+        {
+            carparkMultiplier = 1 + p.carParkTotal;
+            Debug.Log(carparkMultiplier);
+        }
+
+        //Debug.Log("looped");
+        float delay = 5f/carparkMultiplier;
+        if (activeBusinesses.Count > 0)
+        {
+            foreach (Business b in activeBusinesses)
+            {
+                //stock check here ???
+
+                int n = Random.Range(0, 5);
+                n -= b.activeWorkers.Count;
+                if (n <= 0)
+                {
+                    float r = Random.Range(0, delay / 2);
+                    delay -= r;
+                    yield return new WaitForSeconds(r);
+                    StartNewCustomer(b);
+                    
+                }
+            }
+        }
+        yield return new WaitForSeconds(delay);
+        Debug.Log($"waited {delay}");
+        StartCoroutine(summonLoop());
     }
-    IEnumerator saleDayLoop()
-    {
-        for (int i = 0; i < 30; i++)
-        {
-            StartNewCustomer();
-            yield return new WaitForSeconds(0.4f);
-        }
+    IEnumerator saleDayLoop()
+    {
+        for (int i = 0; i < 30; i++)
+        {
+            StartNewCustomer();
+            yield return new WaitForSeconds(0.4f);
+        }
     }
 
 }
