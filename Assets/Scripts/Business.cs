@@ -139,13 +139,16 @@ public class Business : MonoBehaviour
         StartCoroutine(secondTicked());
     }
 
-
+    private void Start()
+    {
+        stockDetails.amount = 0;
+    }
 
     private void FixedUpdate()
     {
         if (!businessActive)
         {
-            if (activeWorkers.Count > 0 && stockDetails.amount > 0)
+            if (activeWorkers.Count > 0 && !restock)
             {
                 ToggleActivity(true);
             }
@@ -158,12 +161,9 @@ public class Business : MonoBehaviour
             }
         }
 
-        if (!businessActive)
+        if (stockDetails.amount == 0)
         {
-            if (stockDetails.amount == 0)
-            {
-                restock = true;
-            }
+            restock = true;
         }
 
     }
@@ -172,17 +172,19 @@ public class Business : MonoBehaviour
     {
         if (restock)
         {
+            ToggleActivity(false);
             wait += Time.deltaTime;
-            if (wait <= 6)
+            if (wait >= 6)
             {
+                Debug.Log(stockDetails.amount);
                 stockDetails.amount += 1;
                 wait = 0;
-                Debug.Log(stockDetails.amount);
             }
 
             if (stockDetails.amount == 100)
             {
                 restock = false;
+                ToggleActivity(true);
             }
         }
         else
