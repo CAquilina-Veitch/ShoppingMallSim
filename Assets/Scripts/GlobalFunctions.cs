@@ -54,11 +54,8 @@ public static class GlobalFunctions
             {
                 return ReverseArray(array);
             }
-            Debug.Log(2);
         }
-        Debug.Log(1);
         return array;
-
     }
     public static Vector2[] AddToArrayStart(this Vector2[] array, Vector2 added)
     {
@@ -95,7 +92,6 @@ public static class GlobalFunctions
         }
         catch
         {
-            Debug.Log("AAA" + array);
             temp = -123;
         }
         return temp;
@@ -109,7 +105,6 @@ public static class GlobalFunctions
         }
         catch
         {
-            Debug.Log("AAA" + array);
             temp = Vector2.negativeInfinity;
         }
         return temp;
@@ -123,7 +118,6 @@ public static class GlobalFunctions
         }
         catch
         {
-            Debug.Log("AAA" + array);
             temp = Vector2.negativeInfinity;
         }
         return temp;
@@ -137,7 +131,6 @@ public static class GlobalFunctions
         }
         catch
         {
-            Debug.Log("AAA" + array);
             temp = Vector2.negativeInfinity;
         }
         return temp;
@@ -159,9 +152,6 @@ public static class GlobalFunctions
                 list.RemoveAt(list.Count - 1);
             }
         }
-
-
-
         list.AddRange(arrayToAdd);
         return list.ToArray();
     }
@@ -186,7 +176,6 @@ public static class GlobalFunctions
     };
     public static WorkerInfo RandomNewWorker(int lvl)
     {
-        //Debug.Log("worker" + ((species)Random.Range(0, System.Enum.GetValues(typeof(species)).Length)));
         string _name = "";
         for (int i = 0; i < nameSegments.Count(); i++)
         {
@@ -264,7 +253,6 @@ public static class GlobalFunctions
         matchingTileData = default;
         foreach (ConstructionTimePacketData p in list)
         {
-            //Debug.Log($"{p.coord.FloatArrayToVector()} {tI.coord.FloatArrayToVector()}");
             if (p.coord.FloatArrayToVector() == tI.coord.FloatArrayToVector())
             {
                 matchingTileData = p;
@@ -277,7 +265,6 @@ public static class GlobalFunctions
     {
         foreach (ConstructionTimePacketData p in list)
         {
-            //Debug.Log($"{p.coord.FloatArrayToVector()} {tI.coord.FloatArrayToVector()}");
             if (p.coord.FloatArrayToVector() == tI.coord.FloatArrayToVector())
             {
                 return true;

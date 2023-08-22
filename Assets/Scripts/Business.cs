@@ -17,6 +17,9 @@ public class WorkerInfo
     public species specie; 
     private int energy;
     public currentWorkerProcess process;
+    public float[] businessCoord;
+    public DateTime timeIn;
+    public DateTime timeOut;
     public int Energy
     {
         get
@@ -57,30 +60,48 @@ public class Business : MonoBehaviour
 
     public float wait;
 
-    /*private void Start()
-    {
-        stockDetails.amount = 100;
-    }*/
-
     public void toggleWorker(HiredWorkerUI who)
     {
         if (activeWorkers.Contains(who))
         {
-            Debug.Log(3);
             activeWorkers.Remove(who);
             GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<AllWorkers>().StopWork(who);
 
         }
         else
         {
-            Debug.Log(4);
             activeWorkers.Add(who);
             GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<AllWorkers>().StartWork(who);
             //add activeworkers
             
         }
     }
+    public void WorkerProgress()
+    {
+        updateVisualWorkers();
 
+        foreach(HiredWorkerUI hwui in hiredWUI)
+        {
+            if(hwui.info.process == currentWorkerProcess.working)
+            {
+                //was working
+
+
+
+
+
+                toggleWorker(hwui);
+            }
+        }
+
+        foreach (WorkerInfo info in hiredWorkers)
+        {
+            /*if (info.process == currentWorkerProcess.working)
+            {
+                toggleWorker(info);
+            }*/
+        }
+    }
     public void ChangeEntranceDirection()
     {
         pathFrom = oS.pathFromEntrance.ToArray().Last() - oS.pathFromEntrance.ToArray().Last(1);
@@ -136,7 +157,6 @@ public class Business : MonoBehaviour
         shopGUI = canvasesOwner.GetComponentInChildren<shopUI>();
         shopGUI.init(this);
         updateVisualWorkers();
-        StartCoroutine(secondTicked());
     }
 
     private void Start()
@@ -172,19 +192,24 @@ public class Business : MonoBehaviour
     {
         if (restock)
         {
-            ToggleActivity(false);
-            wait += Time.deltaTime;
+            if (businessActive)
+            {
+                ToggleActivity(false);
+            }
+
+            wait += Time.deltaTime * activeWorkers.Count;
             if (wait >= 6)
             {
-                Debug.Log(stockDetails.amount);
                 stockDetails.amount += 1;
                 wait = 0;
+                shopGUI.updateVisual();
             }
 
             if (stockDetails.amount == 100)
             {
                 restock = false;
                 ToggleActivity(true);
+                shopGUI.updateVisual();
             }
         }
         else
@@ -204,6 +229,7 @@ public class Business : MonoBehaviour
             c = GameObject.FindGameObjectWithTag("Customers").GetComponent<Customers>();
         }
         c.ChangeBusinessActivity(this, businessActive);
+        updateVisualWorkers();
     }
     public void ToggleActivity(bool to)
     {
@@ -277,7 +303,10 @@ public class Business : MonoBehaviour
     public void UpdateWorkerUI()
     {
         hiredWorkers.Sort((x, y) => y.level.CompareTo(x.level));
-
+        foreach(WorkerInfo info in hiredWorkers)
+        {
+            info.businessCoord = oS.coord.VectorToFloatArray();
+        }
         for (int i = 0; i < 3; i++)
         {
             Debug.LogError(i);
@@ -302,12 +331,6 @@ public class Business : MonoBehaviour
             Debug.Log($"updating {hwui.info.name}, to be {hwui.info.specie} ");
             hwui.updateVisuals();
         }
-    }
-    IEnumerator secondTicked()
-    {
-        //stockDetails.amount += activeWorkers.Count;
-        yield return new WaitForSeconds(1);
-        StartCoroutine(secondTicked());
     }
 
 }

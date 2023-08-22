@@ -75,7 +75,7 @@ public class Customers : MonoBehaviour
         w.Currency += 1;
         Debug.LogWarning($"{w} {w.Currency}");
         b.stockDetails.amount--;
-
+        b.shopGUI.updateVisual();
         GameObject temp = Instantiate(moneyEarntPrefab,transform);
         temp.GetComponent<MoneyEarnt>().StartMoving(b);
         Debug.Log(b.stockDetails.amount);
@@ -87,7 +87,7 @@ public class Customers : MonoBehaviour
     }
     IEnumerator summonLoop()
     {
-        //Debug.Log("looped");
+        Debug.Log("looped");
         float delay = 5f;
         if (activeBusinesses.Count > 0)
         {
@@ -108,7 +108,7 @@ public class Customers : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(delay);
-        //Debug.Log($"waited {delay}");
+        Debug.Log($"waited {delay}");
         StartCoroutine(summonLoop());
     }
     IEnumerator saleDayLoop()

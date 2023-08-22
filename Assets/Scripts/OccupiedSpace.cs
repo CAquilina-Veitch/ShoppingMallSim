@@ -139,8 +139,8 @@ public class OccupiedSpace : MonoBehaviour
             Destroy(cV.gameObject);
 
 
-            //business.hiredWorkers;
             business.hiredWorkers = tI.workers.ToList();
+            business.WorkerProgress();
 
         }
 

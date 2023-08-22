@@ -317,13 +317,8 @@ public class RoomManager : MonoBehaviour
                 if (businesses.ContainsKey(clickedTile))
                 {
                     
-                    //Debug.Log("there is abusiness");
-                    //Debug.LogWarning(occupiedDictionary[clickedTile].uiOpen);
-
                     if (UHWM.selected.Count > 0 && occupiedDictionary[clickedTile].uiOpen)
                     {
-                        //Debug.Log(6);
-
                         //try to move the workers to here
                         UHWM.TryDesignateSelectedWorkers(businesses[clickedTile]);
                         businesses[clickedTile].UpdateWorkerUI();

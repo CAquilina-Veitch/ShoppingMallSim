@@ -22,7 +22,7 @@ public class ConstructionVisuals : MonoBehaviour
         canvas.SetActive(true);
         timeIn = packet.timeIn;
         total = packet.timeOut - packet.timeIn;
-        fraction = Mathf.Min( 0.01f * (float)total.TotalSeconds,1);
+        fraction = Mathf.Min(0.01f * (float)total.TotalSeconds, 1);
         StartCoroutine(updateTimer());
     }
     IEnumerator updateTimer()

@@ -15,7 +15,7 @@ public class Progress : MonoBehaviour
     public AllWorkers aW;
 
     public int[] money = {0,0};
-    public int[] carParkUpgrades = new int[3] {0,0,0 };
+    public int[] carParkUpgrades = new int[3] { 0, 0, 0 };
     public List<tileInfo> allOccupiedSpaces = new List<tileInfo>();
 
     public List<ConstructionTimePacketData> currentConstructions = new List<ConstructionTimePacketData>();
@@ -34,8 +34,6 @@ public class Progress : MonoBehaviour
         money[1] = wallet.Premium;
         currentConstructions = rM.currentConstructions.TimePacketsToTimeData();
         updateTiles();
-
-
     }
 
     public void LoadProgress(ProgressData data)
@@ -45,10 +43,6 @@ public class Progress : MonoBehaviour
         wallet.LoadToCurrent();
         rM.LoadToCurrent(data);
         SetCarpark(data.carparkProgress);
-
-        //offlineconstruction
-
-
 
         rM.currentConstructions = data.currentConstructions.TimeDataToTimePacks();
     }
@@ -125,19 +119,16 @@ public class tileInfo
 
         if (cT == constructionType.Business)
         {
-            //Debug.LogError(oS.business.hiredWorkers[0]);
             workers = oS.business.hiredWorkers.ToArray();
             stock = oS.business.stockDetails;
         }
         pathFromEntrance = oS.pathFromEntrance.VectorToFloatArray();
 
     }
-
     public float[] coord;
     public constructionType cT;
     public int businessType;
     public WorkerInfo[] workers;
     public stockInfo stock;
     public List<float[]> pathFromEntrance;
-
 }
