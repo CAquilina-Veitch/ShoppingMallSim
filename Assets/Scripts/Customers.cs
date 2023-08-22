@@ -14,9 +14,10 @@ public class Customers : MonoBehaviour
 
     [SerializeField] GameObject moneyEarntPrefab;
 
-    [SerializeField] Progress p;
-
-    public int carparkMultiplier = 1;
+    [SerializeField] Progress p;
+    
+    public int carParkTotal;
+    public int carparkMultiplier;
 
     public void ChangeBusinessActivity(Business b, bool to)
     {
@@ -61,8 +62,9 @@ public class Customers : MonoBehaviour
         temp.GetComponent<CustomerNPC>().cM = this;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
+        carParkTotal = p.carParkUpgrades[0] + p.carParkUpgrades[1] + p.carParkUpgrades[2];
         if (Input.GetKeyDown(KeyCode.J))
         {
             StartNewCustomer();
@@ -98,7 +100,7 @@ public class Customers : MonoBehaviour
         }
         else
         {
-            carparkMultiplier = 1 + p.carParkTotal;
+            carparkMultiplier = 1 + carParkTotal;
             Debug.Log(carparkMultiplier);
         }
 
