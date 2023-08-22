@@ -14,9 +14,10 @@ public class Customers : MonoBehaviour
 
     [SerializeField] GameObject moneyEarntPrefab;
 
-    [SerializeField] Progress p;
-
-    public int carparkMultiplier = 1;
+    [SerializeField] Progress p;
+    
+    public int carParkTotal;
+    public int carparkMultiplier;
 
     public void ChangeBusinessActivity(Business b, bool to)
     {
@@ -61,8 +62,9 @@ public class Customers : MonoBehaviour
         temp.GetComponent<CustomerNPC>().cM = this;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
+        carParkTotal = p.carParkUpgrades[0] + p.carParkUpgrades[1] + p.carParkUpgrades[2];
         if (Input.GetKeyDown(KeyCode.J))
         {
             StartNewCustomer();
@@ -74,15 +76,27 @@ public class Customers : MonoBehaviour
         StartCoroutine(saleDayLoop());
     }
     public void makeSale(Business b)
-    {
-        Debug.LogWarning($"Sale made {w} {w.Currency}, adding {b.stockDetails.value}");
-        w.Currency += 1;
-        Debug.LogWarning($"{w} {w.Currency}");
-        b.stockDetails.amount--;
-        b.shopGUI.updateVisual();
-        GameObject temp = Instantiate(moneyEarntPrefab,transform);
-        temp.GetComponent<MoneyEarnt>().StartMoving(b);
-        Debug.Log(b.stockDetails.amount);
+    {        if (b.restock)
+        {
+
+        }        else
+        {
+            Debug.LogWarning($"Sale made {w} {w.Currency}, adding {b.stockDetails.value}");
+
+            w.Currency += 1;
+
+            Debug.LogWarning($"{w} {w.Currency}");
+
+            b.stockDetails.amount--;
+
+            b.shopGUI.updateVisual();
+
+            GameObject temp = Instantiate(moneyEarntPrefab, transform);
+
+            temp.GetComponent<MoneyEarnt>().StartMoving(b);
+
+            Debug.Log(b.stockDetails.amount);
+        }
     }
 
     private void OnEnable()
@@ -98,7 +112,7 @@ public class Customers : MonoBehaviour
         }
         else
         {
-            carparkMultiplier = 1 + p.carParkTotal;
+            carparkMultiplier = 1 + carParkTotal;
             Debug.Log(carparkMultiplier);
         }
 

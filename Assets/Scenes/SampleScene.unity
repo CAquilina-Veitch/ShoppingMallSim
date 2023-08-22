@@ -16014,7 +16014,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   p: {fileID: 987434988}
-  scene: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
 --- !u!4 &987434986
 Transform:
   m_ObjectHideFlags: 0
@@ -16044,6 +16043,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallet: {fileID: 1253083565}
   rM: {fileID: 1849401926}
+  aW: {fileID: 0}
   money: 0000000000000000
   carParkUpgrades: 000000000000000000000000
   allOccupiedSpaces: []
@@ -73991,6 +73991,9 @@ MonoBehaviour:
   customerPrefab: {fileID: 3180116176655812911, guid: e920b2e5595367c489e822eee7cdac98, type: 3}
   w: {fileID: 1253083565}
   moneyEarntPrefab: {fileID: 693674936434625897, guid: 37fe2c94d95353b4b942040ebd80a2bc, type: 3}
+  p: {fileID: 987434988}
+  carParkTotal: 0
+  carparkMultiplier: 1
 --- !u!1 &1584236152
 GameObject:
   m_ObjectHideFlags: 0

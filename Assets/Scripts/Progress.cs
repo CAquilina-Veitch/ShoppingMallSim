@@ -16,7 +16,6 @@ public class Progress : MonoBehaviour
 
     public int[] money = {0,0};
     public int[] carParkUpgrades = new int[3] {0,0,0 };
-    public int carParkTotal;
     public List<tileInfo> allOccupiedSpaces = new List<tileInfo>();
 
     public List<ConstructionTimePacketData> currentConstructions = new List<ConstructionTimePacketData>();
@@ -84,7 +83,6 @@ public class Progress : MonoBehaviour
                     carparkButtonsRight[i].forceCarpark();
                 }
             }
-            carParkTotal = carParkUpgrades[0] + carParkUpgrades[1] + carParkUpgrades[2];
         }
 
 
