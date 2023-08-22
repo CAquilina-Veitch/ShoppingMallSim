@@ -5,8 +5,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-
-
 [Serializable]
 public class Progress : MonoBehaviour
 {
@@ -14,7 +12,7 @@ public class Progress : MonoBehaviour
 
     public Wallet wallet;
     public RoomManager rM;
-
+    public AllWorkers aW;
 
     public int[] money = {0,0};
     public int[] carParkUpgrades = new int[3] {0,0,0 };

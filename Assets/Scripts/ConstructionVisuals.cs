@@ -16,12 +16,13 @@ public class ConstructionVisuals : MonoBehaviour
     TimeSpan elapsed;
     DateTime timeIn;
     [SerializeField] TextMeshProUGUI timeLeft;
-    
+    float fraction;
     public void SetPacket(ConstructionTimePacket packet)
     {
         canvas.SetActive(true);
         timeIn = packet.timeIn;
         total = packet.timeOut - packet.timeIn;
+        fraction = Mathf.Min( 0.01f * (float)total.TotalSeconds,1);
         StartCoroutine(updateTimer());
     }
     IEnumerator updateTimer()
@@ -33,7 +34,7 @@ public class ConstructionVisuals : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(fraction);
         }
         
         elapsed = DateTime.Now - timeIn;
