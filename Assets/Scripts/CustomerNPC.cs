@@ -251,8 +251,6 @@ public class CustomerNPC : MonoBehaviour
 
         Destroy(gameObject);
 
-        Destroy(gameObject);
-
 
     }
 

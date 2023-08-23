@@ -74,11 +74,12 @@ public class Progress : MonoBehaviour
             }
             else
             {
-                for (int i = 0; i <= carParkUpgrades[1]; i++)
-                {
+                for (int i = 0; i < carParkUpgrades[1]; i++)
+                {                    Debug.Log("number is" + i);
+                    Debug.Log("carpark is" + carparkButtonsLeft.Length);
                     carparkButtonsLeft[i].forceCarpark();
                 }
-                for (int i = 0; i <= carParkUpgrades[2]; i++)
+                for (int i = 0; i < carParkUpgrades[2]; i++)
                 {
                     carparkButtonsRight[i].forceCarpark();
                 }

@@ -67,6 +67,7 @@ public class OccupiedSpace : MonoBehaviour
 
     public void removeBuilding()
     {
+        rM.currentlyOpenedInteractWindow = Vector2.one * -1;
         rM.businesses.Remove(coord);
         rM.occupiedDictionary.Remove(coord);
         Destroy(gameObject);

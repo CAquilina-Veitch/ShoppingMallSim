@@ -63,7 +63,7 @@ public class RoomManager : MonoBehaviour
     public Dictionary<Vector2, Path> pathDictionary = new Dictionary<Vector2, Path>();
 
     public Dictionary<Vector2, Business> businesses = new Dictionary<Vector2, Business>();
-    Vector2 currentlyOpenedInteractWindow = Vector2.one * -1;
+    public Vector2 currentlyOpenedInteractWindow = Vector2.one * -1;
 
     //float constructionTime = 1/4f;
     TimeSpan constructionTime = new TimeSpan(0, 0, 1);
