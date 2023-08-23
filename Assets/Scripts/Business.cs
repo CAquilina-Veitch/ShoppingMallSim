@@ -73,6 +73,25 @@ public class Business : MonoBehaviour
             //add activeworkers
             
         }
+    }    
+    public void toggleWorker(HiredWorkerUI who, bool to)
+    {
+        if (to)
+        {
+            if (!activeWorkers.Contains(who))
+            {
+                activeWorkers.Add(who);
+                GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<AllWorkers>().StartWork(who);
+            }
+        }
+        else
+        {
+            if (activeWorkers.Contains(who))
+            {
+                activeWorkers.Remove(who);
+                GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<AllWorkers>().StopWork(who);
+            }
+        }
     }
     public void WorkerProgress()
     {

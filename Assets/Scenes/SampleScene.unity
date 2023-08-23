@@ -16043,11 +16043,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallet: {fileID: 1253083565}
   rM: {fileID: 1849401926}
-  aW: {fileID: 0}
+  aW: {fileID: 1849401929}
   money: 0000000000000000
   carParkUpgrades: 000000000000000000000000
   allOccupiedSpaces: []
   currentConstructions: []
+  currentWorkers: []
   initialCarpark: {fileID: 1396054957}
   carparkButtonsLeft:
   - {fileID: 1345870312}
@@ -76385,6 +76386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abe8a68e597e7cc44a0b571d2498c50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rM: {fileID: 1849401926}
   currentProcesses: []
 --- !u!1 &1853653589
 GameObject:
