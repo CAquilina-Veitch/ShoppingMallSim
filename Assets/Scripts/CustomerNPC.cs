@@ -35,7 +35,7 @@ public class CustomerNPC : MonoBehaviour
 
     IEnumerator MoveNPC()
     {
-
+        ////////////////////////////////////////////////customer is spawned in now moves toward
         float _eT = 0;
         int m = Random.Range(0, 2) == 0 ? -1 : 1;
         anim.SetFloat("ydir", 0);
@@ -250,7 +250,7 @@ public class CustomerNPC : MonoBehaviour
         }
 
 
-
+        Destroy(gameObject);
 
 
     }
