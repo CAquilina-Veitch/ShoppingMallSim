@@ -47,7 +47,7 @@ public class CameraMove : MonoBehaviour
             float speedTouch0 = touch0.deltaPosition.magnitude / touch0.deltaTime;
             float speedTouch1 = touch1.deltaPosition.magnitude / touch1.deltaTime;
 
-
+/*
             Vector2 touch0StartPos = touch0.position - touch0.deltaPosition;
             Vector2 touch1StartPos = touch1.position - touch1.deltaPosition;
             Vector2 midpointStart = (touch0StartPos + touch1StartPos) / 2f;
@@ -55,7 +55,7 @@ public class CameraMove : MonoBehaviour
 
             Vector3 direction = midpointStart - midpointNow;
             cam.transform.Translate(direction * cam.orthographicSize / Screen.height * 2);
-
+*/
 
             if ((touchDelta + varianceInDistances <= 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed))
             {
