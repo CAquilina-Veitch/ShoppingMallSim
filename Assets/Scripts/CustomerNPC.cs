@@ -249,6 +249,7 @@ public class CustomerNPC : MonoBehaviour
             yield return null;
         }
 
+        Destroy(gameObject);
 
         Destroy(gameObject);
 

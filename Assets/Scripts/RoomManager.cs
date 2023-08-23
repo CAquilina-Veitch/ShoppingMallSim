@@ -172,8 +172,6 @@ public class RoomManager : MonoBehaviour
 
 
 
-
-
     public void pathAdd(Path path, Vector2 CO)
     {
         //Debug.Log("Added path at " + CO);

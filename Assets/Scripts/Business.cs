@@ -125,17 +125,19 @@ public class Business : MonoBehaviour
         Debug.Log(pathFrom);
         if(pathFrom == Vector2.up)
         {
-            visualPositions.wanderPoints[1].localPosition = new Vector3(visualPositions.wanderPoints[2].localPosition.x*-1, visualPositions.wanderPoints[2].localPosition.y, visualPositions.wanderPoints[2].localPosition.z);
+            visualPositions.wanderPoints[1].localPosition = new Vector3(visualPositions.wanderPoints[1].localPosition.x * 1, visualPositions.wanderPoints[1].localPosition.y, visualPositions.wanderPoints[1].localPosition.z);
         }
         else if (pathFrom == Vector2.down)
         {
-
-        }else if(pathFrom == Vector2.left)
+            visualPositions.wanderPoints[1].localPosition = new Vector3(visualPositions.wanderPoints[1].localPosition.x * -1, visualPositions.wanderPoints[1].localPosition.y, visualPositions.wanderPoints[1].localPosition.z);
+        }
+        else if(pathFrom == Vector2.left)
         {
-
-        }else if (pathFrom == Vector2.right)
+            visualPositions.wanderPoints[1].localPosition = new Vector3(visualPositions.wanderPoints[1].localPosition.x * 1, visualPositions.wanderPoints[1].localPosition.y, visualPositions.wanderPoints[1].localPosition.z);
+        }
+        else if (pathFrom == Vector2.right)
         {
-
+            visualPositions.wanderPoints[1].localPosition = new Vector3(visualPositions.wanderPoints[1].localPosition.x * -1, visualPositions.wanderPoints[1].localPosition.y, visualPositions.wanderPoints[1].localPosition.z);
         }
         else
         {

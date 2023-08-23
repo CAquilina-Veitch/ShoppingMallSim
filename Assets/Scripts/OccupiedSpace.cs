@@ -65,6 +65,12 @@ public class OccupiedSpace : MonoBehaviour
         sR.sprite = workSprites[3];
     }
 
+    public void removeBuilding()
+    {
+        rM.businesses.Remove(coord);
+        rM.occupiedDictionary.Remove(coord);
+        Destroy(gameObject);
+    }
 
     public void changeCurrentRoomHighlight(bool increase)
     {
