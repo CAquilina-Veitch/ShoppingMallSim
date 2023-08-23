@@ -276,83 +276,88 @@ public class RoomManager : MonoBehaviour
         StartCoroutine(UpdateEverySecond());
     }
 
+    void HandleTap(Vector2 touchPosition)
+    {
+        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(touchPosition);
+        Vector2 clickedTile = coordToTileCenterPos(worldPosition).WorldToIsoCoord();
+
+        if (checkEmpty(clickedTile))
+        {
+            //empty
+            if (draft.coord == clickedTile)
+            {
+                TryBuild(clickedTile);
+            }
+            else
+            {
+                draft.moveDraft(clickedTile);
+            }
+        }
+        else
+        {
+            //not empty
+            draft.draftVisibility(false);
+
+
+            if (businesses.ContainsKey(clickedTile))
+            {
+
+                if (UHWM.selected.Count > 0 && occupiedDictionary[clickedTile].uiOpen)
+                {
+                    //try to move the workers to here
+                    UHWM.TryDesignateSelectedWorkers(businesses[clickedTile]);
+                    businesses[clickedTile].UpdateWorkerUI();
+                }
+                else
+                {
+                    updateInteractWindows(clickedTile);
+                }
+            }
+            else
+            {
+                Debug.LogError("businesses doesnt contain def for this coord");
+
+            }
+        }
+    }
+
+
     // Update is called once per frame
+    Vector2 touchStartPos;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
-        if (Input.GetKeyDown(KeyCode.Mouse0)||Input.touchCount==1)
+
+        if (Input.touchCount > 0)
         {
-            Vector2 clickedTile;
-            if (Input.touchCount == 1) 
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
             {
-                clickedTile = coordToTileCenterPos(cam.ScreenToWorldPoint(Input.GetTouch(1).position)).WorldToIsoCoord();
+                touchStartPos = touch.position;
             }
-            else
-            {   
-                //// mouse controls
-                clickedTile = coordToTileCenterPos(cam.ScreenToWorldPoint(Input.mousePosition)).WorldToIsoCoord();
-            }
-
-            if (checkEmpty(clickedTile))
+            else if(touch.phase == TouchPhase.Ended)
             {
-                //empty
-                if (draft.coord == clickedTile)
+                Vector2 touchEndPos = touch.position;
+                Vector2 touchDelta = touchEndPos - touchStartPos;
+                Debug.Log(touchDelta);
+                if (touchDelta.magnitude < /* Your desired threshold here */ 0.5f)
                 {
-                    TryBuild(clickedTile);
-                }
-                else
-                {
-                    draft.moveDraft(clickedTile);
+                    HandleTap(touch.position);
                 }
             }
-            else
-            {   
-                //not empty
-                draft.draftVisibility(false);
-
-                
-                if (businesses.ContainsKey(clickedTile))
-                {
-                    
-                    if (UHWM.selected.Count > 0 && occupiedDictionary[clickedTile].uiOpen)
-                    {
-                        //try to move the workers to here
-                        UHWM.TryDesignateSelectedWorkers(businesses[clickedTile]);
-                        businesses[clickedTile].UpdateWorkerUI();
-                    }
-                    else
-                    {
-                        updateInteractWindows(clickedTile);
-                    }
-
-                   
-                    
-                }
-                else
-                {
-                    Debug.LogError("businesses doesnt contain def for this coord");
-
-                }
-                
-                
-
-
-
-
-
-            }
-
-            
-
-            
-
-
-            
-                        
         }
+
+
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            HandleTap(Input.mousePosition);
+        }
+        
 
         // Controls
 
