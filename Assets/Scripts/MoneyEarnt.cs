@@ -13,6 +13,8 @@ public class MoneyEarnt : MonoBehaviour
 
     [SerializeField] GameObject doneEffectPrefab;
 
+    public int moneyToEarn;
+
     public void StartMoving(Business b)
     {
         startPosition = b.oS.coord;
@@ -47,6 +49,7 @@ public class MoneyEarnt : MonoBehaviour
     }
     IEnumerator done()
     {
+        GameObject.FindGameObjectWithTag("Wallet").GetComponent<Wallet>().Currency += moneyToEarn;
         GetComponent<SpriteRenderer>().enabled = false;
         GameObject temp = Instantiate(doneEffectPrefab, transform.position, Quaternion.identity, transform);
         yield return new WaitForSeconds(2);
