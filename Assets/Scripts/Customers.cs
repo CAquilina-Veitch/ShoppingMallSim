@@ -104,7 +104,7 @@ public class Customers : MonoBehaviour
     }
     IEnumerator summonLoop()
     {
-        Debug.Log("bingle");
+        Debug.Log("summon looped");
         if (p.carParkUpgrades[0] == -1)
         {
             carparkMultiplier = 16;

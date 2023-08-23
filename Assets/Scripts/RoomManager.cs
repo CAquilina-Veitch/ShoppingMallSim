@@ -341,7 +341,7 @@ public class RoomManager : MonoBehaviour
             {
                 Vector2 touchEndPos = touch.position;
                 Vector2 touchDelta = touchEndPos - touchStartPos;
-                Debug.Log(touchDelta);
+                Debug.Log("Magnitude" + touchDelta.magnitude);
                 if (touchDelta.magnitude < /* Your desired threshold here */ 0.5f)
                 {
                     HandleTap(touch.position);

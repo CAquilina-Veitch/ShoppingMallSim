@@ -4,73 +4,75 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
+
+    [SerializeField] float minPinchSpeed = 5.0F;
+    [SerializeField] float speed = 4;
+    [SerializeField] float varianceInDistances = 5.0F;
+
+
+    [SerializeField] Vector2 touchStart;
     private Camera cam;
-    public float moveSpeed = 3f;
-    public float scrollSpeed = 0.05f;
-    public float scrollAmount = 0f;
-    Vector3 basePosition;
-    Vector3 midPoint = new Vector3(0, 19);
-    Vector2 boundsMax = new Vector2(38, 38);
-    Vector2 boundsMin = new Vector2(-38, 0);
-    Vector2 distanceCenter = new Vector2(0, 0);
-    public float multiplier = 1;
-    // Update is called once per frame
-    private void Start()
+
+
+    void Start()
     {
         cam = Camera.main;
-        scrollAmount = 0.1f;
     }
-
-
-
-    public Vector3 mouseDown;
-    public Vector3 mouseCamPos;
-    public Vector3 diff;
 
     void Update()
     {
-
-        /*
-                //Movement
-                if (Input.GetKeyDown(KeyCode.Mouse1))
-                {
-                    mouseDown = Input.mousePosition;
-                    mouseCamPos = transform.position;
-                }
-                else if(Input.GetKey(KeyCode.Mouse1))
-                {
-                    diff = mouseDown - Input.mousePosition;
-                    transform.position = diff - cam.ScreenToWorldPoint(mouseDown);
-                }*/
-
-
-        distanceCenter = (transform.position - midPoint);
-        //Debug.LogWarning(distanceCenter);
-        multiplier = -Mathf.Abs(distanceCenter.y) + (boundsMax.x * 0.5f);
-        //Debug.Log(multiplier);
-
-      
-
-
-        if (Input.GetKey(KeyCode.UpArrow) == true || Input.GetKey(KeyCode.W) == true) { basePosition += transform.up * moveSpeed * Time.deltaTime; }
-         if (Input.GetKey(KeyCode.DownArrow) == true || Input.GetKey(KeyCode.S) == true) { basePosition -= transform.up * moveSpeed * Time.deltaTime; }
-
-
-         if (Input.GetKey(KeyCode.RightArrow) == true || Input.GetKey(KeyCode.D) == true) { basePosition += transform.right * moveSpeed * Time.deltaTime; }
-         if (Input.GetKey(KeyCode.LeftArrow) == true || Input.GetKey(KeyCode.A) == true) { basePosition -= transform.right * moveSpeed * Time.deltaTime; }
-
-        if (Input.mouseScrollDelta.y != 0)
+        if (Input.touchCount == 1)
         {
-            scrollAmount = Mathf.Clamp(scrollAmount - Input.mouseScrollDelta.y * scrollSpeed, 0.1f, 1);
-            
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                touchStart = touch.position;
+            }
+            else if (touch.phase == TouchPhase.Moved)
+            {
+                Vector3 direction = touchStart - touch.position;
+                cam.transform.Translate(direction * cam.orthographicSize / Screen.height * 2);
+                touchStart = touch.position;
+            }
         }
-        //Debug.Log($"{basePosition.x},  {multiplier}");
-        /*
-        scale = Mathf.Lerp(0, boundsMax.x + 1 *ratio, scrollAmount);
-        cam.orthographicSize = scale;
-        *//*basePosition = new Vector3(Mathf.Clamp(basePosition.x, 0, 2*boundsMax.x * (1 - scrollAmount)), Mathf.Clamp(basePosition.y, 0, 2*boundsMax.y * (1 - scrollAmount)), -10);
-        */
-        basePosition = new Vector3(Mathf.Clamp(basePosition.x, -multiplier * 2, multiplier * 2), Mathf.Clamp(basePosition.y, boundsMin.y, boundsMax.y), transform.position.z);
-        transform.position = new Vector3(basePosition.x, basePosition.y, -10);
+        if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved)
+        {
+            Touch touch0 = Input.GetTouch(0);
+            Touch touch1 = Input.GetTouch(1);
+
+            Vector2 curDist = touch0.position - touch1.position; //current distance between finger touches
+            Vector2 prevDist = ((touch0.position - touch0.deltaPosition) - (touch1.position - touch1.deltaPosition)); //difference in previous locations using delta positions
+            float touchDelta = curDist.magnitude - prevDist.magnitude;
+            float speedTouch0 = touch0.deltaPosition.magnitude / touch0.deltaTime;
+            float speedTouch1 = touch1.deltaPosition.magnitude / touch1.deltaTime;
+
+
+            Vector2 touch0StartPos = touch0.position - touch0.deltaPosition;
+            Vector2 touch1StartPos = touch1.position - touch1.deltaPosition;
+            Vector2 midpointStart = (touch0StartPos + touch1StartPos) / 2f;
+            Vector2 midpointNow = (touch0.position + touch1.position) / 2f;
+
+            Vector3 direction = midpointStart - midpointNow;
+            cam.transform.Translate(direction * cam.orthographicSize / Screen.height * 2);
+
+
+            if ((touchDelta + varianceInDistances <= 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed))
+            {
+
+                cam.orthographicSize = Mathf.Clamp(cam.orthographicSize + (cam.orthographicSize / 50 * speed), zoomBounds.x, zoomBounds.y);
+            }
+
+            if ((touchDelta + varianceInDistances > 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed))
+            {
+
+                cam.orthographicSize = Mathf.Clamp(cam.orthographicSize - (cam.orthographicSize/50 * speed), zoomBounds.x, zoomBounds.y);
+            }
+
+        }
     }
+    Vector2 zoomBounds = new Vector2(0.1f,13f);
+
+
 }
+

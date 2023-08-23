@@ -80057,13 +80057,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ebfac78d6d51945bd4625d25019003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  scrollSpeed: 0.05
-  scrollAmount: 0
-  multiplier: 1
-  mouseDown: {x: 0, y: 0, z: 0}
-  mouseCamPos: {x: 0, y: 0, z: 0}
-  diff: {x: 0, y: 0, z: 0}
+  minPinchSpeed: 5
+  speed: 4
+  varianceInDistances: 5
+  touchStart: {x: 0, y: 0}
 --- !u!1 &2099718787
 GameObject:
   m_ObjectHideFlags: 0
