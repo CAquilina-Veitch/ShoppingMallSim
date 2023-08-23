@@ -13,7 +13,6 @@ public struct WorkerTimePacket
 {
     public string _details;
     public WorkerInfo info;
-    public currentWorkerProcess process;
     public DateTime timeIn;
     public DateTime timeOut;
     public HiredWorkerUI hwui;
@@ -23,7 +22,6 @@ public struct WorkerTimePacket
     {
         _details = w._details;
         info = w.info;
-        process = w.process;
         timeIn = w.timeIn;
         timeOut = w.timeOut;
         hwui = default;
@@ -37,20 +35,19 @@ public struct WorkerTimePacketData
 {
     public string _details;
     public WorkerInfo info;
-    public currentWorkerProcess process;
     public DateTime timeIn;
     public DateTime timeOut;
     public WorkerTimePacketData(WorkerTimePacket w)
     {
         _details = w._details;
         info = w.info;
-        process = w.process;
         timeIn = w.timeIn;
         timeOut = w.timeOut;
     }
 }
 public class AllWorkers : MonoBehaviour
 {
+    [SerializeField] RoomManager rM;
     public List<WorkerTimePacket> currentProcesses = new List<WorkerTimePacket>();
 
     public void StartWork(HiredWorkerUI who)
@@ -63,7 +60,7 @@ public class AllWorkers : MonoBehaviour
         else
         {
             DateTime timeOut = DateTime.Now.AddMinutes(who.info.Energy);
-            WorkerTimePacket temp = new WorkerTimePacket() { _details = $"{who.info.name} - {who.bsns.oS.coord}", info = who.info, hwui = who, timeIn = DateTime.Now, process = currentWorkerProcess.working, timeOut = timeOut };
+            WorkerTimePacket temp = new WorkerTimePacket() { _details = $"{who.info.name} - {who.bsns.oS.coord}", info = new WorkerInfo{name=who.info.name, process = currentWorkerProcess.working, Energy = who.info.Energy, businessCoord = who.info.businessCoord, level= who.info.level, specie = who.info.specie }, hwui = who, timeIn = DateTime.Now, timeOut = timeOut };
             currentProcesses.Add(temp);
             SortPackets();
         }
@@ -78,25 +75,42 @@ public class AllWorkers : MonoBehaviour
     {
         List<WorkerTimePacketData> currentWorkers = data.currentWorkers;
 
+        List<WorkerTimePacket> newWorkerProcesses = new List<WorkerTimePacket>();
+
         foreach (WorkerTimePacketData wtpd in currentWorkers)
         {
-            WorkerTimePacket wtp = new WorkerTimePacket(wtpd);
+            WorkerTimePacket _wtp = new WorkerTimePacket(wtpd);
 
-            if (wtp.timeOut < DateTime.Now)
+            if (wtpd.timeOut < DateTime.Now)
             {
                 //process finished
 
-                if (wtp.process == currentWorkerProcess.working)
+                if (wtpd.info.process == currentWorkerProcess.working)
                 {
                     //finished working now has to be tired
                     //time since out;
 
-                    timeSinceOut
+                    float timeSinceOut = (float)(DateTime.Now - wtpd.timeOut).TotalMinutes;
+                    if (timeSinceOut > 120f)
+                    {
+                        _wtp.info.Energy = 120;
+                        _wtp.info.process = currentWorkerProcess.empty;
+                        rM.occupiedDictionary[wtpd.info.businessCoord.FloatArrayToVector()].business.hiredWorkers[rM.occupiedDictionary[wtpd.info.businessCoord.FloatArrayToVector()].business.hiredWorkers.FindIndex(x => x == wtpd.info)] = _wtp.info;
 
-                    wtp.info.Energy = (DateTime.Now - wtp.timeOut).TotalMinutes;
+                    }
+                    else
+                    {
+                        //potentially problematic
+                        _wtp.hwui = rM.occupiedDictionary[_wtp.info.businessCoord.FloatArrayToVector()].business.hiredWUI.First(x => x.info == wtpd.info);
+                        _wtp.info.Energy = (int)timeSinceOut / 2;
+                        _wtp.info.process = currentWorkerProcess.recovering;
+
+                        newWorkerProcesses.Add(_wtp);
+                    }
+                    
 
                 }
-                else if(wtp.process==currentWorkerProcess.recovering)
+                else if (wtpd.info.process == currentWorkerProcess.recovering)
                 {
                     //finished recovering now done
                 }
@@ -143,7 +157,7 @@ public void StopWork(HiredWorkerUI who)
 
             currentProcesses.Remove(process);
 
-            newProcess.process = currentWorkerProcess.recovering;
+            newProcess.info.process = currentWorkerProcess.recovering;
             newProcess.timeIn = DateTime.Now;
             newProcess.timeOut = DateTime.Now.AddMinutes((120 - who.info.Energy)*2);
 
