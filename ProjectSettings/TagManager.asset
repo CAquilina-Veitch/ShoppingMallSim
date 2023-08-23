@@ -8,6 +8,7 @@ TagManager:
   - UnhiredWorkers
   - Customers
   - SaveData
+  - Wallet
   layers:
   - Default
   - TransparentFX
