@@ -35,7 +35,7 @@ public class CustomerNPC : MonoBehaviour
 
     IEnumerator MoveNPC()
     {
-
+        ////////////////////////////////////////////////customer is spawned in now moves toward
         float _eT = 0;
         int m = Random.Range(0, 2) == 0 ? -1 : 1;
         anim.SetFloat("ydir", 0);
@@ -75,11 +75,11 @@ public class CustomerNPC : MonoBehaviour
                     //sR.sortingOrder = -2*(int)transform.position.y;
                     Vector3 temp = GlobalFunctions.WorldToIsoCoord(end);
                     sR.sortingOrder = -(int)(temp.x + temp.y);
-                    Debug.LogWarning("THIS HAPPENED TO SWTCH TO " + sR.sortingOrder);
+                    //Debug.LogWarning("THIS HAPPENED TO SWTCH TO " + sR.sortingOrder);
                 }
                 else
                 {
-                    Debug.LogWarning($"{newOrder} , {t}");
+                    //Debug.LogWarning($"{newOrder} , {t}");
                 }
                 transform.position = Vector3.Lerp(start, end, t);
 
@@ -250,7 +250,7 @@ public class CustomerNPC : MonoBehaviour
         }
 
 
-
+        Destroy(gameObject);
 
 
     }

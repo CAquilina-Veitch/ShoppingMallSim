@@ -83,8 +83,6 @@ public class Customers : MonoBehaviour
         {
             Debug.LogWarning($"Sale made {w} {w.Currency}, adding {b.stockDetails.value}");
 
-            w.Currency += 1;
-
             Debug.LogWarning($"{w} {w.Currency}");
 
             b.stockDetails.amount--;
@@ -93,6 +91,7 @@ public class Customers : MonoBehaviour
 
             GameObject temp = Instantiate(moneyEarntPrefab, transform);
 
+            temp.GetComponent<MoneyEarnt>().moneyToEarn = 1;
             temp.GetComponent<MoneyEarnt>().StartMoving(b);
 
             Debug.Log(b.stockDetails.amount);

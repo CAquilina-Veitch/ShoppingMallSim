@@ -91,7 +91,7 @@ public class AllWorkers : MonoBehaviour
                     //time since out;
 
                     float timeSinceOut = (float)(DateTime.Now - wtpd.timeOut).TotalMinutes;
-                    if (timeSinceOut > 120f)
+                    if (timeSinceOut > 240)
                     {
                         _wtp.info.Energy = 120;
                         _wtp.info.process = currentWorkerProcess.empty;
@@ -113,19 +113,37 @@ public class AllWorkers : MonoBehaviour
                 else if (wtpd.info.process == currentWorkerProcess.recovering)
                 {
                     //finished recovering now done
+                    rM.occupiedDictionary[_wtp.info.businessCoord.FloatArrayToVector()].business.hiredWUI.First(x => x.info == wtpd.info).info.Energy = 120;
+                    rM.occupiedDictionary[_wtp.info.businessCoord.FloatArrayToVector()].business.hiredWUI.First(x => x.info == wtpd.info).info.process = currentWorkerProcess.empty;
+
                 }
 
             }
             else
             {
                 //process has not finished complete the wtp
+
+                float timeToGo = (float)(wtpd.timeOut - DateTime.Now).TotalMinutes;
+                if (wtpd.info.process == currentWorkerProcess.working)
+                {
+                    _wtp.hwui = rM.occupiedDictionary[_wtp.info.businessCoord.FloatArrayToVector()].business.hiredWUI.First(x => x.info == wtpd.info);
+                    _wtp.info.Energy = (int)timeToGo;
+                    newWorkerProcesses.Add(_wtp);
+                    rM.occupiedDictionary[_wtp.info.businessCoord.FloatArrayToVector()].business.toggleWorker(_wtp.hwui, true);
+                }
+                else if (wtpd.info.process == currentWorkerProcess.recovering)
+                {
+                    _wtp.hwui = rM.occupiedDictionary[_wtp.info.businessCoord.FloatArrayToVector()].business.hiredWUI.First(x => x.info == wtpd.info);
+                    _wtp.info.Energy = (int)(120 - (0.5 * timeToGo));
+                    newWorkerProcesses.Add(_wtp);
+                }
+
             }
 
 
 
         }
-
-
+        currentWorkers = newWorkerProcesses.WorkerPacketsToWorkerData();
 
     }
 
