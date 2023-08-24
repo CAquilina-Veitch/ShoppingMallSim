@@ -69,6 +69,7 @@ public class DailySpin : MonoBehaviour
         maxTime = 4; 
         timeRemaining = maxTime;
         lastSpun = DateTime.Now;
+        progress.lastSpin = lastSpun;
     }
 
     void reward()
@@ -98,9 +99,14 @@ public class DailySpin : MonoBehaviour
     private void OnEnable()
     {
         lastSpun = progress.lastSpin;
+        Debug.Log($"{lastSpun.Date}- { DateTime.Now.Date}");
         if (lastSpun.Date != DateTime.Now.Date)
         {
             buttonObj.SetActive(true);
+        }
+        else
+        {
+            ///HERE YOU SHOULD PUT THE INVOKE OR WHATEVER FOR IF IT WAS SPUN TODAY - SHOW THE OTHER BUTTOn
         }
         currentStage = stage.prespin;
         triangleObj.SetActive(true);
