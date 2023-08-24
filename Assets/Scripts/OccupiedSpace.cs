@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -21,8 +22,6 @@ public class OccupiedSpace : MonoBehaviour
 
     public Vector2[] preExistingAdjPaths;
 
-
-
     //business stuff
     public Business business;
     [SerializeField] RectTransform bGList;
@@ -32,7 +31,7 @@ public class OccupiedSpace : MonoBehaviour
     //Pathstuff
     public Path path;
 
-
+    public Wallet w;
 
     public bool uiOpen;
     [SerializeField] GameObject businessCanvasOwner;
@@ -260,9 +259,22 @@ public class OccupiedSpace : MonoBehaviour
         business.init();
         business.stockDetails.type = (stockType)currentRoomHighlight;
         business.ChangeEntranceDirection();
+        rM.constructionTime = new TimeSpan(0, 0, 30);
 
     }
-
+    public void skipPremium()
+    {
+        w = GameObject.FindGameObjectWithTag("Wallet").GetComponent<Wallet>();
+        if (w.Premium == 3)
+        {
+            rM.constructionTime = new TimeSpan(0, 0, 1);
+            w.Premium -= 3;
+        }
+        else
+        {
+            rM.constructionTime = new TimeSpan(0, 0, 30);
+        }
+    } 
 
     public void UpdateLength(Vector2 coordReqFrom)
     {

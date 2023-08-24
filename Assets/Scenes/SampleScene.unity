@@ -19480,7 +19480,7 @@ GameObject:
   - component: {fileID: 1253083565}
   m_Layer: 0
   m_Name: Wallet
-  m_TagString: Untagged
+  m_TagString: Wallet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
