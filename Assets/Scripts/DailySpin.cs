@@ -102,6 +102,7 @@ public class DailySpin : MonoBehaviour
             wallet.Currency += 100;
             sP.SetColor(3);
         }
+        StartCoroutine(hideTimer());
     }
     private void OnEnable()
     {
@@ -109,11 +110,13 @@ public class DailySpin : MonoBehaviour
         Debug.Log($"{lastSpun.Date}- { DateTime.Now.Date}");
         if (lastSpun.Date != DateTime.Now.Date)
         {
+            reset.Invoke();
             buttonObj.SetActive(true);
         }
         else
         {
             reset.Invoke();
+            buttonObj.SetActive(false);
         }
         currentStage = stage.prespin;
         triangleObj.SetActive(true);
@@ -123,5 +126,11 @@ public class DailySpin : MonoBehaviour
     {
         currentlyActive = !currentlyActive;
         gameObject.SetActive(currentlyActive);
+    }
+    
+    IEnumerator hideTimer()
+    {
+        yield return new WaitForSeconds(3);
+        hide();
     }
 }

@@ -41,7 +41,6 @@ public class CameraMove : MonoBehaviour
                 Vector3 newPosition = cam.transform.position + direction * cam.orthographicSize / Screen.height * 2;
 
                 Vector3 midPoint = new Vector3(0, 19);
-                
                 Vector2 distanceCenter = (transform.position - midPoint);
                 //Debug.LogWarning(distanceCenter);
                 float multiplier = -Mathf.Abs(distanceCenter.y) + (boundsMax.x * 0.5f);
@@ -83,14 +82,14 @@ public class CameraMove : MonoBehaviour
             Vector3 direction = (Vector3)touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
             cam.transform.Translate(direction);
         }
-        transform.position = transform.position.camZ();
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, (19 - Mathf.Abs(Mathf.Clamp(transform.position.y, 0, 38) - 19)) * -2, (19 - Mathf.Abs(Mathf.Clamp(transform.position.y, 0, 38) - 19)) * 2), Mathf.Clamp(transform.position.y, 0, 38), -10);
     }
 
     public void CenterCameraOnPosition(Vector3 target)
     {
         StartCoroutine(MoveCameraToTarget(target));
     }
-    float targetZoomAmount= 5;
+    float targetZoomAmount = 5;
     float timeToMove;
     IEnumerator MoveCameraToTarget(Vector3 target)
     {

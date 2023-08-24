@@ -225,6 +225,8 @@ public class OccupiedSpace : MonoBehaviour
                 {
                     coord//adds coord on end
                 };
+
+                //////////////////put some crazy code 
             }
 
 

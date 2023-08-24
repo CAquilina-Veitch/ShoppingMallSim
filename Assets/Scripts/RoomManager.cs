@@ -82,8 +82,9 @@ public class RoomManager : MonoBehaviour
         {
             newRoom(new Vector2(0, 0));
 
-        }                
+        }
     }
+
 
 
 
@@ -104,7 +105,6 @@ public class RoomManager : MonoBehaviour
             SortPackets();
             occupiedDictionary[coordWhere].cV.SetPacket(temp);
         }
-        
     }
     public void StartConstruction(Vector2 coordWhere, constructionType cT)
     {
