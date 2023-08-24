@@ -259,7 +259,7 @@ public class OccupiedSpace : MonoBehaviour
         business.init();
         business.stockDetails.type = (stockType)currentRoomHighlight;
         business.ChangeEntranceDirection();
-        rM.constructionTime = new TimeSpan(0, 0, 30);
+        //rM.constructionTime = new TimeSpan(0, 0, 30);
 
     }
     public void skipPremium()
@@ -272,7 +272,7 @@ public class OccupiedSpace : MonoBehaviour
         }
         else
         {
-            rM.constructionTime = new TimeSpan(0, 0, 30);
+            //rM.constructionTime = new TimeSpan(0, 0, 30);
         }
     } 
 
