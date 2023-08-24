@@ -225,6 +225,8 @@ public class OccupiedSpace : MonoBehaviour
                 {
                     coord//adds coord on end
                 };
+
+                //GameObject temp = Instantiate(visualLayeredPrefabs[5], sR.transform);
             }
 
 
@@ -264,10 +266,11 @@ public class OccupiedSpace : MonoBehaviour
     }
     public void skipPremium()
     {
+        Debug.Log("Button has been pressed");
         w = GameObject.FindGameObjectWithTag("Wallet").GetComponent<Wallet>();
         if (w.Premium == 3)
         {
-            rM.constructionTime = new TimeSpan(0, 0, 1);
+            rM.businessConstructionTime = new TimeSpan(0, 0, 1);
             w.Premium -= 3;
         }
         else
