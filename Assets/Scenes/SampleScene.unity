@@ -17054,16 +17054,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallet: {fileID: 1253083565}
   rM: {fileID: 1849401926}
-  aW: {fileID: 0}
-  ds: {fileID: 0}
+  aW: {fileID: 1849401929}
+  ds: {fileID: 1670532860}
   money: 0000000000000000
   carParkUpgrades: 000000000000000000000000
   allOccupiedSpaces: []
   currentConstructions: []
   currentWorkers: []
-  initialCarpark: {fileID: 0}
-  carparkButtonsLeft: []
-  carparkButtonsRight: []
+  initialCarpark: {fileID: 1396054957}
+  carparkButtonsLeft:
+  - {fileID: 1345870312}
+  - {fileID: 470565681}
+  - {fileID: 208252616}
+  - {fileID: 1289023790}
+  - {fileID: 243805433}
+  - {fileID: 2018512042}
+  - {fileID: 726502735}
+  carparkButtonsRight:
+  - {fileID: 1407734375}
+  - {fileID: 1904165161}
+  - {fileID: 293185732}
+  - {fileID: 553256188}
+  - {fileID: 532651170}
+  - {fileID: 951163377}
+  - {fileID: 201456273}
 --- !u!1 &988251032
 GameObject:
   m_ObjectHideFlags: 0
@@ -75573,7 +75587,7 @@ MonoBehaviour:
   moneyEarntPrefab: {fileID: 693674936434625897, guid: 37fe2c94d95353b4b942040ebd80a2bc, type: 3}
   p: {fileID: 987434988}
   carParkTotal: 0
-  carparkMultiplier: 0
+  carparkMultiplier: 1
 --- !u!1 &1584236152
 GameObject:
   m_ObjectHideFlags: 0
@@ -76170,11 +76184,94 @@ MonoBehaviour:
   buttonObj: {fileID: 1304323214}
   wallet: {fileID: 1253083565}
   customerController: {fileID: 1573120408}
-  progress: {fileID: 0}
-  sP: {fileID: 0}
+  progress: {fileID: 987434988}
   reset:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1304323214}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 468663949}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1946110386}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 52531369}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 558050673}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 961174632}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 183877241}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1670532861
 Transform:
   m_ObjectHideFlags: 0
@@ -76470,8 +76567,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08666e0d0bc6301429650a01cd26474f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clrs: []
-  pS: {fileID: 0}
+  clrs:
+  - {r: 0.5137255, g: 0.8235295, b: 0.86666673, a: 1}
+  - {r: 0.9803922, g: 0.5254902, b: 0.49411768, a: 1}
+  - {r: 0.9803922, g: 0.85098046, b: 0.49411768, a: 1}
+  - {r: 0.5137255, g: 0.9803922, b: 0.49411768, a: 1}
+  pS: {fileID: 1687201844}
 --- !u!199 &1687201843
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -82721,10 +82822,10 @@ MonoBehaviour:
   UHWM: {fileID: 2115004571}
   businessWorkerUIPrefab: {fileID: 3692229785340097197, guid: 64137b9e9daec974ba2c7d071a9ceb9b, type: 3}
   currentlyOpenedInteractWindow: {x: -1, y: -1}
-  cM: {fileID: 0}
+  cM: {fileID: 2095033740}
   currentConstructions: []
-  progress: {fileID: 0}
-  fileStorage: {fileID: 0}
+  progress: {fileID: 987434988}
+  fileStorage: {fileID: 987434985}
 --- !u!4 &1849401927
 Transform:
   m_ObjectHideFlags: 0
@@ -82874,7 +82975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abe8a68e597e7cc44a0b571d2498c50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rM: {fileID: 0}
+  rM: {fileID: 1849401926}
   currentProcesses: []
 --- !u!1 &1853653589
 GameObject:
