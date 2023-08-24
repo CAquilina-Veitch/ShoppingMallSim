@@ -5,6 +5,8 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour
 {
     Vector2 zoomBounds = new Vector2(0.1f, 13f);
+    Vector2 boundsMax = new Vector2(38, 38);
+    Vector2 boundsMin = new Vector2(-38, 0);
     [SerializeField] float minPinchSpeed = 5.0F;
     [SerializeField] float speed = 4;
     [SerializeField] float varianceInDistances = 5.0F;
@@ -36,7 +38,13 @@ public class CameraMove : MonoBehaviour
             else if (touch.phase == TouchPhase.Moved)
             {
                 Vector3 direction = touchStart - touch.position;
-                cam.transform.Translate(direction * cam.orthographicSize / Screen.height * 2);
+                Vector3 newPosition = cam.transform.position + direction * cam.orthographicSize / Screen.height * 2;
+
+                newPosition.x = Mathf.Clamp(newPosition.x, boundsMin.x, boundsMax.x);
+                newPosition.y = Mathf.Clamp(newPosition.y, boundsMin.y, boundsMax.y);
+
+                cam.transform.position = newPosition;
+
                 touchStart = touch.position;
             }
         }
