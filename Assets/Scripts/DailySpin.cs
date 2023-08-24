@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class DailySpin : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class DailySpin : MonoBehaviour
     [SerializeField] Customers customerController;
     [SerializeField] Progress progress;
     public DateTime lastSpun;
+    public UnityEvent reset;
 
     enum stage
     {
@@ -106,7 +108,7 @@ public class DailySpin : MonoBehaviour
         }
         else
         {
-            ///HERE YOU SHOULD PUT THE INVOKE OR WHATEVER FOR IF IT WAS SPUN TODAY - SHOW THE OTHER BUTTOn
+            reset.Invoke();
         }
         currentStage = stage.prespin;
         triangleObj.SetActive(true);
