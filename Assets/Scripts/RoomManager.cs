@@ -547,6 +547,20 @@ public class RoomManager : MonoBehaviour
 
 
     }
+    public void callIconSwitch1()
+    {
+        foreach (Vector2 v in businesses.Keys)
+        {
+            businesses[v].visualPositions.switchOne();
+        }
+    }
+    public void callIconSwitch2()
+    {
+        foreach (Vector2 v in businesses.Keys)
+        {
+            businesses[v].visualPositions.switchTwo();
+        }
+    }
 
 }
 
