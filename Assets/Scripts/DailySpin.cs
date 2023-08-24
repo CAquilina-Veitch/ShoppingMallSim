@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class DailySpin : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class DailySpin : MonoBehaviour
     [SerializeField] GameObject triangleObj, buttonObj;
     [SerializeField] Wallet wallet;
     [SerializeField] Customers customerController;
+    [SerializeField] Progress progress;
+    public DateTime lastSpun;
+
     enum stage
     {
         prespin, spinning,finished
@@ -59,11 +63,12 @@ public class DailySpin : MonoBehaviour
     public void StartSpin()
     {
         currentStage = stage.spinning;
-        result = rotation + 360 * 4 + Random.Range(0, 360);
+        result = rotation + 360 * 4 + UnityEngine.Random.Range(0, 360);
         speed = 2;
         startSpeed = 4;
         maxTime = 4; 
         timeRemaining = maxTime;
+        lastSpun = DateTime.Now;
     }
 
     void reward()
@@ -92,9 +97,14 @@ public class DailySpin : MonoBehaviour
     }
     private void OnEnable()
     {
+        lastSpun = progress.lastSpin;
+        if (lastSpun.Date != DateTime.Now.Date)
+        {
+            buttonObj.SetActive(true);
+        }
         currentStage = stage.prespin;
         triangleObj.SetActive(true);
-        buttonObj.SetActive(true);
+        
     }
     public void hide()
     {

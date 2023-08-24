@@ -16044,6 +16044,7 @@ MonoBehaviour:
   wallet: {fileID: 1253083565}
   rM: {fileID: 1849401926}
   aW: {fileID: 1849401929}
+  ds: {fileID: 1670532860}
   money: 0000000000000000
   carParkUpgrades: 000000000000000000000000
   allOccupiedSpaces: []
@@ -74591,6 +74592,7 @@ MonoBehaviour:
   buttonObj: {fileID: 1304323214}
   wallet: {fileID: 1253083565}
   customerController: {fileID: 1573120408}
+  progress: {fileID: 987434988}
 --- !u!4 &1670532861
 Transform:
   m_ObjectHideFlags: 0

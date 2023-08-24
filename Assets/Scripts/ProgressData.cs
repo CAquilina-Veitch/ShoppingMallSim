@@ -14,6 +14,7 @@ public class ProgressData
     public int[] carparkProgress;
     public List<ConstructionTimePacketData> currentConstructions = new List<ConstructionTimePacketData>();
     public List<WorkerTimePacketData> currentWorkers = new List<WorkerTimePacketData>();
+    public DateTime lastSpin;
     public ProgressData(Progress progress)
     {
         money = progress.money;
@@ -21,6 +22,7 @@ public class ProgressData
         carparkProgress = progress.carParkUpgrades;
         currentConstructions = progress.currentConstructions;
         currentWorkers = progress.currentWorkers;
+        lastSpin = progress.lastSpin;
     }
 }
 

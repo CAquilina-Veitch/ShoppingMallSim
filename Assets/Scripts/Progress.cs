@@ -13,11 +13,12 @@ public class Progress : MonoBehaviour
     public Wallet wallet;
     public RoomManager rM;
     public AllWorkers aW;
+    public DailySpin ds;
 
     public int[] money = {0,0};
     public int[] carParkUpgrades = new int[3] {0,0,0 };
     public List<tileInfo> allOccupiedSpaces = new List<tileInfo>();
-
+    public DateTime lastSpin;
     public List<ConstructionTimePacketData> currentConstructions = new List<ConstructionTimePacketData>();
     public List<WorkerTimePacketData> currentWorkers = new List<WorkerTimePacketData>();
 
@@ -48,6 +49,8 @@ public class Progress : MonoBehaviour
 
         rM.currentConstructions = data.currentConstructions.TimeDataToTimePacks();
         aW.LoadProgress(data);
+        lastSpin = data.lastSpin;
+        ds.lastSpun = lastSpin;
     }
 
 

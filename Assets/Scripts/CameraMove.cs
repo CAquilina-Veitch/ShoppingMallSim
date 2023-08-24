@@ -77,17 +77,23 @@ public class CameraMove : MonoBehaviour
         StartCoroutine(MoveCameraToTarget(target));
     }
     float targetZoomAmount= 5;
+    float timeToMove;
     IEnumerator MoveCameraToTarget(Vector3 target)
     {
         target.z = -10;
         float elapsedTime = 0;
+        float lerpDuration = 0.5f; // Total time for the lerping process
         float initialZoom = cam.orthographicSize;
+        Vector3 initialPos = cam.transform.position;
 
-        while (elapsedTime < 0.5f)
+        while (elapsedTime < lerpDuration)
         {
-            float t = elapsedTime / 0.5f;
+            float t = elapsedTime / lerpDuration;
 
-            cam.transform.position = Vector3.Lerp(cam.transform.position, target, t);
+            // Apply a sine wave function to 't' to create the easing effect
+            t = Mathf.Sin(t * Mathf.PI * 0.5f);
+
+            cam.transform.position = Vector3.Lerp(initialPos, target, t);
             cam.orthographicSize = Mathf.Lerp(initialZoom, targetZoomAmount, t);
 
             elapsedTime += Time.deltaTime;
@@ -97,7 +103,7 @@ public class CameraMove : MonoBehaviour
         cam.transform.position = target;
         cam.orthographicSize = targetZoomAmount;
     }
-
+    
 
 
 
