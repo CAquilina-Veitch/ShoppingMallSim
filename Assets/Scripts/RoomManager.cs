@@ -66,7 +66,7 @@ public class RoomManager : MonoBehaviour
     public Vector2 currentlyOpenedInteractWindow = Vector2.one * -1;
 
     //float constructionTime = 1/4f;
-    public TimeSpan constructionTime = new TimeSpan(0, 0, 30);
+    public TimeSpan constructionTime = new TimeSpan(0, 0, 1);
 
     [SerializeField] CameraMove cM;
 
