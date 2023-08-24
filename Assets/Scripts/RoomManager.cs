@@ -66,8 +66,8 @@ public class RoomManager : MonoBehaviour
     public Vector2 currentlyOpenedInteractWindow = Vector2.one * -1;
 
     //float constructionTime = 1/4f;
-    public TimeSpan constructionTime = new TimeSpan(0, 0, 1);
-
+    public TimeSpan businessConstructionTime = new TimeSpan(0, 0, 5);
+    public TimeSpan pathConstructionTime = new TimeSpan(0, 0, 5);
     [SerializeField] CameraMove cM;
 
     public List<ConstructionTimePacket> currentConstructions = new List<ConstructionTimePacket>();
@@ -99,7 +99,8 @@ public class RoomManager : MonoBehaviour
         }
         else
         {
-            DateTime timeOut = DateTime.Now.Add(constructionTime);
+            DateTime timeOut = DateTime.Now.Add(businessConstructionTime);
+            businessConstructionTime *= 1.2f;
             ConstructionTimePacket temp = new ConstructionTimePacket() { _details = $"{coordWhere} - {bT}", timeIn = DateTime.Now, timeOut = timeOut, coord = coordWhere, isPath = false, businessType = bT };
             currentConstructions.Add(temp);
             SortPackets();
@@ -116,7 +117,8 @@ public class RoomManager : MonoBehaviour
         }
         else
         {
-            DateTime timeOut = DateTime.Now.Add(constructionTime);
+            DateTime timeOut = DateTime.Now.Add(pathConstructionTime);
+            pathConstructionTime *= 1.1f;
             ConstructionTimePacket temp = new ConstructionTimePacket() { _details = $"{coordWhere} - {cT}", timeIn = DateTime.Now, timeOut = timeOut, coord = coordWhere, isPath = true };
             temp._details = $"{temp._details} - {temp.timeOut.ToString("HH:mm")}";
             currentConstructions.Add(temp);
@@ -546,6 +548,20 @@ public class RoomManager : MonoBehaviour
         
 
 
+    }
+    public void callIconSwitch1()
+    {
+        foreach (Vector2 v in businesses.Keys)
+        {
+            businesses[v].visualPositions.switchOne();
+        }
+    }
+    public void callIconSwitch2()
+    {
+        foreach (Vector2 v in businesses.Keys)
+        {
+            businesses[v].visualPositions.switchTwo();
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ShopPosition : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class ShopPosition : MonoBehaviour
     [SerializeField] Sprite[] forwardSprites;
     [SerializeField] Sprite[] backSprites;
     public Transform[] wanderPoints;
+
+    public UnityEvent switchToAd;
+    public UnityEvent switchToNormal;
     public void ChangeSprite(int who, species to)
     {
         Sprite[] temp = who != 1 ? ref forwardSprites : ref backSprites;
@@ -25,5 +29,14 @@ public class ShopPosition : MonoBehaviour
         {
             sr.sortingOrder = to;
         }
+    }
+
+    public void switchOne()
+    {
+        switchToAd.Invoke();
+    }
+    public void switchTwo()
+    {
+        switchToNormal.Invoke();
     }
 }
