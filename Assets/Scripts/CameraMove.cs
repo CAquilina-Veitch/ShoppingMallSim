@@ -67,8 +67,9 @@ public class CameraMove : MonoBehaviour
         else if (Input.GetMouseButton(0))
         {
             Vector3 direction = (Vector3)touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Camera.main.transform.position += direction;
+            cam.transform.Translate(direction);
         }
+        transform.position = transform.position.camZ();
     }
 
     public void CenterCameraOnPosition(Vector3 target)
@@ -78,14 +79,15 @@ public class CameraMove : MonoBehaviour
     float targetZoomAmount= 5;
     IEnumerator MoveCameraToTarget(Vector3 target)
     {
+        target.z = -10;
         float elapsedTime = 0;
         float initialZoom = cam.orthographicSize;
 
         while (elapsedTime < 0.5f)
         {
             float t = elapsedTime / 0.5f;
-            
-            transform.position = Vector3.Lerp(cam.transform.position, target, t);
+
+            cam.transform.position = Vector3.Lerp(cam.transform.position, target, t);
             cam.orthographicSize = Mathf.Lerp(initialZoom, targetZoomAmount, t);
 
             elapsedTime += Time.deltaTime;
