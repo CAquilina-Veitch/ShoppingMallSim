@@ -39,12 +39,14 @@ public class CameraMove : MonoBehaviour
             {
                 Vector3 direction = touchStart - touch.position;
                 Vector3 newPosition = cam.transform.position + direction * cam.orthographicSize / Screen.height * 2;
+
+                Vector3 midPoint = new Vector3(0, 19);
                 
                 Vector2 distanceCenter = (transform.position - midPoint);
                 //Debug.LogWarning(distanceCenter);
                 float multiplier = -Mathf.Abs(distanceCenter.y) + (boundsMax.x * 0.5f);
 
-                newPosition.x = Mathf.Clamp(newPosition.x, boundsMin.x, boundsMax.x);
+                newPosition.x = Mathf.Clamp(newPosition.x, -multiplier * 2, multiplier * 2);
                 newPosition.y = Mathf.Clamp(newPosition.y, boundsMin.y, boundsMax.y);
 
                 cam.transform.position = newPosition;
