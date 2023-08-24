@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
-
+    Vector2 zoomBounds = new Vector2(0.1f, 13f);
     [SerializeField] float minPinchSpeed = 5.0F;
     [SerializeField] float speed = 4;
     [SerializeField] float varianceInDistances = 5.0F;
@@ -21,6 +21,10 @@ public class CameraMove : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
         if (Input.touchCount == 1)
         {
             Touch touch = Input.GetTouch(0);
@@ -36,7 +40,7 @@ public class CameraMove : MonoBehaviour
                 touchStart = touch.position;
             }
         }
-        if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved)
+        else if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved)
         {
             Touch touch0 = Input.GetTouch(0);
             Touch touch1 = Input.GetTouch(1);
@@ -46,17 +50,7 @@ public class CameraMove : MonoBehaviour
             float touchDelta = curDist.magnitude - prevDist.magnitude;
             float speedTouch0 = touch0.deltaPosition.magnitude / touch0.deltaTime;
             float speedTouch1 = touch1.deltaPosition.magnitude / touch1.deltaTime;
-
-/*
-            Vector2 touch0StartPos = touch0.position - touch0.deltaPosition;
-            Vector2 touch1StartPos = touch1.position - touch1.deltaPosition;
-            Vector2 midpointStart = (touch0StartPos + touch1StartPos) / 2f;
-            Vector2 midpointNow = (touch0.position + touch1.position) / 2f;
-
-            Vector3 direction = midpointStart - midpointNow;
-            cam.transform.Translate(direction * cam.orthographicSize / Screen.height * 2);
-*/
-
+            
             if ((touchDelta + varianceInDistances <= 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed))
             {
 
@@ -70,8 +64,39 @@ public class CameraMove : MonoBehaviour
             }
 
         }
+        else if (Input.GetMouseButton(0))
+        {
+            Vector3 direction = (Vector3)touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Camera.main.transform.position += direction;
+        }
     }
-    Vector2 zoomBounds = new Vector2(0.1f,13f);
+
+    public void CenterCameraOnPosition(Vector3 target)
+    {
+        StartCoroutine(MoveCameraToTarget(target));
+    }
+    float targetZoomAmount= 5;
+    IEnumerator MoveCameraToTarget(Vector3 target)
+    {
+        float elapsedTime = 0;
+        float initialZoom = cam.orthographicSize;
+
+        while (elapsedTime < 0.5f)
+        {
+            float t = elapsedTime / 0.5f;
+            
+            transform.position = Vector3.Lerp(cam.transform.position, target, t);
+            cam.orthographicSize = Mathf.Lerp(initialZoom, targetZoomAmount, t);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        cam.transform.position = target;
+        cam.orthographicSize = targetZoomAmount;
+    }
+
+
 
 
 }

@@ -68,7 +68,7 @@ public class RoomManager : MonoBehaviour
     //float constructionTime = 1/4f;
     public TimeSpan constructionTime = new TimeSpan(0, 0, 30);
 
-    
+    [SerializeField] CameraMove cM;
 
     public List<ConstructionTimePacket> currentConstructions = new List<ConstructionTimePacket>();
 
@@ -299,7 +299,7 @@ public class RoomManager : MonoBehaviour
 
             if (businesses.ContainsKey(clickedTile))
             {
-
+                cM.CenterCameraOnPosition(clickedTile.IsoCoordToWorldPosition());
                 if (UHWM.selected.Count > 0 && occupiedDictionary[clickedTile].uiOpen)
                 {
                     //try to move the workers to here

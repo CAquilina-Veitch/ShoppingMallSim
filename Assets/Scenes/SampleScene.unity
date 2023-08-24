@@ -76235,6 +76235,7 @@ MonoBehaviour:
   UHWM: {fileID: 2115004571}
   businessWorkerUIPrefab: {fileID: 3692229785340097197, guid: 64137b9e9daec974ba2c7d071a9ceb9b, type: 3}
   currentlyOpenedInteractWindow: {x: -1, y: -1}
+  cM: {fileID: 2095033740}
   currentConstructions: []
   progress: {fileID: 987434988}
   fileStorage: {fileID: 987434985}
@@ -76387,7 +76388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abe8a68e597e7cc44a0b571d2498c50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rM: {fileID: 0}
+  rM: {fileID: 1849401926}
   currentProcesses: []
 --- !u!1 &1853653589
 GameObject:
