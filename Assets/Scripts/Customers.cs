@@ -102,42 +102,46 @@ public class Customers : MonoBehaviour
     {
         StartCoroutine(summonLoop());
     }
-    IEnumerator summonLoop()
-    {
-        Debug.Log("summon looped");
-        if (p.carParkUpgrades[0] == -1)
-        {
-            carparkMultiplier = 16;
-        }
-        else
-        {
-            carparkMultiplier = 1 + carParkTotal;
-            Debug.Log(carparkMultiplier);
-        }
-
-        //Debug.Log("looped");
-        float delay = 5f/carparkMultiplier;
-        if (activeBusinesses.Count > 0)
-        {
-            foreach (Business b in activeBusinesses)
-            {
-                //stock check here ???
-
-                int n = Random.Range(0, 5);
-                n -= b.activeWorkers.Count;
-                if (n <= 0)
-                {
-                    float r = Random.Range(0, delay / 2);
-                    delay -= r;
-                    yield return new WaitForSeconds(r);
-                    StartNewCustomer(b);
-                    
-                }
-            }
-        }
-        yield return new WaitForSeconds(delay);
-        Debug.Log($"waited {delay}");
-        StartCoroutine(summonLoop());
+    IEnumerator summonLoop()
+    {
+        while (true) // Continuously loop
+        {
+            Debug.Log("summon looped");
+
+            if (p.carParkUpgrades[0] == -1)
+            {
+                carparkMultiplier = 16;
+            }
+            else
+            {
+                carparkMultiplier = 1 + carParkTotal;
+                Debug.Log(carparkMultiplier);
+            }
+
+            float delay = 5f / carparkMultiplier;
+
+            if (activeBusinesses.Count > 0)
+            {
+                foreach (Business b in activeBusinesses)
+                {
+                    //stock check here ???
+
+                    int n = Random.Range(0, 5);
+                    n -= b.activeWorkers.Count;
+
+                    if (n <= 0)
+                    {
+                        float r = Random.Range(0, delay / 2);
+                        delay -= r;
+                        yield return new WaitForSeconds(r);
+                        StartNewCustomer(b);
+                    }
+                }
+            }
+
+            yield return new WaitForSeconds(delay);
+            Debug.Log($"waited {delay}");
+        }
     }
     IEnumerator saleDayLoop()
     {

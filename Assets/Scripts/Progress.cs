@@ -14,7 +14,7 @@ public class Progress : MonoBehaviour
     public RoomManager rM;
     public AllWorkers aW;
     public DailySpin ds;
-
+    public UnhiredWorkers uHWM;    public TutorialProgress tP;
     public int[] money = {0,0};
     public int[] carParkUpgrades = new int[3] {0,0,0 };
     public List<tileInfo> allOccupiedSpaces = new List<tileInfo>();
@@ -22,9 +22,9 @@ public class Progress : MonoBehaviour
     public List<ConstructionTimePacketData> currentConstructions = new List<ConstructionTimePacketData>();
     public List<WorkerTimePacketData> currentWorkers = new List<WorkerTimePacketData>();
 
-
-
-
+    public List<WorkerInfo> unhiredWorkers = new List<WorkerInfo>();
+    public int tutorialProgress;
+    public TimeSpan[] constructionTimes;
     [SerializeField] Carpark initialCarpark;
     [SerializeField] Carpark[] carparkButtonsLeft;
     [SerializeField] Carpark[] carparkButtonsRight;
@@ -36,7 +36,8 @@ public class Progress : MonoBehaviour
         money[1] = wallet.Premium;
         currentConstructions = rM.currentConstructions.TimePacketsToTimeData();
         currentWorkers = aW.currentProcesses.WorkerPacketsToWorkerData();
-        updateTiles();
+        updateTiles();        unhiredWorkers = uHWM.unhiredWorkers;        tutorialProgress = tP.UpdateProgress();
+        constructionTimes = rM.ConstructionTimes;
     }
 
     public void LoadProgress(ProgressData data)
@@ -51,6 +52,9 @@ public class Progress : MonoBehaviour
         aW.LoadProgress(data);
         lastSpin = data.lastSpin;
         ds.lastSpun = lastSpin;
+        uHWM.unhiredWorkers = data.unhiredWorkers;
+        tP.SetProgress(data.tP);
+        rM.ConstructionTimes=data.constructionTimes;
     }
 
 

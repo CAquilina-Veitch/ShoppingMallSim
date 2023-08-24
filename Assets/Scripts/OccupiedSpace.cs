@@ -184,7 +184,7 @@ public class OccupiedSpace : MonoBehaviour
         Destroy(chooseBuildingCanvas);
         sR.sprite = workSprites[1];
         GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>().pathAdd(path, coord);
-        if (preExistingAdjPaths.Length != 0)
+        if (preExistingAdjPaths.Length != 0)
         {
             if (preExistingAdjPaths.Length > 1)
             {
@@ -215,26 +215,23 @@ public class OccupiedSpace : MonoBehaviour
                     {
                         rM.occupiedDictionary[preExistingAdjPaths[pathAndLength[i].x]].UpdateLength(coord);
                     }
-                }
-
-            }
-            else
+                }
+            }
+            else
             {
                 //not junction
                 pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[0]].pathFromEntrance)
                 {
                     coord//adds coord on end
-                };
-
-                //GameObject temp = Instantiate(visualLayeredPrefabs[5], sR.transform);
+                };
             }
 
 
 
-        }
-        else
+        }
+        else
         {
-            pathFromEntrance = new List<Vector2>() { coord };
+            pathFromEntrance = new List<Vector2>() { coord };            GameObject temp = Instantiate(visualLayeredPrefabs[5], sR.transform);
         }
         path.init();
     }
@@ -268,9 +265,9 @@ public class OccupiedSpace : MonoBehaviour
     {
         Debug.Log("Button has been pressed");
         w = GameObject.FindGameObjectWithTag("Wallet").GetComponent<Wallet>();
-        if (w.Premium == 3)
-        {
-            rM.businessConstructionTime = new TimeSpan(0, 0, 1);
+        if (w.Premium >= 3)
+        {            cV.SkipTimer();
+            //rM.businessConstructionTime = new TimeSpan(0, 0, 1);
             w.Premium -= 3;
         }
         else

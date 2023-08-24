@@ -122,21 +122,28 @@ public class AllWorkers : MonoBehaviour
             else
             {
                 //process has not finished complete the wtp
+                try
+                {
+                    float timeToGo = (float)(wtpd.timeOut - DateTime.Now).TotalMinutes;
+                    if (wtpd.info.process == currentWorkerProcess.working)
+                    {
+                        _wtp.hwui = rM.occupiedDictionary[_wtp.info.businessCoord.FloatArrayToVector()].business.hiredWUI.First(x => x.info == wtpd.info);
+                        _wtp.info.Energy = (int)timeToGo;
+                        newWorkerProcesses.Add(_wtp);
+                        rM.occupiedDictionary[_wtp.info.businessCoord.FloatArrayToVector()].business.toggleWorker(_wtp.hwui, true);
+                    }
+                    else if (wtpd.info.process == currentWorkerProcess.recovering)
+                    {
+                        _wtp.hwui = rM.occupiedDictionary[_wtp.info.businessCoord.FloatArrayToVector()].business.hiredWUI.First(x => x.info == wtpd.info);
+                        _wtp.info.Energy = (int)(120 - (0.5 * timeToGo));
+                        newWorkerProcesses.Add(_wtp);
+                    }
+                }
+                catch
+                {
+                    Debug.LogError("Failed");
+                }
 
-                float timeToGo = (float)(wtpd.timeOut - DateTime.Now).TotalMinutes;
-                if (wtpd.info.process == currentWorkerProcess.working)
-                {
-                    _wtp.hwui = rM.occupiedDictionary[_wtp.info.businessCoord.FloatArrayToVector()].business.hiredWUI.First(x => x.info == wtpd.info);
-                    _wtp.info.Energy = (int)timeToGo;
-                    newWorkerProcesses.Add(_wtp);
-                    rM.occupiedDictionary[_wtp.info.businessCoord.FloatArrayToVector()].business.toggleWorker(_wtp.hwui, true);
-                }
-                else if (wtpd.info.process == currentWorkerProcess.recovering)
-                {
-                    _wtp.hwui = rM.occupiedDictionary[_wtp.info.businessCoord.FloatArrayToVector()].business.hiredWUI.First(x => x.info == wtpd.info);
-                    _wtp.info.Energy = (int)(120 - (0.5 * timeToGo));
-                    newWorkerProcesses.Add(_wtp);
-                }
 
             }
 

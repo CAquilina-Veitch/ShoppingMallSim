@@ -15,6 +15,9 @@ public class ProgressData
     public List<ConstructionTimePacketData> currentConstructions = new List<ConstructionTimePacketData>();
     public List<WorkerTimePacketData> currentWorkers = new List<WorkerTimePacketData>();
     public DateTime lastSpin;
+    public List<WorkerInfo> unhiredWorkers = new List<WorkerInfo>();
+    public int tP;
+    public TimeSpan[] constructionTimes = new TimeSpan[2];
     public ProgressData(Progress progress)
     {
         money = progress.money;
@@ -23,6 +26,8 @@ public class ProgressData
         currentConstructions = progress.currentConstructions;
         currentWorkers = progress.currentWorkers;
         lastSpin = progress.lastSpin;
+        unhiredWorkers = progress.unhiredWorkers;
+        tP = progress.tutorialProgress;
     }
 }
 

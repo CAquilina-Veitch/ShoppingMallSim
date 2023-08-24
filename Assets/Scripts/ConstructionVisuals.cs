@@ -17,14 +17,25 @@ public class ConstructionVisuals : MonoBehaviour
     DateTime timeIn;
     [SerializeField] TextMeshProUGUI timeLeft;
     float fraction;
+    ConstructionTimePacket ctp;
     public void SetPacket(ConstructionTimePacket packet)
     {
+        ctp = packet;
         canvas.SetActive(true);
         timeIn = packet.timeIn;
         total = packet.timeOut - packet.timeIn;
         fraction = Mathf.Min(0.01f * (float)total.TotalSeconds, 1);
         StartCoroutine(updateTimer());
     }
+    public void SkipTimer()
+    {
+        total = TimeSpan.Zero;
+        ctp.timeOut = DateTime.Now;
+        Debug.LogWarning(oS.rM.currentConstructions.Contains(ctp));
+        oS.rM.currentConstructions[oS.rM.currentConstructions.FindIndex(x => x.coord == ctp.coord)] = ctp;
+        oS.rM.SortPackets();
+    }
+    
     IEnumerator updateTimer()
     {
         UpdatePercentage();
