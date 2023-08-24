@@ -11,7 +11,7 @@ public class DailySpin : MonoBehaviour
     [SerializeField] Customers customerController;
     [SerializeField] Progress progress;
     public DateTime lastSpun;
-
+    [SerializeField] spinPartical sP;
     enum stage
     {
         prespin, spinning,finished
@@ -80,20 +80,24 @@ public class DailySpin : MonoBehaviour
         if (val <90)
         {
             wallet.Premium += 10;
+            sP.SetColor(0);
         }
         else if( val<180)
         {
             //s
             wallet.Currency += 40;
+            sP.SetColor(1);
         }
         else if (val < 270)
         {
             customerController.SaleDay();
+            sP.SetColor(2);
         }
         else
         {
             // m
             wallet.Currency += 100;
+            sP.SetColor(3);
         }
     }
     private void OnEnable()
