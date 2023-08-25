@@ -194,15 +194,14 @@ public class RoomManager : MonoBehaviour
         {
             //yield return new WaitForSeconds(UnityEngine.Random.Range(20,70));
             yield return new WaitForSeconds(1);
-            if (occupiedDictionary.Keys.Count > 0)
+
+            Path[] paths = GetComponentsInChildren<Path>();
+            if (paths.Length > 0)
             {
-
-                if ((UHWM.unhiredWorkers.Count+clickyGuys.Count) < 6)
+                if ((UHWM.unhiredWorkers.Count + clickyGuys.Count) < 4)
                 {
-
-                    List<Vector2> coordinates = occupiedDictionary.Keys.ToList();
-                    Vector2 coord = coordinates[UnityEngine.Random.Range(0, coordinates.Count)];
-                    GameObject Temp = Instantiate(clickyGuy, coord.IsoCoordToWorldPosition()+new Vector3(UnityEngine.Random.Range(-0.2f,0.2f), UnityEngine.Random.Range(-0.2f, 0.2f)), Quaternion.identity, transform);
+                    Vector2 coord = paths[UnityEngine.Random.Range(0, paths.Length)].oS.coord;
+                    GameObject Temp = Instantiate(clickyGuy, coord.IsoCoordToWorldPosition() + new Vector3(UnityEngine.Random.Range(-0.2f, 0.2f), UnityEngine.Random.Range(-0.2f, 0.2f)), Quaternion.identity, transform);
                     clickyGuys.Add(Temp);
                 }
             }
