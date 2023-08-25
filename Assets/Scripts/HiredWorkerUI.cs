@@ -17,11 +17,7 @@ public class HiredWorkerUI : MonoBehaviour
     [SerializeField] Image tirednessIcon;
     [SerializeField] Image colourBG;
 
-    [SerializeField] GameObject overlay;
-
     ScrollRect scroller;
-
-    public bool selected = false;
 
     public Business bsns;
 
@@ -40,9 +36,10 @@ public class HiredWorkerUI : MonoBehaviour
     {
         set
         {
-            if(!(value.name == "null"|| value.name == ""))
+            _info = value;
+            if (!(value.name == "null"||value.name ==null|| value.name == ""))
             {
-                _info = value;
+                
                 updateVisuals();
             }
             else
@@ -77,7 +74,7 @@ public class HiredWorkerUI : MonoBehaviour
             icon.sprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)info.specie].face;
             workerName.text = info.name;
             level.text = $"{info.level}";        
-            
+            /*                  ////THIS IS THE COLOUR SECTION IT LOOKS WORSE WITH IT ON......
             if (bsns.activeWorkers.Contains(this))
             {
                 colourBG.color = new Color(0.568807f, 1, 0.5613208f, 1);
@@ -85,7 +82,7 @@ public class HiredWorkerUI : MonoBehaviour
             else
             {
                 colourBG.color = Color.Lerp(new Color(0.5850837f, 0.6212634f, 0.7169812f, 1),new Color(0.7607843f,1, 0.9921569f,1),info.Energy/120f);
-            }
+            }*/
             bsns.updateVisualWorkers();
         }
 
@@ -105,39 +102,59 @@ public class HiredWorkerUI : MonoBehaviour
     }
     public void swiped()
     {
-        if (!Input.GetKey(KeyCode.Mouse0) && Input.touchCount == 0)
+        if ((_info.name == "null" || _info.name == null || _info.name == ""))
         {
-            //Debug.Log(scroller.horizontalNormalizedPosition);
-            if (scroller.horizontalNormalizedPosition > 0.05 && scroller.horizontalNormalizedPosition < 0.95f)
-            {
-                scroller.velocity = Vector2.right * 100 * scroller.horizontalNormalizedPosition;
-                //scroller.horizontalNormalizedPosition = Mathf.Lerp(scroller.horizontalNormalizedPosition, 0, 0.5f);
-                overlay.SetActive(false);
-                //Debug.LogWarning("BB" + scroller.horizontalNormalizedPosition);
-                selected = false;
-
-            }
+            Unswipe();
         }
         else
         {
-            if (scroller.horizontalNormalizedPosition <= 0.05f)
+            if (!Input.GetKey(KeyCode.Mouse0) && Input.touchCount == 0)
             {
-                overlay.SetActive(true);
-                //Debug.LogWarning("CC" + scroller.horizontalNormalizedPosition);
-                selected = true;
-            }
-            else
-            {
-                //Debug.LogWarning("BB" + scroller.horizontalNormalizedPosition);
-                overlay.SetActive(false);
-                selected = false;
+                if (scroller.horizontalNormalizedPosition > 0.05 && scroller.horizontalNormalizedPosition < 0.95f)
+                {
+                    scroller.velocity = Vector2.right * 100 * scroller.horizontalNormalizedPosition;
+
+
+                }
+                else if (scroller.horizontalNormalizedPosition <= 0.05f)
+                {
+                    //fire
+
+                    Unswipe();
+                    UnhiredWorkers uhw = GameObject.FindGameObjectWithTag("UnhiredWorkers").GetComponent<UnhiredWorkers>();
+                    Debug.LogError("AIUGUUSeWQTujheJHj");
+                    if (uhw.unhiredWorkers.Count < 4)
+                    {
+                        Debug.LogError("AIUGUUSeWQTuj3333333333heJHj");
+                        bsns.hiredWorkers.Remove(info);
+                        Debug.LogError(bsns.hiredWorkers.Count + "         !1@#@#!@#");
+                        uhw.unhiredWorkers.Add(info);
+                        info = new WorkerInfo() { name = "null" };
+                        _info = new WorkerInfo() { name = "null" };
+                        BlankFace();
+                        updateVisuals();
+                        uhw.showList(true);
+
+                        bsns.UpdateWorkerUI();
+                        bsns.updateVisualWorkers();
+                        foreach (UnhiredWorkerUI uhwui in uhw.unhiredWUI)
+                        {
+                            uhwui.updateVisuals();
+                        }
+                        uhw.showList(false);
+                        uhw.showList(true);
+                        bsns.UpdateWorkerUI();
+                    }
+                }
             }
         }
+        
+
     }
     public void Unswipe()
     {
         scroller.horizontalNormalizedPosition = 1;
-        selected = false;
+        scroller.velocity = Vector2.zero;
     }
 
     public void ToggleWork()
