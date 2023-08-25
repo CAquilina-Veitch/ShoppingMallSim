@@ -192,10 +192,13 @@ public class RoomManager : MonoBehaviour
     {
         while (true)
         {
-            //yield return new WaitForSeconds(UnityEngine.Random.Range(20,70));
-            yield return new WaitForSeconds(1);
-
-            Path[] paths = GetComponentsInChildren<Path>();
+            yield return new WaitForSeconds(UnityEngine.Random.Range(20,70));
+            //yield return new WaitForSeconds(1);
+            if (UHWM.unhiredWorkers.Count < 4)
+            {
+                UHWM.collectWorker(GlobalFunctions.RandomNewWorker(0));
+            }
+            /*Path[] paths = GetComponentsInChildren<Path>();
             if (paths.Length > 0)
             {
                 if ((UHWM.unhiredWorkers.Count + clickyGuys.Count) < 4)
@@ -204,7 +207,7 @@ public class RoomManager : MonoBehaviour
                     GameObject Temp = Instantiate(clickyGuy, coord.IsoCoordToWorldPosition() + new Vector3(UnityEngine.Random.Range(-0.2f, 0.2f), UnityEngine.Random.Range(-0.2f, 0.2f)), Quaternion.identity, transform);
                     clickyGuys.Add(Temp);
                 }
-            }
+            }*/
         }
     }
 
