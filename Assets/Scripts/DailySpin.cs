@@ -27,10 +27,12 @@ public class DailySpin : MonoBehaviour
 
     float timeRemaining = 0;
     float maxTime;
+    Vector3 initialScale = Vector3.one * 0.9071157f;
 
     bool currentlyActive;
     private void FixedUpdate()
     {
+        gameObject.transform.localScale = initialScale * (Camera.main.orthographicSize / 5);
         if (currentStage == stage.prespin)
         {
             rotation += Time.deltaTime*speed;
@@ -102,7 +104,7 @@ public class DailySpin : MonoBehaviour
             wallet.Currency += 100;
             sP.SetColor(3);
         }
-        StartCoroutine(hideTimer());
+        //StartCoroutine(hideTimer());
     }
     private void OnEnable()
     {
@@ -111,12 +113,12 @@ public class DailySpin : MonoBehaviour
         if (lastSpun.Date != DateTime.Now.Date)
         {
             reset.Invoke();
-            buttonObj.SetActive(true);
+            //buttonObj.SetActive(true);
         }
         else
         {
-            reset.Invoke();
-            buttonObj.SetActive(false);
+            /*reset.Invoke();
+            buttonObj.SetActive(false);*/
         }
         currentStage = stage.prespin;
         triangleObj.SetActive(true);
