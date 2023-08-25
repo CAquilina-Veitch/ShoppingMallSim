@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Linq;
-
+using Unity.VisualScripting;
+using System.IO;
 
 public class UnhiredWorkers : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class UnhiredWorkers : MonoBehaviour
 
     public List<UnhiredWorkerUI> unhiredWUI = new List<UnhiredWorkerUI>();
     public List<UnhiredWorkerUI> selected = new List<UnhiredWorkerUI>();
-
+    [SerializeField] Storage fileStorage;
     //public RectTransform scrollParent;
 
     float scrollAmnt;
@@ -27,6 +28,11 @@ public class UnhiredWorkers : MonoBehaviour
     bool listShowing;
     public void showList(bool to)
     {
+        if (unhiredWorkers.Count < 1)
+        {
+            return;
+        }
+
         unhiredWorkers.Sort((x, y) => y.level.CompareTo(x.level));
 
         listShowing = to;
@@ -177,12 +183,18 @@ public class UnhiredWorkers : MonoBehaviour
 
     private void Start()
     {
-        collectWorker(GlobalFunctions.RandomNewWorker(0));
-        collectWorker(GlobalFunctions.RandomNewWorker(0));
-        collectWorker(GlobalFunctions.RandomNewWorker(0));
+        if (!fileStorage.FileExists())
+        {
+            collectWorker(GlobalFunctions.RandomNewWorker(0));
+            collectWorker(GlobalFunctions.RandomNewWorker(0));
+            collectWorker(GlobalFunctions.RandomNewWorker(0));
+        }
     }
 
-
+    public void collectRandomWorker(species s)
+    {
+        collectWorker(GlobalFunctions.RandomNewWorker(s));
+    }
     public void selectedUHW(UnhiredWorkerUI ui)
     {
         selected.Add(ui);
@@ -227,7 +239,10 @@ public class UnhiredWorkers : MonoBehaviour
         {
             yield return null;
         }
-
+        if(target == 0)
+        {
+            showList(false);
+        }
         
 
     }

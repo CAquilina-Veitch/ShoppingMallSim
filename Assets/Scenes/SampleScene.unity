@@ -83327,6 +83327,8 @@ MonoBehaviour:
   currentConstructions: []
   progress: {fileID: 987434988}
   fileStorage: {fileID: 987434985}
+  clickyGuy: {fileID: 2787646138553096426, guid: 7fcc9605f2ae41b42aae4f44f86387c7, type: 3}
+  clickyGuys: []
 --- !u!4 &1849401927
 Transform:
   m_ObjectHideFlags: 0
@@ -88100,6 +88102,7 @@ MonoBehaviour:
   unhiredWorkers: []
   unhiredWUI: []
   selected: []
+  fileStorage: {fileID: 987434985}
   currentAvgLevel: 0
   listBG: {fileID: 62716095}
   workerUIPrefab: {fileID: 5468759884886885790, guid: 72ae2ccbe36fc814eb55499de7544e94, type: 3}

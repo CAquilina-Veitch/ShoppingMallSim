@@ -189,6 +189,21 @@ public static class GlobalFunctions
             Energy = 120
         };
     }
+    public static WorkerInfo RandomNewWorker(species s)
+    {
+        string _name = "";
+        for (int i = 0; i < nameSegments.Count(); i++)
+        {
+            _name = $"{_name}{nameSegments[i][UnityEngine.Random.Range(0, nameSegments[i].Count())]}";
+        }
+        return new WorkerInfo
+        {
+            name = _name,
+            level = Mathf.Max(0, UnityEngine.Random.Range(-2, 2)),
+            specie = s,
+            Energy = 120
+        };
+    }
     public static List<float[]> VectorToFloatArray(this List<Vector2> list)
     {
         List<float[]> temp = new List<float[]>();

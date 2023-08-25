@@ -34,7 +34,7 @@ public class CustomerNPC : MonoBehaviour
 
 
     IEnumerator MoveNPC()
-    {
+    {        sR.sortingOrder = 0;
         ////////////////////////////////////////////////customer is spawned in now moves toward
         float _eT = 0;
         int m = Random.Range(0, 2) == 0 ? -1 : 1;

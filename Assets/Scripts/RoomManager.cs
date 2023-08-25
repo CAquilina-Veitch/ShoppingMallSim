@@ -75,7 +75,8 @@ public class RoomManager : MonoBehaviour
     [SerializeField] Progress progress;
 
     [SerializeField] Storage fileStorage;
-
+    [SerializeField] GameObject clickyGuy;
+    public List<GameObject> clickyGuys = new List<GameObject>();
     public TimeSpan[] ConstructionTimes
     {
         get
@@ -146,45 +147,67 @@ public class RoomManager : MonoBehaviour
     }
     IEnumerator UpdateEverySecond()
     {
-        if (currentConstructions.Count > 0)
+        while (true)
         {
-            Debug.Log($"{currentConstructions[0].timeOut} out, now is {DateTime.Now}");
-
-            if (currentConstructions[0].timeOut < DateTime.Now)
+            if (currentConstructions.Count > 0)
             {
-                List<ConstructionTimePacket> toRemove = new List<ConstructionTimePacket>();
-                foreach(ConstructionTimePacket ctp in currentConstructions)
+                Debug.Log($"{currentConstructions[0].timeOut} out, now is {DateTime.Now}");
+
+                if (currentConstructions[0].timeOut < DateTime.Now)
                 {
-                    
-                    if (ctp.timeOut < DateTime.Now)
+                    List<ConstructionTimePacket> toRemove = new List<ConstructionTimePacket>();
+                    foreach (ConstructionTimePacket ctp in currentConstructions)
                     {
-                        
-                        if (ctp.isPath)
+
+                        if (ctp.timeOut < DateTime.Now)
                         {
-                            occupiedDictionary[ctp.coord].CompletePathConstruction();
+
+                            if (ctp.isPath)
+                            {
+                                occupiedDictionary[ctp.coord].CompletePathConstruction();
+                            }
+                            else
+                            {
+                                occupiedDictionary[ctp.coord].CompleteBusinessConstruction();
+                            }
+                            toRemove.Add(ctp);
                         }
                         else
                         {
-                            occupiedDictionary[ctp.coord].CompleteBusinessConstruction();
+                            break;
                         }
-                        toRemove.Add(ctp);
                     }
-                    else
+                    foreach (ConstructionTimePacket ctp in toRemove)
                     {
-                        break;
+                        currentConstructions.Remove(ctp);
                     }
-                }
-                foreach(ConstructionTimePacket ctp in toRemove)
-                {
-                    currentConstructions.Remove(ctp);
-                }
 
+                }
+            }
+            yield return new WaitForSeconds(1);
+        }
+        
+    }
+    IEnumerator spawnNewWorkers()
+    {
+        while (true)
+        {
+            //yield return new WaitForSeconds(UnityEngine.Random.Range(20,70));
+            yield return new WaitForSeconds(1);
+            if (occupiedDictionary.Keys.Count > 0)
+            {
+
+                if ((UHWM.unhiredWorkers.Count+clickyGuys.Count) < 6)
+                {
+
+                    List<Vector2> coordinates = occupiedDictionary.Keys.ToList();
+                    Vector2 coord = coordinates[UnityEngine.Random.Range(0, coordinates.Count)];
+                    GameObject Temp = Instantiate(clickyGuy, coord.IsoCoordToWorldPosition()+new Vector3(UnityEngine.Random.Range(-0.2f,0.2f), UnityEngine.Random.Range(-0.2f, 0.2f)), Quaternion.identity, transform);
+                    clickyGuys.Add(Temp);
+                }
             }
         }
-        yield return new WaitForSeconds(1);
-        StartCoroutine(UpdateEverySecond());
     }
-
 
 
 
@@ -288,6 +311,7 @@ public class RoomManager : MonoBehaviour
         cam = Camera.main;
 
         StartCoroutine(UpdateEverySecond());
+        StartCoroutine(spawnNewWorkers());
     }
 
     void HandleTap(Vector2 touchPosition)
@@ -316,13 +340,12 @@ public class RoomManager : MonoBehaviour
             if (businesses.ContainsKey(clickedTile))
             {
                 cM.CenterCameraOnPosition(clickedTile.IsoCoordToWorldPosition());
-                if (UHWM.selected.Count > 0 && occupiedDictionary[clickedTile].uiOpen)
+                if (UHWM.selected.Count > 0)
                 {
-                    //try to move the workers to here
                     UHWM.TryDesignateSelectedWorkers(businesses[clickedTile]);
                     businesses[clickedTile].UpdateWorkerUI();
                 }
-                else
+                if (!occupiedDictionary[clickedTile].uiOpen)
                 {
                     updateInteractWindows(clickedTile);
                 }
