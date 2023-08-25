@@ -48,7 +48,7 @@ public class OccupiedSpace : MonoBehaviour
 
     private void OnEnable()
     {
-        sR = GetComponentInChildren<SpriteRenderer>();
+        sR = GetComponentInChildren<SpriteRenderer>(true);
         sR.sprite = workSprites[0];
         rM = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<RoomManager>();
 
@@ -56,8 +56,10 @@ public class OccupiedSpace : MonoBehaviour
     }
     public void init()
     {
-        sR = GetComponentInChildren<SpriteRenderer>();
-        sR.sortingOrder = -(int)(coord.x + coord.y);
+        sR = GetComponentInChildren<SpriteRenderer>(true);
+        Debug.LogError(sR.sortingOrder);
+        sR.sortingOrder = -(int)(coord.x + coord.y);
+        Debug.LogError(sR.sortingOrder);
     }
     public void pathEntranceSprite(bool to)
     {
