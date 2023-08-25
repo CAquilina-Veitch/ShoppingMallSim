@@ -81,6 +81,7 @@ public class Customers : MonoBehaviour
 
         }        else
         {
+
             Debug.LogWarning($"Sale made {w} {w.Currency}, adding {b.stockDetails.value}");
 
             Debug.LogWarning($"{w} {w.Currency}");
@@ -91,7 +92,12 @@ public class Customers : MonoBehaviour
 
             GameObject temp = Instantiate(moneyEarntPrefab, transform);
 
-            temp.GetComponent<MoneyEarnt>().moneyToEarn = 1;
+            int lvlTotal = 1;
+            foreach (HiredWorkerUI w in b.activeWorkers)
+            {
+                lvlTotal += w.info.level;
+            }
+            temp.GetComponent<MoneyEarnt>().moneyToEarn = lvlTotal;
             temp.GetComponent<MoneyEarnt>().StartMoving(b);
 
             Debug.Log(b.stockDetails.amount);
