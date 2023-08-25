@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraMove : MonoBehaviour
 {
@@ -10,10 +11,12 @@ public class CameraMove : MonoBehaviour
     [SerializeField] float minPinchSpeed = 5.0F;
     [SerializeField] float speed = 4;
     [SerializeField] float varianceInDistances = 5.0F;
-
+    int fingers;
 
     [SerializeField] Vector2 touchStart;
     private Camera cam;
+
+    bool fingerDownOnCanvas;
 
 
     void Start()
@@ -23,38 +26,64 @@ public class CameraMove : MonoBehaviour
 
     void Update()
     {
+        if (Input.touchCount == 0)
+        {
+            fingers = 0;
+            fingerDownOnCanvas = false;
+        }
+        else
+        {
+            if(Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+                {
+                    fingerDownOnCanvas = true;
+                }
+            }
+        }
         if (Input.GetMouseButtonDown(0))
         {
             touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
         if (Input.touchCount == 1)
         {
+
             Touch touch = Input.GetTouch(0);
-
-            if (touch.phase == TouchPhase.Began)
+            
+            if (fingers == 2)
             {
                 touchStart = touch.position;
+                fingers = 1;
             }
-            else if (touch.phase == TouchPhase.Moved)
+            if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
             {
-                Vector3 direction = touchStart - touch.position;
-                Vector3 newPosition = cam.transform.position + direction * cam.orthographicSize / Screen.height * 2;
+                if (touch.phase == TouchPhase.Began)
+                {
+                    touchStart = touch.position;
+                }
+                else if (touch.phase == TouchPhase.Moved)
+                {
+                    Vector3 direction = touchStart - touch.position;
+                    Vector3 newPosition = cam.transform.position + direction * cam.orthographicSize / Screen.height * 2;
 
-                Vector3 midPoint = new Vector3(0, 19);
-                Vector2 distanceCenter = (transform.position - midPoint);
-                //Debug.LogWarning(distanceCenter);
-                float multiplier = -Mathf.Abs(distanceCenter.y) + (boundsMax.x * 0.5f);
+                    Vector3 midPoint = new Vector3(0, 19);
+                    Vector2 distanceCenter = (transform.position - midPoint);
+                    //Debug.LogWarning(distanceCenter);
+                    float multiplier = -Mathf.Abs(distanceCenter.y) + (boundsMax.x * 0.5f);
 
-                newPosition.x = Mathf.Clamp(newPosition.x, -multiplier * 2, multiplier * 2);
-                newPosition.y = Mathf.Clamp(newPosition.y, boundsMin.y, boundsMax.y);
+                    newPosition.x = Mathf.Clamp(newPosition.x, -multiplier * 2, multiplier * 2);
+                    newPosition.y = Mathf.Clamp(newPosition.y, boundsMin.y, boundsMax.y);
 
-                cam.transform.position = newPosition;
+                    cam.transform.position = newPosition;
 
-                touchStart = touch.position;
+                    touchStart = touch.position;
+                }
             }
+            
         }
         else if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved)
         {
+            fingers = 2;
             Touch touch0 = Input.GetTouch(0);
             Touch touch1 = Input.GetTouch(1);
 
