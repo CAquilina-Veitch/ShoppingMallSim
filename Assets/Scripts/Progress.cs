@@ -128,13 +128,20 @@ public class tileInfo
         cT = oS.cType;
         businessType = oS.currentRoomHighlight;
 
-        if (cT == constructionType.Business)
-        {
-            workers = oS.business.hiredWorkers.ToArray();
-            stock = oS.business.stockDetails;
+        if (cT == constructionType.Business)
+        {            try
+            {
+                workers = oS.business.hiredWorkers.ToArray();
+
+                stock = oS.business.stockDetails;
+            }
+            catch
+            {
+                //business is still being constructed
+            }
         }
         pathFromEntrance = oS.pathFromEntrance.VectorToFloatArray();
-
+        preExistingTiles = oS.preExistingAdjPaths.ToList().VectorToFloatArray();
     }
     public float[] coord;
     public constructionType cT;
@@ -142,4 +149,5 @@ public class tileInfo
     public WorkerInfo[] workers;
     public stockInfo stock;
     public List<float[]> pathFromEntrance;
+    public List<float[]> preExistingTiles;
 }

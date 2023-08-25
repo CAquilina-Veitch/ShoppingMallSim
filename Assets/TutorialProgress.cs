@@ -14,9 +14,10 @@ public class TutorialProgress : MonoBehaviour
         try
         {
             Debug.Log($"THIS IS HERE TO FIX THE GAME DO NOT DELETE THIS DEBUG LOG HAHAH{ sections[sections.Length-1].gameObject.activeInHierarchy}");
-            currentProgress = 5;
+            currentProgress = 6;
             for (int i = 0; i < sections.Length; i++)
             {
+                Debug.Log(i);
                 currentProgress = sections[i].gameObject.activeInHierarchy ? i : currentProgress;
 
             }
@@ -31,7 +32,7 @@ public class TutorialProgress : MonoBehaviour
     public void SetProgress(int i)
     {
         currentProgress = i;
-
+        
         for(int j = 0; j < currentProgress; j++)
         {
             sections[j].onClick.Invoke();

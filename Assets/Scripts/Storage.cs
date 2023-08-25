@@ -126,9 +126,12 @@ public class Storage : MonoBehaviour
     }
     IEnumerator AutoSave()
     {
-        yield return new WaitForSeconds(30);
-        writeFile();
-        StartCoroutine(AutoSave());
+        while (true)
+        {
+            yield return new WaitForSeconds(15);
+            writeFile();
+        }
+        
     }
 
 }

@@ -237,8 +237,14 @@ public class OccupiedSpace : MonoBehaviour
     }
     public void CompleteBusinessConstruction()
     {
-
-        pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[0]].pathFromEntrance)
+        Debug.Log(rM);
+        Debug.Log(rM.occupiedDictionary);
+        Debug.Log(rM.occupiedDictionary.Keys.Count);
+        Debug.Log(preExistingAdjPaths.Length);
+        Debug.Log(preExistingAdjPaths[0]);
+        Debug.Log(rM.occupiedDictionary[preExistingAdjPaths[0]]);
+        Debug.Log(rM.occupiedDictionary[preExistingAdjPaths[0]].pathFromEntrance);
+        pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[0]].pathFromEntrance)
         {
             coord
         };

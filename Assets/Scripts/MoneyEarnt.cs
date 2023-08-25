@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoneyEarnt : MonoBehaviour
 {
-    float travelTime = 2;
+    float travelTime = 0.6f;
     bool traveling;
     float elapsed = 0;
     Vector3 startPosition;

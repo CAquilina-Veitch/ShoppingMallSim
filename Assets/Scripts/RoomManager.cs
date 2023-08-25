@@ -329,7 +329,7 @@ public class RoomManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError("businesses doesnt contain def for this coord");
+                //Debug.LogError("businesses doesnt contain def for this coord");
 
             }
         }
@@ -550,6 +550,7 @@ public class RoomManager : MonoBehaviour
         temp.coord = coord;
         temp.rM = this;
         temp.preExistingAdjPaths = AdjacentPaths(coord);
+        temp.preExistingAdjPaths = _tileInfo.preExistingTiles.FloatArrayToVector().ToArray();
         occupiedDictionary.Add(coord, temp);
         temp.init();
 
