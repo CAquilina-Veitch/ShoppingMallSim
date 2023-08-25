@@ -24,7 +24,7 @@ public class ShopPosition : MonoBehaviour
     }
     public void changeOrder(int to)
     {
-        SpriteRenderer[] sRs = GetComponentsInChildren<SpriteRenderer>();
+        SpriteRenderer[] sRs = GetComponentsInChildren<SpriteRenderer>(true);
         foreach(SpriteRenderer sr in sRs)
         {
             sr.sortingOrder = to;

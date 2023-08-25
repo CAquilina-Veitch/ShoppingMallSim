@@ -294,5 +294,14 @@ public static class GlobalFunctions
     {
         return new Vector3(v.x, v.y, -10);
     }
-
+    public static int EquivilantSortingLayer(this Vector3 v)
+    {
+        Vector2 coord = GlobalFunctions.WorldToIsoCoord(v);
+        
+        return -(int)(coord.x + coord.y);
+    }
+    public static int EquivilantSortingLayer(this Vector2 v)
+    {
+        return -(int)(v.x + v.y);
+    }
 }

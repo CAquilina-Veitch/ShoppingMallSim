@@ -1,16 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using spr = UnityEngine.SpriteRenderer;
-using os = OccupiedSpace;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.U2D;
 
 public class ConstructionVisuals : MonoBehaviour
 {
     [SerializeField] GameObject canvas;
-    [SerializeField] os oS;
+    [SerializeField] OccupiedSpace oS;
     [SerializeField] RectMask2D mask;
     TimeSpan total;
     TimeSpan elapsed;
@@ -66,6 +65,10 @@ public class ConstructionVisuals : MonoBehaviour
         mask.padding = new Vector4(0, 0, 1.4f * (float)elapsed.TotalSeconds / (float)total.TotalSeconds);
         //timeLeft.text = (float)(total - elapsed).TotalMinutes > 60 ? $"{Mathf.RoundToInt((float)(total - elapsed).TotalHours)}:{((total - elapsed).TotalMinutes < 9.5f ? "0" : null)}{Mathf.RoundToInt((float)(total - elapsed).TotalMinutes)}" : $"{Mathf.RoundToInt((float)(total - elapsed).TotalMinutes)}:{((total - elapsed).TotalSeconds < 9.5f ? "0" : null)}{Mathf.RoundToInt((float)(total - elapsed).TotalSeconds)}";
         timeLeft.text = (total - elapsed).ConvertTimeSpanToDigitalClock();
+    }
+    private void OnEnable()
+    {
+        GetComponent<SpriteRenderer>().sortingOrder = oS.coord.EquivilantSortingLayer();
     }
 
 }
