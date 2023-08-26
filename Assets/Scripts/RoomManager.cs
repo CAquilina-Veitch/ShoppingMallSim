@@ -81,12 +81,16 @@ public class RoomManager : MonoBehaviour
     {
         get
         {
+            Debug.LogWarning($"{pathConstructionTime} {businessConstructionTime}");
             return new TimeSpan[2] { pathConstructionTime, businessConstructionTime };
         }
         set
         {
+            Debug.LogWarning($"{value[0]} {value[1]}");
+
             pathConstructionTime = value[0];
             businessConstructionTime = value[1];
+
         }
     }
 
@@ -95,7 +99,7 @@ public class RoomManager : MonoBehaviour
     {
         if (!fileStorage.FileExists())
         {
-            newRoom(new Vector2(0, 0));
+            newInitialRoom(new Vector2(0, 0));
 
         }
     }
@@ -147,44 +151,45 @@ public class RoomManager : MonoBehaviour
     }
     IEnumerator UpdateEverySecond()
     {
+        SortPackets();
+        
         while (true)
         {
             if (currentConstructions.Count > 0)
             {
-                Debug.Log($"{currentConstructions[0].timeOut} out, now is {DateTime.Now}");
-
-                if (currentConstructions[0].timeOut < DateTime.Now)
+                Debug.Log($"{currentConstructions.Count} {currentConstructions[0].coord}   -=-= {currentConstructions[0].timeOut} out, now is {DateTime.Now}");
+                for(int i = 0; i < currentConstructions.Count; i++)
                 {
-                    List<ConstructionTimePacket> toRemove = new List<ConstructionTimePacket>();
-                    foreach (ConstructionTimePacket ctp in currentConstructions)
+                    if (currentConstructions[i].timeOut < DateTime.Now)
                     {
-
-                        if (ctp.timeOut < DateTime.Now)
+                        List<ConstructionTimePacket> toRemove = new List<ConstructionTimePacket>();
+                        foreach (ConstructionTimePacket ctp in currentConstructions)
                         {
 
-                            if (ctp.isPath)
+                            if (ctp.timeOut < DateTime.Now)
                             {
-                                occupiedDictionary[ctp.coord].CompletePathConstruction();
-                            }
-                            else
-                            {
-                                occupiedDictionary[ctp.coord].CompleteBusinessConstruction();
-                            }
-                            toRemove.Add(ctp);
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    foreach (ConstructionTimePacket ctp in toRemove)
-                    {
-                        currentConstructions.Remove(ctp);
-                    }
 
+                                if (ctp.isPath)
+                                {
+                                    occupiedDictionary[ctp.coord].CompletePathConstruction();
+                                }
+                                else
+                                {
+                                    occupiedDictionary[ctp.coord].CompleteBusinessConstruction();
+                                }
+                                toRemove.Add(ctp);
+                            }
+                        }
+                        foreach (ConstructionTimePacket ctp in toRemove)
+                        {
+                            currentConstructions.Remove(ctp);
+                        }
+
+                    }
                 }
+                
             }
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.5f);
         }
         
     }
@@ -302,6 +307,19 @@ public class RoomManager : MonoBehaviour
         //Debug.LogWarning(coord + "ADDED");
         occupiedDictionary.Add(coord, temp);
         temp.init();
+    }    
+    public void newInitialRoom(Vector2 coord)
+    {
+        GameObject tileObj = Instantiate(building, coord.IsoCoordToWorldPosition(), Quaternion.identity, transform);
+        tileObj.name = $"{coord} construction";
+        OccupiedSpace temp = tileObj.GetComponent<OccupiedSpace>();
+        temp.coord = coord;
+        temp.rM = this;
+        temp.preExistingAdjPaths = AdjacentPaths(coord);
+        //Debug.LogWarning(coord + "ADDED");
+        occupiedDictionary.Add(coord, temp);
+        temp.init();
+        temp.InitialPathOnly();
     }
     struct Room
     {
@@ -350,6 +368,12 @@ public class RoomManager : MonoBehaviour
                 if (!occupiedDictionary[clickedTile].uiOpen)
                 {
                     updateInteractWindows(clickedTile);
+                }
+                else
+                {
+                    //Debug.Log(333);
+                    updateInteractWindows(clickedTile);
+                    //hideInteractWindows();
                 }
             }
             else
@@ -504,7 +528,7 @@ public class RoomManager : MonoBehaviour
     }
     public void updateInteractWindows(Vector2 clickedTile)
     {
-        Debug.Log($" to {clickedTile} from {currentlyOpenedInteractWindow}");
+        Debug.LogWarning($" to {clickedTile} from {currentlyOpenedInteractWindow}");
         if (currentlyOpenedInteractWindow == clickedTile && clickedTile != Vector2.one*-1)
         {
             Debug.Log("closing it ");
@@ -589,8 +613,10 @@ public class RoomManager : MonoBehaviour
 
 
     }
+    public int brandingStatus = 0;
     public void callIconSwitch1()
     {
+        brandingStatus = 1;
         foreach (Vector2 v in businesses.Keys)
         {
             businesses[v].visualPositions.switchOne();
@@ -598,6 +624,7 @@ public class RoomManager : MonoBehaviour
     }
     public void callIconSwitch2()
     {
+        brandingStatus = 2;
         foreach (Vector2 v in businesses.Keys)
         {
             businesses[v].visualPositions.switchTwo();

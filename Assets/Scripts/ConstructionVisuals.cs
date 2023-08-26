@@ -28,10 +28,11 @@ public class ConstructionVisuals : MonoBehaviour
     }
     public void SkipTimer()
     {
-        total = TimeSpan.Zero;
-        ctp.timeOut = DateTime.Now;
-        Debug.LogWarning(oS.rM.currentConstructions.Contains(ctp));
+        total = new TimeSpan(0, 0, 1);
+        ctp.timeOut = DateTime.Now + new TimeSpan(0, 0, 1);
+        Debug.LogWarning(oS.rM.currentConstructions[oS.rM.currentConstructions.FindIndex(x => x.coord == ctp.coord)].timeOut);
         oS.rM.currentConstructions[oS.rM.currentConstructions.FindIndex(x => x.coord == ctp.coord)] = ctp;
+        Debug.LogWarning(oS.rM.currentConstructions[oS.rM.currentConstructions.FindIndex(x => x.coord == ctp.coord)].timeOut);
         oS.rM.SortPackets();
     }
     

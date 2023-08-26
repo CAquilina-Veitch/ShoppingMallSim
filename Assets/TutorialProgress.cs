@@ -17,7 +17,7 @@ public class TutorialProgress : MonoBehaviour
             currentProgress = 6;
             for (int i = 0; i < sections.Length; i++)
             {
-                Debug.Log(i);
+                //Debug.Log(i);
                 currentProgress = sections[i].gameObject.activeInHierarchy ? i : currentProgress;
 
             }

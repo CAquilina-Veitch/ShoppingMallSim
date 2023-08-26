@@ -44,8 +44,12 @@ public class OccupiedSpace : MonoBehaviour
 
     public ConstructionVisuals cV;
     
+    [SerializeField] GameObject buildingButton;
 
-
+    public void InitialPathOnly()
+    {
+        buildingButton.SetActive(false);
+    }
     private void OnEnable()
     {
         sR = GetComponentInChildren<SpriteRenderer>(true);
@@ -238,14 +242,14 @@ public class OccupiedSpace : MonoBehaviour
         path.init();
     }
     public void CompleteBusinessConstruction()
-    {
+    {/*
         Debug.Log(rM);
         Debug.Log(rM.occupiedDictionary);
         Debug.Log(rM.occupiedDictionary.Keys.Count);
         Debug.Log(preExistingAdjPaths.Length);
         Debug.Log(preExistingAdjPaths[0]);
         Debug.Log(rM.occupiedDictionary[preExistingAdjPaths[0]]);
-        Debug.Log(rM.occupiedDictionary[preExistingAdjPaths[0]].pathFromEntrance);
+        Debug.Log(rM.occupiedDictionary[preExistingAdjPaths[0]].pathFromEntrance);*/
         pathFromEntrance = new List<Vector2>(rM.occupiedDictionary[preExistingAdjPaths[0]].pathFromEntrance)
         {
             coord
@@ -274,7 +278,7 @@ public class OccupiedSpace : MonoBehaviour
         Debug.Log("Button has been pressed");
         w = GameObject.FindGameObjectWithTag("Wallet").GetComponent<Wallet>();
         if (w.Premium >= 3)
-        {            cV.SkipTimer();
+        {            cV.SkipTimer();            rM.SortPackets();
             //rM.businessConstructionTime = new TimeSpan(0, 0, 1);
             w.Premium -= 3;
         }

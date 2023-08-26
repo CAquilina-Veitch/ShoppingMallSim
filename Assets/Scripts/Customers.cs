@@ -37,7 +37,7 @@ public class Customers : MonoBehaviour
 
     public void StartNewCustomer()
     {
-        if (activeBusinesses.Count == 0)
+        if (activeBusinesses.Count == 0)
         {
             return;
         }
@@ -121,7 +121,7 @@ public class Customers : MonoBehaviour
             else
             {
                 carparkMultiplier = 1 + carParkTotal;
-                Debug.Log(carparkMultiplier);
+                //Debug.Log(carparkMultiplier);
             }
 
             float delay = 5f / carparkMultiplier;
@@ -146,7 +146,7 @@ public class Customers : MonoBehaviour
             }
 
             yield return new WaitForSeconds(delay);
-            Debug.Log($"waited {delay}");
+            //Debug.Log($"waited {delay}");
         }
     }
     IEnumerator saleDayLoop()

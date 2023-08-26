@@ -34,7 +34,7 @@ public class CustomerNPC : MonoBehaviour
 
 
     IEnumerator MoveNPC()
-    {        sR.sortingOrder = 0;
+    {        sR.sortingOrder = 2;
         ////////////////////////////////////////////////customer is spawned in now moves toward
         float _eT = 0;
         int m = Random.Range(0, 2) == 0 ? -1 : 1;
@@ -43,7 +43,7 @@ public class CustomerNPC : MonoBehaviour
         while (_eT < timePerTile)
         {
             float t = _eT / timePerTile;
-            transform.position = Vector3.Lerp(new Vector3(m*0.8f,-0.4f), Vector3.zero, t);
+            transform.position = Vector3.Lerp(new Vector3(m * 0.8f, -0.4f), Vector3.zero, t);
 
             _eT += Time.deltaTime;
             yield return null;

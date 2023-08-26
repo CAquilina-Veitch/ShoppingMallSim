@@ -17,6 +17,8 @@ public class HiredWorkerUI : MonoBehaviour
     [SerializeField] Image tirednessIcon;
     [SerializeField] Image colourBG;
 
+
+
     ScrollRect scroller;
 
     public Business bsns;
@@ -74,15 +76,15 @@ public class HiredWorkerUI : MonoBehaviour
             icon.sprite = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<Animal>().animalTypes[(int)info.specie].face;
             workerName.text = info.name;
             level.text = $"{info.level}";        
-            /*                  ////THIS IS THE COLOUR SECTION IT LOOKS WORSE WITH IT ON......
+                              ////THIS IS THE COLOUR SECTION IT LOOKS WORSE WITH IT ON......
             if (bsns.activeWorkers.Contains(this))
             {
                 colourBG.color = new Color(0.568807f, 1, 0.5613208f, 1);
             }
             else
             {
-                colourBG.color = Color.Lerp(new Color(0.5850837f, 0.6212634f, 0.7169812f, 1),new Color(0.7607843f,1, 0.9921569f,1),info.Energy/120f);
-            }*/
+                colourBG.color = Color.Lerp(new Color(0.5850837f, 0.6212634f, 0.7169812f, 1),new Color(0.7607843f,1, 0.9921569f,1),(120-info.Energy)/120f);
+            }
             bsns.updateVisualWorkers();
         }
 
@@ -113,8 +115,6 @@ public class HiredWorkerUI : MonoBehaviour
                 if (scroller.horizontalNormalizedPosition > 0.05 && scroller.horizontalNormalizedPosition < 0.95f)
                 {
                     scroller.velocity = Vector2.right * 100 * scroller.horizontalNormalizedPosition;
-
-
                 }
                 else if (scroller.horizontalNormalizedPosition <= 0.05f)
                 {

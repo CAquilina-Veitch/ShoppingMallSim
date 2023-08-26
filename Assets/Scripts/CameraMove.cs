@@ -26,10 +26,14 @@ public class CameraMove : MonoBehaviour
 
     void Update()
     {
-        if (Input.touchCount == 0)
+        if (Input.touchCount == 0 )
         {
             fingers = 0;
-            fingerDownOnCanvas = false;
+            if (!Input.GetMouseButton(0))
+            {
+
+                fingerDownOnCanvas = false;
+            }
         }
         else
         {
@@ -43,13 +47,18 @@ public class CameraMove : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0))
         {
-            touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //Debug.Log("mouse down");
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                //Debug.Log("finger down");
+                touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                fingerDownOnCanvas = true;
+            }
         }
         if (Input.touchCount == 1)
         {
 
             Touch touch = Input.GetTouch(0);
-            
             if (fingers == 2)
             {
                 touchStart = touch.position;
@@ -108,8 +117,18 @@ public class CameraMove : MonoBehaviour
         }
         else if (Input.GetMouseButton(0))
         {
-            Vector3 direction = (Vector3)touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            cam.transform.Translate(direction);
+            //Debug.Log("mouse held");
+            if (!EventSystem.current.IsPointerOverGameObject()&&fingerDownOnCanvas)
+            {
+                //Debug.Log("drag");
+                Vector3 direction = (Vector3)touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                cam.transform.Translate(direction);
+            }
+            else
+            {
+                //Debug.Log($"{EventSystem.current.IsPointerOverGameObject()} over? ---- {fingerDownOnCanvas} finger");
+                fingerDownOnCanvas = false;
+            }
         }
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, (19 - Mathf.Abs(Mathf.Clamp(transform.position.y, 0, 38) - 19)) * -2, (19 - Mathf.Abs(Mathf.Clamp(transform.position.y, 0, 38) - 19)) * 2), Mathf.Clamp(transform.position.y, 0, 38), -10);
     }

@@ -28,6 +28,7 @@ public class ProgressData
         lastSpin = progress.lastSpin;
         unhiredWorkers = progress.unhiredWorkers;
         tP = progress.tutorialProgress;
+        constructionTimes = progress.constructionTimes;
     }
 }
 

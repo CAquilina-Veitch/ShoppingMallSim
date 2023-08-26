@@ -176,6 +176,10 @@ public class Business : MonoBehaviour
         shopGUI = canvasesOwner.GetComponentInChildren<shopUI>();
         shopGUI.init(this);
         updateVisualWorkers();
+        if (oS.rM.brandingStatus==1)
+        {
+            visualPositions.switchOne();
+        }
     }
 
     private void Start()

@@ -54,7 +54,7 @@ public class Progress : MonoBehaviour
         ds.lastSpun = lastSpin;
         uHWM.unhiredWorkers = data.unhiredWorkers;
         tP.SetProgress(data.tP);
-        rM.ConstructionTimes=data.constructionTimes;
+        rM.ConstructionTimes = data.constructionTimes;
     }
 
 

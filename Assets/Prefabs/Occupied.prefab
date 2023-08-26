@@ -3072,6 +3072,7 @@ MonoBehaviour:
   - {fileID: 5335591463594713055, guid: 04c5f8b026ac7cf4c802dbcc8fb1de64, type: 3}
   - {fileID: 5335591463594713055, guid: 7857d28071020054786898c79bec8cb0, type: 3}
   cV: {fileID: 2738094096814537859}
+  buildingButton: {fileID: 6455473656060139932}
 --- !u!1 &6031914457898784465
 GameObject:
   m_ObjectHideFlags: 0
