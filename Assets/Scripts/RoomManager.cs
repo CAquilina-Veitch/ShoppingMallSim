@@ -69,7 +69,6 @@ public class RoomManager : MonoBehaviour
     TimeSpan businessConstructionTime = new TimeSpan(0, 0, 5);
     TimeSpan pathConstructionTime = new TimeSpan(0, 0, 5);
     [SerializeField] CameraMove cM;
-
     public List<ConstructionTimePacket> currentConstructions = new List<ConstructionTimePacket>();
 
     [SerializeField] Progress progress;

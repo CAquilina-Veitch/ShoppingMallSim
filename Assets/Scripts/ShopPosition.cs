@@ -10,7 +10,6 @@ public class ShopPosition : MonoBehaviour
     [SerializeField] Sprite[] forwardSprites;
     [SerializeField] Sprite[] backSprites;
     public Transform[] wanderPoints;
-
     public UnityEvent switchToAd;
     public UnityEvent switchToNormal;
     public void ChangeSprite(int who, species to)
@@ -35,6 +34,7 @@ public class ShopPosition : MonoBehaviour
     {
         switchToAd.Invoke();
     }
+    
     public void switchTwo()
     {
         switchToNormal.Invoke();

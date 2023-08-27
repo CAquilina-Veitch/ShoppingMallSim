@@ -184,7 +184,7 @@ public class Business : MonoBehaviour
 
     private void Start()
     {
-        stockDetails.amount = 100;
+        stockDetails.amount = 5;
     }
 
     private void FixedUpdate()
@@ -211,6 +211,7 @@ public class Business : MonoBehaviour
 
         if (restock)
         {
+            oS.restock.Invoke();
             if (businessActive)
             {
                 ToggleActivity(false);
@@ -229,6 +230,7 @@ public class Business : MonoBehaviour
                 restock = false;
                 ToggleActivity(true);
                 shopGUI.updateVisual();
+                oS.notRestock.Invoke();
             }
         }
         else
@@ -236,6 +238,10 @@ public class Business : MonoBehaviour
             wait = 0;
         }
 
+        /*if(oS.buildingRemoved == true)
+        {
+            restock = false;
+        }*/
     }
 
 

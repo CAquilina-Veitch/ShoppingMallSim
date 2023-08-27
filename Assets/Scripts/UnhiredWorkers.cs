@@ -26,6 +26,7 @@ public class UnhiredWorkers : MonoBehaviour
     [SerializeField] GameObject workerUIPrefab;
 
     bool listShowing;
+
     public void showList(bool to)
     {
         if (unhiredWorkers.Count < 1)

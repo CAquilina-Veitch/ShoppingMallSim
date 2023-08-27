@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 public class OccupiedSpace : MonoBehaviour
@@ -19,9 +20,10 @@ public class OccupiedSpace : MonoBehaviour
     public RoomManager rM;
     public int currentRoomHighlight;
 
-
+    //public bool buildingRemoved = false;
     public Vector2[] preExistingAdjPaths;
-
+    public UnityEvent restock;
+    public UnityEvent notRestock;
     //business stuff
     public Business business;
     [SerializeField] RectTransform bGList;
@@ -74,7 +76,7 @@ public class OccupiedSpace : MonoBehaviour
     {
         rM.currentlyOpenedInteractWindow = Vector2.one * -1;
         rM.businesses.Remove(coord);
-        rM.occupiedDictionary.Remove(coord);
+        rM.occupiedDictionary.Remove(coord);        //buildingRemoved = true;
         Destroy(gameObject);
     }
 
